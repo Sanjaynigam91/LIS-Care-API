@@ -1,11 +1,7 @@
-﻿using LISCare.Interface;
-using LISCareBussiness.Interface;
+﻿using LISCareBussiness.Interface;
 using LISCareDTO;
-using LISCareDTO.MetaData;
 using LISCareUtility;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace LISCare.Controllers
 {
