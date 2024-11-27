@@ -1,7 +1,10 @@
 ﻿using LISCareBussiness.Interface;
 using LISCareDTO;
+using LISCareDTO.SampleCollectionPlace;
 using LISCareUtility;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LISCare.Controllers
 {
@@ -43,5 +46,54 @@ namespace LISCare.Controllers
 
         }
 
+        [HttpPost]
+        [Route(ConstantResource.AddSampleCollectedPlace)]
+        public IActionResult AddSampleCollectedPlace(SampleCollectedRequest sampleCollected)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _sample.AddSampleCollectedPlaces(sampleCollected);
+            if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
+            {
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = result.StatusCode;
+                responseModel.ResponseMessage = result.ResponseMessage;
+                responseModel.Data = string.Empty;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = result.StatusCode;
+                responseModel.ResponseMessage = result.ResponseMessage;
+                responseModel.Data = string.Empty;
+                return NotFound(responseModel);
+            }
+
+        }
+
+        [HttpDelete]
+        [Route(ConstantResource.DeleteSamplePlace)]
+        public IActionResult RemoveSamplePlace(int recordId, string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _sample.RemoveSamplePlace(recordId, partnerId);
+            if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
+            {
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = result.StatusCode;
+                responseModel.ResponseMessage = result.ResponseMessage;
+                responseModel.Data = string.Empty;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = result.StatusCode;
+                responseModel.ResponseMessage = result.ResponseMessage;
+                responseModel.Data = string.Empty;
+                return NotFound(responseModel);
+            }
+
+        }
     }
 }
