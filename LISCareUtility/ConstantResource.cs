@@ -38,8 +38,7 @@
         public const string SearchAllUser = "SearchAllUser";
         public const string GetAllDepartments = "GetAllDepartments";
         public const string DeleteUserById = "DeleteUserById";
-        public const string AddSampleCollectedPlace = "AddSampleCollectedPlace";
-        public const string DeleteSamplePlace = "DeleteSamplePlace";
+
 
         #endregion
 
@@ -157,8 +156,8 @@
         public const string ParamCriteria = "@Criteria";
         public const string ParamIsActive = "@IsActive";
         public const string ParamPageId = "@PageId";
-        public const string ParamSamplePlace = "@SamplePlace";
-        public const string ParamUpdatedBy = "@UpdatedBy";
+
+
 
         #endregion
 
@@ -312,10 +311,8 @@
 
         #region Sample CollectedAt Module
         public const string UspGetAllSampleCollectedPlaces = "Usp_GetAllSampleCollectedPlaces";
-        public const string AddSampleCollectedPlaces = "AddSampleCollectedPlaces";
-        public const string RemoveSamplePlace = "RemoveSamplePlace";
 
-       
+        
         #endregion
 
         #endregion
@@ -339,8 +336,7 @@
         public readonly static string DelUserSuccess = "User Deleted Successfully ,User Master";
         public readonly static string DelRoleSuccess = "Role Deleted Successfully ,Role Master";
         public readonly static string PageSuccess = "Lis Page save Succssfully ,Lis Page Master";
-        public readonly static string DelSampleSuccess = "Sample Place has been deleted sucessfully ,Sample Collected Place";
-        public readonly static string AddSampleSuccess = "Sample Place has been save sucessfully ,Sample Collected Place";
+
 
         #endregion
     }
