@@ -2,7 +2,6 @@
 using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
 using LISCareUtility;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

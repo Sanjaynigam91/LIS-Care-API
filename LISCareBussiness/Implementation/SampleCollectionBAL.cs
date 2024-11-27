@@ -2,7 +2,6 @@
 using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
 using LISCareRepository.Interface;
-using LISCareReposotiory.Implementation;
 using Microsoft.Extensions.Configuration;
 
 namespace LISCareBussiness.Implementation
