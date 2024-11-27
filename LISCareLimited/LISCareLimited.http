@@ -1,6 +1,0 @@
-@LISCareLimited_HostAddress = http://localhost:5271
-
-GET {{LISCareLimited_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
