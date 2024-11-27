@@ -1,5 +1,4 @@
-﻿using LISCareDTO;
-using LISCareDTO.SampleCollectionPlace;
+﻿using LISCareDTO.SampleCollectionPlace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,5 @@ namespace LISCareBussiness.Interface
     public interface ISampleCollection
     {
         List<SampleCollectedAtResponse> GetSampleCollectedPlace(string partnerId);
-        APIResponseModel<object> AddSampleCollectedPlaces(SampleCollectedRequest sampleCollected);
-        APIResponseModel<object> RemoveSamplePlace(int recordId, string partnerId);
     }
 }
