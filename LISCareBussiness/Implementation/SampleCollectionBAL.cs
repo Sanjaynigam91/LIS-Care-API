@@ -1,8 +1,6 @@
 ﻿using LISCareBussiness.Interface;
-using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
 using LISCareRepository.Interface;
-using LISCareReposotiory.Implementation;
 using Microsoft.Extensions.Configuration;
 
 namespace LISCareBussiness.Implementation
@@ -18,20 +16,6 @@ namespace LISCareBussiness.Implementation
             _sampleCollectionRepository = sampleCollectionRepository;
         }
 
-        public APIResponseModel<object> AddSampleCollectedPlaces(SampleCollectedRequest sampleCollected)
-        {
-            var response = new APIResponseModel<object>();
-            try
-            {
-                response = _sampleCollectionRepository.AddSampleCollectedPlaces(sampleCollected);
-            }
-            catch (Exception ex)
-            {
-                response.ResponseMessage = ex.Message;
-            }
-            return response;
-        }
-
         public List<SampleCollectedAtResponse> GetSampleCollectedPlace(string partnerId)
         {
             var response = new List<SampleCollectedAtResponse>();
@@ -43,17 +27,6 @@ namespace LISCareBussiness.Implementation
             {
                 throw;
             }
-            return response;
-        }
-
-        public APIResponseModel<object> RemoveSamplePlace(int recordId, string partnerId)
-        {
-            var response = new APIResponseModel<object>();
-            try
-            {
-                response = _sampleCollectionRepository.RemoveSamplePlace(recordId, partnerId);
-            }
-            catch { throw; }
             return response;
         }
     }
