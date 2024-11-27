@@ -1,4 +1,5 @@
-﻿using LISCareDTO.SampleCollectionPlace;
+﻿using LISCareDTO;
+using LISCareDTO.SampleCollectionPlace;
 
 namespace LISCareRepository.Interface
 {
