@@ -41,19 +41,19 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     TestDataSearchResponse testSearch = new TestDataSearchResponse();
-                    testSearch.testCode = Convert.ToString(reader[ConstantResource.TestCode]);
-                    testSearch.testName = Convert.ToString(reader[ConstantResource.TestName]);
-                    testSearch.specimenType = Convert.ToString(reader[ConstantResource.SpecimenType]);
-                    testSearch.referenceUnits = Convert.ToString(reader[ConstantResource.ReferenceUnits]);
-                    testSearch.discipline = Convert.ToString(reader[ConstantResource.Discipline]);
-                    testSearch.MRP = Convert.ToInt32(reader[ConstantResource.MRP]);
-                    testSearch.B2CRates = Convert.ToInt32(reader[ConstantResource.B2CRates]);
-                    testSearch.labRates = Convert.ToInt32(reader[ConstantResource.LabRates]);
-                    testSearch.reportingStyle = Convert.ToString(reader[ConstantResource.ReportingStyle]);
-                    testSearch.printAs = Convert.ToString(reader[ConstantResource.PrintAs]);
-                    testSearch.aliasName = Convert.ToString(reader[ConstantResource.AliasName]);
-                    testSearch.reportTemplateTame = Convert.ToString(reader[ConstantResource.ReportTemplateName]);
-                    testSearch.subDiscipline = Convert.ToString(reader[ConstantResource.SubDiscipline]);
+                    testSearch.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
+                    testSearch.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
+                    testSearch.specimenType = reader[ConstantResource.SpecimenType] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SpecimenType]) : string.Empty;
+                    testSearch.referenceUnits = reader[ConstantResource.ReferenceUnits] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReferenceUnits]) : string.Empty;
+                    testSearch.discipline = reader[ConstantResource.Discipline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Discipline]) : string.Empty;
+                    testSearch.MRP = reader[ConstantResource.MRP] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.MRP]) : 0;
+                    testSearch.B2CRates = reader[ConstantResource.B2CRates] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.B2CRates]) : 0;
+                    testSearch.labRates = reader[ConstantResource.LabRates] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.LabRates]) : 0;
+                    testSearch.reportingStyle = reader[ConstantResource.ReportingStyle] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportingStyle]) : string.Empty;
+                    testSearch.printAs = reader[ConstantResource.PrintAs] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PrintAs]) : string.Empty;
+                    testSearch.aliasName = reader[ConstantResource.AliasName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AliasName]) : string.Empty;
+                    testSearch.reportTemplateTame = reader[ConstantResource.ReportTemplateName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportTemplateName]) : string.Empty;
+                    testSearch.subDiscipline = reader[ConstantResource.SubDiscipline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SubDiscipline]) : string.Empty;
                     response.Add(testSearch);
                 }
             }

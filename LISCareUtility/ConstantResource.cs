@@ -86,7 +86,10 @@
 
         #region Sample Collection Module
         public const string GetSampleCollectedPlaces = "GetSampleCollectedPlaces";
+        public const string GetLabTestInfo = "GetLabTestInfo";
+
         #endregion
+
 
         #endregion
 

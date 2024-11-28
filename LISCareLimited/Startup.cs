@@ -44,6 +44,8 @@ namespace LISCareLimited
             services.AddScoped<IGlobalRoleAccessRepository, GlobalRoleAccessRepository>();
             services.AddScoped<ISampleCollection, SampleCollectionBAL>();
             services.AddScoped<ISampleCollectionRepository, SampleCollectionRepository>();
+            services.AddScoped<ITestMgmt, TestMgmtBAL>();
+            services.AddScoped<ITestMgmtRepository, TestMgmtRepository>();
 
             services.AddCors(options =>
             {
