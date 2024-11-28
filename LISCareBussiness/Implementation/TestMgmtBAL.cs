@@ -19,6 +19,20 @@ namespace LISCareBussiness.Implementation
             _testMgmtRepository = testMgmtRepository;
         }
 
+        public List<TestDepartmentResponse> GetTestDepartmentData(string partnerId)
+        {
+            var response = new List<TestDepartmentResponse>();
+            try
+            {
+                response = _testMgmtRepository.GetTestDepartmentData(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
         public List<TestDataSearchResponse> GetTestDetails(TestMasterSearchRequest searchRequest)
         {
             var response = new List<TestDataSearchResponse>();

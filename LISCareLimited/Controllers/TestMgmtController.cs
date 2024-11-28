@@ -19,6 +19,31 @@ namespace LISCareLimited.Controllers
             _testMgmt = testMgmt;
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetTestDepartments)]
+        public IActionResult GetTestDepartmentsData(string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.GetTestDepartmentData(partnerId);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
         [HttpPost]
         [Route(ConstantResource.GetLabTestInfo)]
         public IActionResult GetLabTestData(TestMasterSearchRequest searchRequest)

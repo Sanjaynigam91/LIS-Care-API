@@ -22,6 +22,36 @@ namespace LISCareRepository.Implementation
             _dbContext= dbContext;
         }
 
+        public List<TestDepartmentResponse> GetTestDepartmentData(string partnerId)
+        {
+            List<TestDepartmentResponse> response = new List<TestDepartmentResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspRetrieveTestDepartments;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    TestDepartmentResponse testDepartment = new TestDepartmentResponse();
+                    testDepartment.TestDepartment = reader[ConstantResource.TestDepartment] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestDepartment]) : string.Empty;
+                    response.Add(testDepartment);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+
         public List<TestDataSearchResponse> GetTestDetails(TestMasterSearchRequest searchRequest)
         {
             List<TestDataSearchResponse> response = new List<TestDataSearchResponse>();

@@ -87,6 +87,8 @@
         #region Sample Collection Module
         public const string GetSampleCollectedPlaces = "GetSampleCollectedPlaces";
         public const string GetLabTestInfo = "GetLabTestInfo";
+        public const string GetTestDepartments = "GetTestDepartments";
+
 
         #endregion
 
@@ -232,6 +234,8 @@
         public const string AliasName = "AliasName";
         public const string ReportTemplateName = "report_template_name";
         public const string SubDiscipline = "Sub_Discipline";
+        public const string TestDepartment = "Test_Department";
+
 
 
 
@@ -340,6 +344,8 @@
 
         #region Test Master data
         public const string UspGetTestMasterData = "Usp_Get_TestMaster_Data";
+        public const string UspRetrieveTestDepartments = "Usp_Retrieve_Test_Departments";
+
 
         
         #endregion
