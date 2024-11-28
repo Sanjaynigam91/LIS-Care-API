@@ -159,7 +159,10 @@
         public const string ParamPageId = "@PageId";
         public const string ParamSamplePlace = "@SamplePlace";
         public const string ParamUpdatedBy = "@UpdatedBy";
-
+        public const string ParamTestName = "@TestName";
+        public const string ParamDeptOrDiscipline = "@DeptOrDiscipline";
+        public const string ParamisProcessedAt = "@isProcessedAt";
+       
 
         #endregion
 
@@ -213,6 +216,20 @@
         public const string Criteria = "Criteria";
         public const string IsActive = "IsActive";
         public const string SampleCollectedAt = "SampleCollectedAt";
+        public const string TestCode = "test_code";
+        public const string TestName = "test_name";
+        public const string SpecimenType = "specimen_type";
+        public const string ReferenceUnits = "Reference_units";
+        public const string Discipline = "Discipline";
+        public const string MRP = "MRP";
+        public const string B2CRates = "B2C_Rates";
+        public const string LabRates = "lab_rates";
+        public const string ReportingStyle = "reporting_Style";
+        public const string PrintAs = "PrintAs";
+        public const string AliasName = "AliasName";
+        public const string ReportTemplateName = "report_template_name";
+        public const string SubDiscipline = "Sub_Discipline";
+
 
 
         #endregion
@@ -316,6 +333,12 @@
         public const string AddSampleCollectedPlaces = "AddSampleCollectedPlaces";
         public const string RemoveSamplePlace = "RemoveSamplePlace";
 
+        #endregion
+
+        #region Test Master data
+        public const string UspGetTestMasterData = "Usp_Get_TestMaster_Data";
+
+        
         #endregion
 
         #endregion
