@@ -68,5 +68,55 @@ namespace LISCareLimited.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route(ConstantResource.GetTestByTestCode)]
+        public IActionResult GetTestByTestCode(string partnerId,string testCode)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.ViewTestData(partnerId,testCode);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
+        [HttpDelete]
+        [Route(ConstantResource.DeleteTest)]
+        public IActionResult DeleteTestByTestCode(string partnerId, string testCode)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.DeleteTestByTestCode(partnerId, testCode);
+            if (result.Status && result.StatusCode==200)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
     }
 }

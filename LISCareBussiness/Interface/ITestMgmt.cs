@@ -1,4 +1,5 @@
-﻿using LISCareDTO.TestMaster;
+﻿using LISCareDTO;
+using LISCareDTO.TestMaster;
 
 namespace LISCareBussiness.Interface
 {
@@ -6,5 +7,8 @@ namespace LISCareBussiness.Interface
     {
         List<TestDataSearchResponse> GetTestDetails(TestMasterSearchRequest searchRequest);
         List<TestDepartmentResponse> GetTestDepartmentData(string partnerId);
+        List<TestDataResponse> ViewTestData(string partnerId, string testCode);
+        // This interface used delete Users
+        APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode);
     }
 }

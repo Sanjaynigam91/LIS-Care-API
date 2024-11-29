@@ -1,9 +1,11 @@
 ﻿
 using LISCareBussiness.Interface;
+using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
 using LISCareDTO.TestMaster;
 using LISCareRepository.Implementation;
 using LISCareRepository.Interface;
+using LISCareReposotiory.Implementation;
 using Microsoft.Extensions.Configuration;
 
 namespace LISCareBussiness.Implementation
@@ -17,6 +19,17 @@ namespace LISCareBussiness.Implementation
         {
             _configuration = configuration;
             _testMgmtRepository = testMgmtRepository;
+        }
+
+        public APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode)
+        {
+            var response = new APIResponseModel<object>();
+            try
+            {
+                response = _testMgmtRepository.DeleteTestByTestCode(partnerId, testCode);
+            }
+            catch { throw; }
+            return response;
         }
 
         public List<TestDepartmentResponse> GetTestDepartmentData(string partnerId)
@@ -39,6 +52,20 @@ namespace LISCareBussiness.Implementation
             try
             {
                 response = _testMgmtRepository.GetTestDetails(searchRequest);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public List<TestDataResponse> ViewTestData(string partnerId, string testCode)
+        {
+            var response = new List<TestDataResponse>();
+            try
+            {
+                response = _testMgmtRepository.ViewTestData(partnerId,testCode);
             }
             catch
             {

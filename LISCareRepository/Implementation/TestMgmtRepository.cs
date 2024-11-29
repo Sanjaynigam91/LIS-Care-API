@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using System.Data.Common;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using LISCareDTO;
+using System.Net;
 
 namespace LISCareRepository.Implementation
 {
@@ -20,6 +22,79 @@ namespace LISCareRepository.Implementation
         {
             _configuration= configuration;
             _dbContext= dbContext;
+        }
+
+        public APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode)
+        {
+            var response = new APIResponseModel<object>
+            {
+                StatusCode = 404,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(partnerId.ToString()) && !string.IsNullOrEmpty(testCode.ToString()))
+                {
+
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspDeleteTestRecord;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode.Trim()));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+                    _dbContext.Database.GetDbConnection().Open();
+                    command.ExecuteScalar();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = ConstantResource.DelTestSuccess;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = false;
+                        response.ResponseMessage = ConstantResource.Failed;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
         }
 
         public List<TestDepartmentResponse> GetTestDepartmentData(string partnerId)
@@ -85,6 +160,84 @@ namespace LISCareRepository.Implementation
                     testSearch.reportTemplateTame = reader[ConstantResource.ReportTemplateName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportTemplateName]) : string.Empty;
                     testSearch.subDiscipline = reader[ConstantResource.SubDiscipline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SubDiscipline]) : string.Empty;
                     response.Add(testSearch);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+
+        public List<TestDataResponse> ViewTestData(string partnerId, string testCode)
+        {
+            List<TestDataResponse> response = new List<TestDataResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspRetrieveTestByTestCode;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode.Trim()));
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    TestDataResponse testData = new TestDataResponse();
+                    testData.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
+                    testData.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
+                    testData.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
+                    testData.specimenType = reader[ConstantResource.SpecimenType] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SpecimenType]) : string.Empty;
+                    testData.containerType = reader[ConstantResource.ContainerType] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ContainerType]) : string.Empty;
+                    testData.specimenVolume = reader[ConstantResource.SpecimenVolume] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SpecimenVolume]) : string.Empty;
+                    testData.transportConditions = reader[ConstantResource.TransportConditions] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TransportConditions]) : string.Empty;
+                    testData.discipline = reader[ConstantResource.Discipline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Discipline]) : string.Empty;
+                    testData.subDiscipline = reader[ConstantResource.SubDiscipline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SubDiscipline]) : string.Empty;
+                    testData.methodology = reader[ConstantResource.Methodology] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Methodology]) : string.Empty;
+                    testData.analyzerName = reader[ConstantResource.AnalyzerName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AnalyzerName]) : string.Empty;
+                    testData.isAutomated = reader[ConstantResource.IsAutomated] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsAutomated]) : false;
+                    testData.isCalculated = reader[ConstantResource.IsCalculated] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsCalculated]) : false;
+                    testData.MRP = reader[ConstantResource.MRP] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.MRP]) : 0;
+                    testData.isActive = reader[ConstantResource.IsActive] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsActive]) : false;
+                    testData.normalRangeOneline = reader[ConstantResource.NormalRangeOneline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.NormalRangeOneline]) : string.Empty;
+                    testData.reportTemplateName = reader[ConstantResource.ReportTemplateName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportTemplateName]) : string.Empty;
+                    testData.reportingDecimals = reader[ConstantResource.ReportingDecimals] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReportingDecimals]) :0;
+                    testData.referenceUnits = reader[ConstantResource.ReferenceUnits] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReferenceUnits]) : string.Empty;
+                    testData.B2CRates = reader[ConstantResource.B2CRates] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.B2CRates]) : 0;
+                    testData.reportingStyle = reader[ConstantResource.ReportingStyle] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportingStyle]) : string.Empty;
+                    testData.scheduledDays = reader[ConstantResource.ScheduledDays] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ScheduledDays]) : string.Empty;
+                    testData.isReserved = reader[ConstantResource.IsReserved] != DBNull.Value ? Convert.ToString(reader[ConstantResource.IsReserved]) : string.Empty;
+                    testData.isOutlab = reader[ConstantResource.IsOutlab] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsOutlab]) : false;
+                    testData.outlabCode = reader[ConstantResource.OutlabCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.OutlabCode]) : string.Empty;
+                    testData.reportPrintOrder = reader[ConstantResource.ReportPrintOrder] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReportPrintOrder]) : 0;
+                    testData.reportSection = reader[ConstantResource.ReportSection] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportSection]) : string.Empty;
+                    testData.labRates = reader[ConstantResource.LabRates] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LabRates]) : 0;     
+                    testData.lowestAllowed = reader[ConstantResource.LowestAllowed] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LowestAllowed]) : 0;     
+                    testData.highestAllowed = reader[ConstantResource.HighestAllowed] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighestAllowed]) : 0;     
+                    testData.technology = reader[ConstantResource.Technology] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Technology]) : string.Empty;     
+                    testData.printAs = reader[ConstantResource.PrintAs] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PrintAs]) : string.Empty;
+                    testData.cptCode = reader[ConstantResource.CptCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.CptCode]) : string.Empty;
+                    testData.calculatedValue = reader[ConstantResource.CalculatedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.CalculatedValue]) : string.Empty;
+                    testData.aliasName = reader[ConstantResource.AliasName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AliasName]) : string.Empty;
+                    testData.recordId = reader[ConstantResource.RecordId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.RecordId]) : 0;
+                    testData.normalRangeFooter = reader[ConstantResource.NormalRangeFooter] != DBNull.Value ? Convert.ToString(reader[ConstantResource.NormalRangeFooter]) : string.Empty;
+                    testData.departmentWiseNumbers = reader[ConstantResource.DepartmentWiseNumbers] != DBNull.Value ? Convert.ToString(reader[ConstantResource.DepartmentWiseNumbers]) : string.Empty;
+                    testData.testShortName = reader[ConstantResource.TestShortName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestShortName]) : string.Empty;
+                    testData.modality = reader[ConstantResource.Modality] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Modality]) : string.Empty;
+                    testData.defaultFilmCount = reader[ConstantResource.DefaultFilmCount] != DBNull.Value ? Convert.ToString(reader[ConstantResource.DefaultFilmCount]) : string.Empty;
+                    testData.defaultContrastML = reader[ConstantResource.DefaultContrastML] != DBNull.Value ? Convert.ToString(reader[ConstantResource.DefaultContrastML]) : string.Empty;
+                    testData.testProfitRate = reader[ConstantResource.TestProfitRate] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.TestProfitRate]) : 0;
+                    testData.labTestCode = reader[ConstantResource.LabTestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.LabTestCode]) : string.Empty;
+                    testData.testApplicable = reader[ConstantResource.TestApplicable] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestApplicable]) : string.Empty;
+                    testData.isLMP = reader[ConstantResource.IsLMP] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsLMP]) : false;
+                    testData.oldtestCode = reader[ConstantResource.OldtestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.OldtestCode]) : string.Empty;
+                    testData.isNABLApplicable = reader[ConstantResource.IsNABLApplicable] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsNABLApplicable]) :false;
+                    response.Add(testData);
                 }
             }
             catch

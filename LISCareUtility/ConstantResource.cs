@@ -88,6 +88,10 @@
         public const string GetSampleCollectedPlaces = "GetSampleCollectedPlaces";
         public const string GetLabTestInfo = "GetLabTestInfo";
         public const string GetTestDepartments = "GetTestDepartments";
+        public const string GetTestByTestCode = "GetTestByTestCode";
+        public const string DeleteTest = "DeleteTest";
+
+
 
 
         #endregion
@@ -167,6 +171,8 @@
         public const string ParamTestName = "@TestName";
         public const string ParamDeptOrDiscipline = "@DeptOrDiscipline";
         public const string ParamisProcessedAt = "@isProcessedAt";
+        public const string ParamTestCode = "@TestCode";
+
        
 
         #endregion
@@ -224,6 +230,9 @@
         public const string TestCode = "test_code";
         public const string TestName = "test_name";
         public const string SpecimenType = "specimen_type";
+        public const string ContainerType = "Container_Type";
+        public const string SpecimenVolume = "Specimen_Volume";
+        public const string TransportConditions = "Transport_Conditions";
         public const string ReferenceUnits = "Reference_units";
         public const string Discipline = "Discipline";
         public const string MRP = "MRP";
@@ -235,6 +244,39 @@
         public const string ReportTemplateName = "report_template_name";
         public const string SubDiscipline = "Sub_Discipline";
         public const string TestDepartment = "Test_Department";
+        public const string Methodology = "Methodology";
+        public const string AnalyzerName = "Analyzer_Name";
+        public const string IsAutomated = "IsAutomated";
+        public const string IsCalculated = "IsCalculated";
+        public const string ReportingLeadTime = "Reporting_Lead_Time";
+        public const string NormalRangeOneline = "normal_range_oneline";
+        public const string ReportingDecimals = "Reporting_Decimals";
+        public const string ScheduledDays = "Scheduled_Days";
+        public const string IsReserved = "IsReserved";
+        public const string IsOutlab = "IsOutlab";
+        public const string OutlabCode = "Outlab_Code";
+        public const string ReportPrintOrder = "report_print_order";
+        public const string ReportSection = "ReportSection";
+        public const string LowestAllowed = "LowestAllowed";
+        public const string HighestAllowed = "HighestAllowed";
+        public const string Technology = "technology";
+        public const string CptCode = "CptCode";
+        public const string CalculatedValue = "CalculatedValue";
+        public const string NormalRangeFooter = "normal_range_footer";
+        public const string DepartmentWiseNumbers = "DepartmentWiseNumbers";
+        public const string TestShortName = "TestShortName";
+        public const string Modality = "Modality";
+        public const string DefaultFilmCount = "DefaultFilmCount";
+        public const string DefaultContrastML = "DefaultContrastML";
+        public const string TestProfitRate = "TestProfitRate";
+        public const string LabTestCode = "LabTestCode";
+        public const string TestApplicable = "TestApplicable";
+        public const string IsLMP = "IsLMP";
+        public const string OldtestCode = "Oldtest_code";
+        public const string IsNABLApplicable = "IsNABLApplicable";
+
+       
+
 
 
 
@@ -345,6 +387,10 @@
         #region Test Master data
         public const string UspGetTestMasterData = "Usp_Get_TestMaster_Data";
         public const string UspRetrieveTestDepartments = "Usp_Retrieve_Test_Departments";
+        public const string UspRetrieveTestByTestCode = "Usp_Retrieve_TestData_ByTestCode";
+        public const string UspDeleteTestRecord = "Usp_Delete_TestRecord";
+
+
 
 
         
@@ -373,6 +419,7 @@
         public readonly static string PageSuccess = "Lis Page save Succssfully ,Lis Page Master";
         public readonly static string DelSampleSuccess = "Sample Place has been deleted sucessfully ,Sample Collected Place";
         public readonly static string AddSampleSuccess = "Sample Place has been save sucessfully ,Sample Collected Place";
+        public readonly static string DelTestSuccess = "Test data Deleted Successfully ,Test Master";
 
         #endregion
     }
