@@ -10,7 +10,7 @@ namespace LISCareRepository.Interface
         List<TestDataResponse> ViewTestData(string partnerId,string testCode);
         // This interface used delete Users
         APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode);
-
+        List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest);
 
 
     }
