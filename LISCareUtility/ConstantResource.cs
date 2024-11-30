@@ -90,6 +90,8 @@
         public const string GetTestDepartments = "GetTestDepartments";
         public const string GetTestByTestCode = "GetTestByTestCode";
         public const string DeleteTest = "DeleteTest";
+        public const string SearchTests = "SearchTests";
+
 
 
 
@@ -389,6 +391,8 @@
         public const string UspRetrieveTestDepartments = "Usp_Retrieve_Test_Departments";
         public const string UspRetrieveTestByTestCode = "Usp_Retrieve_TestData_ByTestCode";
         public const string UspDeleteTestRecord = "Usp_Delete_TestRecord";
+        public const string UspSearchTestData = "Usp_Search_TestData";
+
 
 
 

@@ -60,6 +60,20 @@ namespace LISCareBussiness.Implementation
             return response;
         }
 
+        public List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest)
+        {
+            var response = new List<TestDataSearchResponse>();
+            try
+            {
+                response = _testMgmtRepository.SearchTestDetails(searchRequest);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
         public List<TestDataResponse> ViewTestData(string partnerId, string testCode)
         {
             var response = new List<TestDataResponse>();
