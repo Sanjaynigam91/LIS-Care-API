@@ -116,6 +116,77 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
+
+        public List<MetaTagResponse> GetReportingStyle(string partnerId)
+        {
+            var response = new List<MetaTagResponse>();
+            try
+            {
+                response = _metaDataRepository.GetReportingStyle(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public List<MetaTagResponse> GetReportTemplates(string partnerId)
+        {
+            var response = new List<MetaTagResponse>();
+            try
+            {
+                response = _metaDataRepository.GetReportTemplates(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public List<MetaTagResponse> GetSpecimenType(string partnerId)
+        {
+            var response = new List<MetaTagResponse>();
+            try
+            {
+                response = _metaDataRepository.GetSpecimenType(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public List<MetaTagResponse> GetSubTestDepartments(string partnerId)
+        {
+            var response = new List<MetaTagResponse>();
+            try
+            {
+                response = _metaDataRepository.GetSubTestDepartments(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public List<MetaTagResponse> GetTestDepartments(string partnerId)
+        {
+            var response = new List<MetaTagResponse>();
+            try
+            {
+                response = _metaDataRepository.GetTestDepartments(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
         /// <summary>
         /// This method is used to Update master list
         /// </summary>

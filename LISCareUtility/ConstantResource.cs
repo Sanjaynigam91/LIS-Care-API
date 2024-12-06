@@ -52,6 +52,12 @@
         public const string CreateNewMetaDataTag = "CreateNewMetaDataTag";
         public const string UpdateMetaDataTag = "UpdateMetaDataTag";
         public const string GetMetaTagById = "GetMetaTagById";
+        public const string GetReportTemplates = "GetReportTemplates";
+        public const string GetReportingStyle = "GetReportingStyle";
+        public const string GetSpecimenType = "GetSpecimenType";
+        public const string GetDepartments = "GetDepartments";
+        public const string GetSubTestDepartments = "GetSubTestDepartments";
+
 
         #endregion
 
@@ -292,6 +298,7 @@
         public const string TagDescription = "TagDescription";
         public const string TagStatus = "TagStatus";
         public const string RecordId = "RecordId";
+       
         #endregion
 
         #region Global Role Access
@@ -392,12 +399,12 @@
         public const string UspRetrieveTestByTestCode = "Usp_Retrieve_TestData_ByTestCode";
         public const string UspDeleteTestRecord = "Usp_Delete_TestRecord";
         public const string UspSearchTestData = "Usp_Search_TestData";
+        public const string UspGetReportTemplates = "Usp_Get_Report_Templates";
+        public const string UspGetReportingStyle = "Usp_Get_Reporting_Style";
+        public const string UspGetSpecimenType = "Usp_Get_Specimen_Type";
+        public const string UspGetTestDepartments = "Usp_Get_Test_Departments";
+        public const string UspGetTestSubdepartments = "Usp_Get_Test_Subdepartments";
 
-
-
-
-
-        
         #endregion
 
         #endregion

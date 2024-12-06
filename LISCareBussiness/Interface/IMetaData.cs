@@ -45,5 +45,31 @@ namespace LISCareBussiness.Interface
         /// </summary>
         /// <returns>List<MetaDataResponseModel></returns>
         MetaDataResponseModel GetMetaDataTag(int tagId);
+        /// <summary>
+        /// This interface is used to get Reporting Template
+        /// </summary>
+        /// <returns>List<MetaDataResponseModel></returns>
+        List<MetaTagResponse> GetReportTemplates(string partnerId);
+        /// <summary>
+        /// This interface is used to Reporting Style
+        /// </summary>
+        /// <returns>List<MetaDataResponseModel></returns>
+        List<MetaTagResponse> GetReportingStyle(string partnerId);
+        /// <summary>
+        /// This interface is used to Get Specimen Type
+        /// </summary>
+        /// <returns>List<MetaDataResponseModel></returns>
+        List<MetaTagResponse> GetSpecimenType(string partnerId);
+        /// <summary>
+        /// This interface is used to Get Test Departments
+        /// </summary>
+        /// <returns>List<MetaDataResponseModel></returns>
+        List<MetaTagResponse> GetTestDepartments(string partnerId);
+        /// <summary>
+        /// This interface is used to Get Sub Test Departments
+        /// </summary>
+        /// <returns>List<MetaDataResponseModel></returns>
+        List<MetaTagResponse> GetSubTestDepartments(string partnerId);
+
     }
 }
