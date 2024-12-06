@@ -1,0 +1,16 @@
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\bin\Debug\net8.0\LISCareUtility.deps.json
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\bin\Debug\net8.0\LISCareUtility.dll
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\bin\Debug\net8.0\LISCareUtility.pdb
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\bin\Debug\net8.0\LISCareDTO.dll
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\bin\Debug\net8.0\LISCareDTO.pdb
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.csproj.AssemblyReference.cache
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.AssemblyInfoInputs.cache
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.AssemblyInfo.cs
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.csproj.CoreCompileInputs.cache
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.sourcelink.json
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.csproj.CopyComplete
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.dll
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\refint\LISCareUtility.dll
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\LISCareUtility.pdb
+D:\Sanjay\LISCare\LISCareCore\LISCareUtility\obj\Debug\net8.0\ref\LISCareUtility.dll

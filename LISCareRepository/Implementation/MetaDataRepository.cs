@@ -368,6 +368,195 @@ namespace LISCareRepository.Implementation
             return response;
         }
         /// <summary>
+        /// This method is used to Get Reporting Style
+        /// </summary>
+        /// <returns>List<MetaDataTagsResponseModel></returns>
+        public List<MetaTagResponse> GetReportingStyle(string partnerId)
+        {
+            List<MetaTagResponse> response = new List<MetaTagResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspGetReportingStyle;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.ToString()));
+
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!string.IsNullOrEmpty(partnerId))
+                    {
+                        MetaTagResponse templates = new MetaTagResponse();
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        response.Add(templates);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// This method is used to Get Report Templates
+        /// </summary>
+        /// <returns>List<MetaDataTagsResponseModel></returns>
+        public List<MetaTagResponse> GetReportTemplates(string partnerId)
+        {
+            List<MetaTagResponse> response = new List<MetaTagResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspGetReportTemplates;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.ToString()));
+
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!string.IsNullOrEmpty(partnerId))
+                    {
+                        MetaTagResponse templates = new MetaTagResponse();
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        response.Add(templates);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+        /// <summary>
+        /// This method is used to Get Specimen Type
+        /// </summary>
+        /// <returns>List<MetaDataTagsResponseModel></returns>
+        public List<MetaTagResponse> GetSpecimenType(string partnerId)
+        {
+            List<MetaTagResponse> response = new List<MetaTagResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspGetSpecimenType;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.ToString()));
+
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!string.IsNullOrEmpty(partnerId))
+                    {
+                        MetaTagResponse templates = new MetaTagResponse();
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        response.Add(templates);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+        public List<MetaTagResponse> GetSubTestDepartments(string partnerId)
+        {
+            List<MetaTagResponse> response = new List<MetaTagResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspGetTestSubdepartments;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.ToString()));
+
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!string.IsNullOrEmpty(partnerId))
+                    {
+                        MetaTagResponse templates = new MetaTagResponse();
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        response.Add(templates);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// This method is used to Get Test Departments
+        /// </summary>
+        /// <returns>List<MetaDataTagsResponseModel></returns>
+        public List<MetaTagResponse> GetTestDepartments(string partnerId)
+        {
+            List<MetaTagResponse> response = new List<MetaTagResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspGetTestDepartments;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.ToString()));
+
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!string.IsNullOrEmpty(partnerId))
+                    {
+                        MetaTagResponse templates = new MetaTagResponse();
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        response.Add(templates);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return response;
+        }
+
+        /// <summary>
         /// This method is used to Update master list
         /// </summary>
         /// <returns>List<APIResponseModel></returns>
