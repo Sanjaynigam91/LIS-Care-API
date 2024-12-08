@@ -219,9 +219,9 @@ namespace LISCareRepository.Implementation
             return response;
         }
 
-        public List<TestDataResponse> ViewTestData(string partnerId, string testCode)
+        public TestDataResponse ViewTestData(string partnerId, string testCode)
         {
-            List<TestDataResponse> response = new List<TestDataResponse>();
+            TestDataResponse testData = new TestDataResponse();
             try
             {
                 if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
@@ -234,7 +234,7 @@ namespace LISCareRepository.Implementation
                 DbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    TestDataResponse testData = new TestDataResponse();
+                   
                     testData.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
                     testData.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
                     testData.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
@@ -283,7 +283,7 @@ namespace LISCareRepository.Implementation
                     testData.isLMP = reader[ConstantResource.IsLMP] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsLMP]) : false;
                     testData.oldtestCode = reader[ConstantResource.OldtestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.OldtestCode]) : string.Empty;
                     testData.isNABLApplicable = reader[ConstantResource.IsNABLApplicable] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsNABLApplicable]) :false;
-                    response.Add(testData);
+                    
                 }
             }
             catch
@@ -294,7 +294,7 @@ namespace LISCareRepository.Implementation
             {
                 _dbContext.Database.GetDbConnection().Close();
             }
-            return response;
+            return testData;
         }
     }
 }
