@@ -74,9 +74,9 @@ namespace LISCareBussiness.Implementation
             return response;
         }
 
-        public List<TestDataResponse> ViewTestData(string partnerId, string testCode)
+        public TestDataResponse ViewTestData(string partnerId, string testCode)
         {
-            var response = new List<TestDataResponse>();
+            var response = new TestDataResponse();
             try
             {
                 response = _testMgmtRepository.ViewTestData(partnerId,testCode);

@@ -7,7 +7,7 @@ namespace LISCareBussiness.Interface
     {
         List<TestDataSearchResponse> GetTestDetails(TestMasterSearchRequest searchRequest);
         List<TestDepartmentResponse> GetTestDepartmentData(string partnerId);
-        List<TestDataResponse> ViewTestData(string partnerId, string testCode);
+        TestDataResponse ViewTestData(string partnerId, string testCode);
         // This interface used delete Users
         APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode);
         List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest);

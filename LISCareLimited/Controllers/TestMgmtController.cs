@@ -100,7 +100,7 @@ namespace LISCareLimited.Controllers
         {
             APIResponseModel<object> responseModel = new APIResponseModel<object>();
             var result = _testMgmt.ViewTestData(partnerId,testCode);
-            if (result.Count > 0)
+            if (result!=null)
             {
                 responseModel.Status = true;
                 responseModel.StatusCode = 200;
