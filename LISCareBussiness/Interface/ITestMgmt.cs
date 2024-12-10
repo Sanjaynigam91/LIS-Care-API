@@ -11,6 +11,7 @@ namespace LISCareBussiness.Interface
         // This interface used delete Users
         APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode);
         List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest);
+        ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode);
 
     }
 }

@@ -143,5 +143,30 @@ namespace LISCareLimited.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route(ConstantResource.GetReferalRangeByTestCode)]
+        public IActionResult GetReferalRangeByTestCode(string partnerId, string testCode)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.GetReferalRangeValue(partnerId, testCode);
+            if (result != null)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
     }
 }
