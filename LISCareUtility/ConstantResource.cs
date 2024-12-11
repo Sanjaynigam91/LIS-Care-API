@@ -97,7 +97,9 @@
         public const string GetTestByTestCode = "GetTestByTestCode";
         public const string DeleteTest = "DeleteTest";
         public const string SearchTests = "SearchTests";
-        public const string GetReferalRangeByTestCode = "GetReferalRangeByTestCode";
+
+
+
 
 
         #endregion
@@ -280,18 +282,11 @@
         public const string IsLMP = "IsLMP";
         public const string OldtestCode = "Oldtest_code";
         public const string IsNABLApplicable = "IsNABLApplicable";
-        public const string ReferralId = "Referral_Id";
-        public const string Gender = "Gender";
-        public const string LowRange = "Low_Range";
-        public const string HighRange = "High_Range";
-        public const string NormalRange = "Normal_Range";
-        public const string AgeFrom = "AgeFrom";
-        public const string AgeTo = "AgeTo";
-        public const string IsPregnant = "isPregnant";
-        public const string CriticalValue = "CriticalValue";
-        public const string AgeUnits = "AgeUnits";
-        public const string HighCriticalValue = "HighCriticalValue";
-        public const string LabTest = "LabTest";
+
+       
+
+
+
 
 
         #endregion
@@ -409,9 +404,6 @@
         public const string UspGetSpecimenType = "Usp_Get_Specimen_Type";
         public const string UspGetTestDepartments = "Usp_Get_Test_Departments";
         public const string UspGetTestSubdepartments = "Usp_Get_Test_Subdepartments";
-        public const string UspGetReferalRangesByTestCode = "Usp_Get_Referal_Ranges_ByTestCode";
-
-
 
         #endregion
 

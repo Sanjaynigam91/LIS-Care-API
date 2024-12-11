@@ -97,49 +97,6 @@ namespace LISCareRepository.Implementation
             return response;
         }
 
-        public ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode)
-        {
-            ReferalRangeResponse referalRange=new ReferalRangeResponse();
-            try
-            {
-                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
-                    _dbContext.Database.OpenConnection();
-                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
-                cmd.CommandText = ConstantResource.UspGetReferalRangesByTestCode;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
-                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode.Trim()));
-                DbDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    referalRange.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
-                    referalRange.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
-                    referalRange.referralId = reader[ConstantResource.ReferralId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReferralId]) : 0;
-                    referalRange.gender = reader[ConstantResource.Gender] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Gender]) : string.Empty;
-                    referalRange.lowRange = reader[ConstantResource.LowRange] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LowRange]) : 0;
-                    referalRange.highRange = reader[ConstantResource.HighRange] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighRange]) : 0;
-                    referalRange.normalRange = reader[ConstantResource.NormalRange] != DBNull.Value ? Convert.ToString(reader[ConstantResource.NormalRange]) : string.Empty;
-                    referalRange.ageFrom = reader[ConstantResource.AgeFrom] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AgeFrom]) : 0;
-                    referalRange.ageTo = reader[ConstantResource.AgeTo] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AgeTo]) : 0;
-                    referalRange.isPregnant = reader[ConstantResource.IsPregnant] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsPregnant]) : false;
-                    referalRange.lowCriticalValue = reader[ConstantResource.CriticalValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.CriticalValue]) :0;
-                    referalRange.ageUnits = reader[ConstantResource.AgeUnits] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AgeUnits]) : string.Empty;
-                    referalRange.highCriticalValue = reader[ConstantResource.HighCriticalValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighCriticalValue]) : 0;
-                    referalRange.labTest = reader[ConstantResource.LabTest] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.LabTest]) : 0;
-                   
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                _dbContext.Database.GetDbConnection().Close();
-            }
-            return referalRange;
-        }
-
         public List<TestDepartmentResponse> GetTestDepartmentData(string partnerId)
         {
             List<TestDepartmentResponse> response = new List<TestDepartmentResponse>();
