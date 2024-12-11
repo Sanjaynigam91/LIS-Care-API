@@ -12,6 +12,6 @@ namespace LISCareRepository.Interface
         APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode);
         List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest);
 
-
+        ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode);
     }
 }
