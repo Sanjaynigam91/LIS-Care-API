@@ -98,6 +98,8 @@
         public const string DeleteTest = "DeleteTest";
         public const string SearchTests = "SearchTests";
         public const string GetReferalRangeByTestCode = "GetReferalRangeByTestCode";
+        public const string GetSpecialValueByTestCode = "GetSpecialValueByTestCode";
+
 
 
 
@@ -294,11 +296,8 @@
         public const string AgeUnits = "AgeUnits";
         public const string HighCriticalValue = "HighCriticalValue";
         public const string LabTest = "LabTest";
-
-
-
-
-
+        public const string AllowedValue = "Allowed_value";
+        public const string IsAbnormal = "IsAbnormal";
 
 
         #endregion
@@ -417,6 +416,8 @@
         public const string UspGetTestDepartments = "Usp_Get_Test_Departments";
         public const string UspGetTestSubdepartments = "Usp_Get_Test_Subdepartments";
         public const string UspGetReferalRangesByTestCode = "Usp_Get_Referal_Ranges_ByTestCode";
+        public const string UspGetSpecialValues = "usp_Get_Special_values";
+
         
 
         #endregion

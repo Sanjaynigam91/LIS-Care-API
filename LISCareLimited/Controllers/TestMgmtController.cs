@@ -8,7 +8,7 @@ namespace LISCareLimited.Controllers
 {
     [Route(ConstantResource.APIRoute)]
     [ApiController]
-    public class TestMgmtController: ControllerBase
+    public class TestMgmtController : ControllerBase
     {
         private IConfiguration _configuration;
         private new ITestMgmt _testMgmt;
@@ -96,11 +96,11 @@ namespace LISCareLimited.Controllers
 
         [HttpGet]
         [Route(ConstantResource.GetTestByTestCode)]
-        public IActionResult GetTestByTestCode(string partnerId,string testCode)
+        public IActionResult GetTestByTestCode(string partnerId, string testCode)
         {
             APIResponseModel<object> responseModel = new APIResponseModel<object>();
-            var result = _testMgmt.ViewTestData(partnerId,testCode);
-            if (result!=null)
+            var result = _testMgmt.ViewTestData(partnerId, testCode);
+            if (result != null)
             {
                 responseModel.Status = true;
                 responseModel.StatusCode = 200;
@@ -125,7 +125,7 @@ namespace LISCareLimited.Controllers
         {
             APIResponseModel<object> responseModel = new APIResponseModel<object>();
             var result = _testMgmt.DeleteTestByTestCode(partnerId, testCode);
-            if (result.Status && result.StatusCode==200)
+            if (result.Status && result.StatusCode == 200)
             {
                 responseModel.Status = true;
                 responseModel.StatusCode = 200;
@@ -168,5 +168,32 @@ namespace LISCareLimited.Controllers
             }
 
         }
+
+
+        [HttpGet]
+        [Route(ConstantResource.GetSpecialValueByTestCode)]
+        public IActionResult GetSpecialValueByTestCode(string partnerId, string testCode)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.GetSpecialValue(partnerId, testCode);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
     }
 }

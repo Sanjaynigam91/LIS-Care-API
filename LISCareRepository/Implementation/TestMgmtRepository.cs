@@ -340,5 +340,40 @@ namespace LISCareRepository.Implementation
             return referalRange;
         }
 
+        public List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode)
+        {
+            List<SpecialValueResponse> specialValue = new List<SpecialValueResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspGetSpecialValues;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode.Trim()));
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    SpecialValueResponse special= new SpecialValueResponse();
+                    special.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
+                    special.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
+                    special.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
+                    special.allowedValue = reader[ConstantResource.AllowedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AllowedValue]) : string.Empty;
+                    special.isAbnormal = reader[ConstantResource.IsAbnormal] != DBNull.Value ? Convert.ToString(reader[ConstantResource.IsAbnormal]) : "NO";
+                    special.recordId = reader[ConstantResource.RecordId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.RecordId]) : 0;
+                    specialValue.Add(special);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return specialValue;
+        }
     }
 }
