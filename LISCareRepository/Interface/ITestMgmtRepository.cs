@@ -13,5 +13,8 @@ namespace LISCareRepository.Interface
         List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest);
 
         ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode);
+
+        List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode);
+
     }
 }

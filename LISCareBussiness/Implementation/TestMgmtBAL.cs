@@ -100,5 +100,19 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
+
+        public List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode)
+        {
+            var response = new List<SpecialValueResponse>();
+            try
+            {
+                response = _testMgmtRepository.GetSpecialValue(partnerId, testCode);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
     }
 }
