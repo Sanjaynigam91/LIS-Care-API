@@ -87,5 +87,18 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
+        public ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode)
+        {
+            var response = new ReferalRangeResponse();
+            try
+            {
+                response = _testMgmtRepository.GetReferalRangeValue(partnerId, testCode);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
     }
 }
