@@ -114,5 +114,19 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
+
+        public List<CenterRateResponse> GetCenterRates(string partnerId, string testCode)
+        {
+            var response = new List<CenterRateResponse>();
+            try
+            {
+                response = _testMgmtRepository.GetCenterRates(partnerId, testCode);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
     }
 }
