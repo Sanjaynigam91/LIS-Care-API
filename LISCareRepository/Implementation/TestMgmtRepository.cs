@@ -383,5 +383,39 @@ namespace LISCareRepository.Implementation
             }
             return specialValue;
         }
+
+        public List<CenterRateResponse> GetCenterRates(string partnerId, string testCode)
+        {
+            List<CenterRateResponse> centerRatesResponse = new List<CenterRateResponse>();
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspRetrieveAllCCRates;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode.Trim()));
+                DbDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    CenterRateResponse centerRate = new CenterRateResponse();
+                    centerRate.partnerCode = reader[ConstantResource.PartnerCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerCode]) : string.Empty;
+                    centerRate.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
+                    centerRate.partnerName = reader[ConstantResource.PartnerName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerName]) : string.Empty;
+                    centerRate.billRate = reader[ConstantResource.BillRate] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.BillRate]) :0;
+                    centerRatesResponse.Add(centerRate);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            return centerRatesResponse;
+        }
     }
 }

@@ -99,9 +99,7 @@
         public const string SearchTests = "SearchTests";
         public const string GetReferalRangeByTestCode = "GetReferalRangeByTestCode";
         public const string GetSpecialValueByTestCode = "GetSpecialValueByTestCode";
-
-
-
+        public const string GetCenterRateByTestCode = "GetCenterRateByTestCode";
 
 
         #endregion
@@ -298,6 +296,11 @@
         public const string LabTest = "LabTest";
         public const string AllowedValue = "Allowed_value";
         public const string IsAbnormal = "IsAbnormal";
+        public const string PartnerCode = "PartnerCode";
+        public const string PartnerName = "PartnerName";
+        public const string BillRate = "Bill_Rate";
+
+
 
 
         #endregion
@@ -417,6 +420,7 @@
         public const string UspGetTestSubdepartments = "Usp_Get_Test_Subdepartments";
         public const string UspGetReferalRangesByTestCode = "Usp_Get_Referal_Ranges_ByTestCode";
         public const string UspGetSpecialValues = "usp_Get_Special_values";
+        public const string UspRetrieveAllCCRates = "Usp_Retrieve_AllCCRates";
 
         
 
