@@ -360,7 +360,15 @@ namespace LISCareRepository.Implementation
                     special.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
                     special.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
                     special.allowedValue = reader[ConstantResource.AllowedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AllowedValue]) : string.Empty;
-                    special.isAbnormal = reader[ConstantResource.IsAbnormal] != DBNull.Value ? Convert.ToString(reader[ConstantResource.IsAbnormal]) : "NO";
+                    if (Convert.ToString(reader[ConstantResource.IsAbnormal]) == "YES") 
+                    {
+                        special.isAbnormal = true;
+                    }
+                    else
+                    {
+                        special.isAbnormal = false;
+                    }
+                    
                     special.recordId = reader[ConstantResource.RecordId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.RecordId]) : 0;
                     specialValue.Add(special);
                 }
