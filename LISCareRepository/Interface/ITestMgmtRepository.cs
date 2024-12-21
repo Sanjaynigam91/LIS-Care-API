@@ -16,7 +16,7 @@ namespace LISCareRepository.Interface
 
         List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode);
         List<CenterRateResponse> GetCenterRates(string partnerId, string testCode);
-
-
+        APIResponseModel<object> SaveTestDetails(TestMasterRequest testMasterRequest);
+        APIResponseModel<object> UpdateTestDetails(TestMasterRequest testMasterRequest);
     }
 }

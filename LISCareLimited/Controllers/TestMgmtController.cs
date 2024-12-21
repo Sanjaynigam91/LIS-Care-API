@@ -221,5 +221,55 @@ namespace LISCareLimited.Controllers
 
         }
 
+        [HttpPost]
+        [Route(ConstantResource.CreateTest)]
+        public IActionResult CreateNewTest(TestMasterRequest testMasterRequest)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.SaveTestDetails(testMasterRequest);
+            if (result.Status && result.StatusCode == 200)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
+        [HttpPut]
+        [Route(ConstantResource.UpdateTest)]
+        public IActionResult UpdateTestInfo(TestMasterRequest testMasterRequest)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _testMgmt.UpdateTestDetails(testMasterRequest);
+            if (result.Status && result.StatusCode == 200)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = "No Record found!";
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
     }
 }
