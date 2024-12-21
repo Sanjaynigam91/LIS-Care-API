@@ -100,6 +100,9 @@
         public const string GetReferalRangeByTestCode = "GetReferalRangeByTestCode";
         public const string GetSpecialValueByTestCode = "GetSpecialValueByTestCode";
         public const string GetCenterRateByTestCode = "GetCenterRateByTestCode";
+        public const string CreateTest = "CreateTest";
+        public const string UpdateTest = "UpdateTest";
+
 
 
         #endregion
@@ -180,6 +183,29 @@
         public const string ParamDeptOrDiscipline = "@DeptOrDiscipline";
         public const string ParamisProcessedAt = "@isProcessedAt";
         public const string ParamTestCode = "@TestCode";
+        public const string ParamSubDepartment = "@SubDepartment";
+        public const string ParamMethodology = "@Methodology";
+        public const string ParamSpecimenType = "@SpecimenType";
+        public const string ParamReferenceUnits = "@ReferenceUnits";
+        public const string ParamReportingStyle = "@ReportingStyle";
+        public const string ParamReportTemplateName = "@ReportTemplateName";
+        public const string ParamReportingDecimals = "@ReportingDecimals";
+        public const string ParamIsOutlab = "@IsOutlab";
+        public const string ParamPrintSequence = "@PrintSequence";
+        public const string ParamIsReserved = "@IsReserved";
+        public const string ParamTestShortName = "@TestShortName";
+        public const string ParamPatientRate = "@PatientRate";
+        public const string ParamClientRate = "@ClientRate";
+        public const string ParamLabRate= "@LabRate";
+        public const string ParamStatus= "@Status";
+        public const string ParamAnalyzerName= "@AnalyzerName";
+        public const string ParamIsAutomated= "@IsAutomated";
+        public const string ParamIsCalculated= "@IsCalculated";
+        public const string ParamLabTestCode= "@LabTestCode";
+        public const string ParamTestApplicable= "@TestApplicable";
+        public const string ParamIsLMP= "@IsLMP";
+        public const string ParamIsNABLApplicable= "@IsNABLApplicable";
+        public const string ParamReferelRangeComments= "@ReferelRangeComments";
 
        
 
@@ -421,8 +447,8 @@
         public const string UspGetReferalRangesByTestCode = "Usp_Get_Referal_Ranges_ByTestCode";
         public const string UspGetSpecialValues = "usp_Get_Special_values";
         public const string UspRetrieveAllCCRates = "Usp_Retrieve_AllCCRates";
-
-        
+        public const string UspSaveTestMasterDetails = "Usp_Save_TestMaster_Details";
+        public const string UspUpdateTestDetails = "Usp_Update_TestDetails";
 
         #endregion
 
@@ -450,6 +476,7 @@
         public readonly static string DelSampleSuccess = "Sample Place has been deleted sucessfully ,Sample Collected Place";
         public readonly static string AddSampleSuccess = "Sample Place has been save sucessfully ,Sample Collected Place";
         public readonly static string DelTestSuccess = "Test data Deleted Successfully ,Test Master";
+        public readonly static string AddTestSuccess = "Test has been created Successfully ,Test Master";
 
         #endregion
     }
