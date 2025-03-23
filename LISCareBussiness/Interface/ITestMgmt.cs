@@ -16,6 +16,7 @@ namespace LISCareBussiness.Interface
         List<CenterRateResponse> GetCenterRates(string partnerId, string testCode);
         APIResponseModel<object> SaveTestDetails(TestMasterRequest testMasterRequest);
         APIResponseModel<object> UpdateTestDetails(TestMasterRequest testMasterRequest);
+        Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest);
 
     }
 }
