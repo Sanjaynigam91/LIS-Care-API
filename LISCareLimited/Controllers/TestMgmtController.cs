@@ -317,7 +317,7 @@ namespace LISCareLimited.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Failed to Save or Update Referral Ranges {ex.Message}");
+                return BadRequest($"Failed to Save or Delete Referral Ranges {ex.Message}");
             }
 
         }
