@@ -288,9 +288,36 @@ namespace LISCareLimited.Controllers
                     return BadRequest(result);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest($"Failed to Save or Update Referral Ranges {ex.Message}");
+            }
+
+        }
+
+        [HttpDelete]
+        [Route(ConstantResource.DeleteReferralRanges)]
+        public async Task<IActionResult> DeleteReferralRangesById(int referralId)
+        {
+            try
+            {
+                var result = await _testMgmt.DeleteReferralRanges(referralId);
+                if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
+                {
+                    return Ok(result);
+                }
+                else if (!result.Status && result.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    return NotFound(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to Delete Referral Ranges {ex.Message}");
             }
 
         }
