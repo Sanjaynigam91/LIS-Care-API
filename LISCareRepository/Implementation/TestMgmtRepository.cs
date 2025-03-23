@@ -10,6 +10,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using LISCareDTO;
 using System.Net;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace LISCareRepository.Implementation
 {
@@ -609,6 +610,94 @@ namespace LISCareRepository.Implementation
             {
                 _dbContext.Database.GetDbConnection().Close();
             }
+            return response;
+        }
+
+        public async Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data=string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(referralRangesRequest.ToString()))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspReferralRangesSaveUpdateChanges;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType, referralRangesRequest.OpType.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferralId, referralRangesRequest.ReferralId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRefTestCode, referralRangesRequest.TestCode.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLowRange, referralRangesRequest.LowRange));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamHighRange, referralRangesRequest.HighRange));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamNormalRange, referralRangesRequest.NormalRange.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAgeFrom, referralRangesRequest.AgeFrom));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAgeTo, referralRangesRequest.AgeTo));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamGender, referralRangesRequest.Gender.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsPregnant, referralRangesRequest.IsPregnant));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCriticalValue, referralRangesRequest.CriticalValue));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, referralRangesRequest.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamUpdatedBy, referralRangesRequest.UpdatedBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamHighCriticalValue, referralRangesRequest.HighCriticalValue));
+                  
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {    
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = true;
+                        response.ResponseMessage = parameterModel.ErrorMessage;                       
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = false;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }                   
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
             return response;
         }
     }

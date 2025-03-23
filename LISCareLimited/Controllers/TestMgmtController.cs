@@ -3,6 +3,7 @@ using LISCareDTO;
 using LISCareDTO.TestMaster;
 using LISCareUtility;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LISCareLimited.Controllers
 {
@@ -267,6 +268,29 @@ namespace LISCareLimited.Controllers
                 responseModel.ResponseMessage = "No Record found!";
                 responseModel.Data = result;
                 return NotFound(responseModel);
+            }
+
+        }
+
+        [HttpPost]
+        [Route(ConstantResource.SaveUpdateReferralRanges)]
+        public async Task<IActionResult> SaveUpdateReferralRangesData(ReferralRangesRequest referralRangesRequest)
+        {
+            try
+            {
+                var result = await _testMgmt.SaveUpdateReferralRanges(referralRangesRequest);
+                if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest($"Failed to Save or Update Referral Ranges {ex.Message}");
             }
 
         }

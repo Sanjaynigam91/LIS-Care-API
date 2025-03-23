@@ -79,7 +79,7 @@ namespace LISCareBussiness.Implementation
             var response = new TestDataResponse();
             try
             {
-                response = _testMgmtRepository.ViewTestData(partnerId,testCode);
+                response = _testMgmtRepository.ViewTestData(partnerId, testCode);
             }
             catch
             {
@@ -149,6 +149,20 @@ namespace LISCareBussiness.Implementation
             try
             {
                 response = _testMgmtRepository.UpdateTestDetails(testMasterRequest);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public async Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest)
+        {
+            var response = new APIResponseModel<string>();
+            try
+            {
+                response = await _testMgmtRepository.SaveUpdateReferralRanges(referralRangesRequest);
             }
             catch
             {
