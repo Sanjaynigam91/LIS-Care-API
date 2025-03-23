@@ -17,6 +17,6 @@ namespace LISCareBussiness.Interface
         APIResponseModel<object> SaveTestDetails(TestMasterRequest testMasterRequest);
         APIResponseModel<object> UpdateTestDetails(TestMasterRequest testMasterRequest);
         Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest);
-
+        Task<APIResponseModel<string>> DeleteReferralRanges(int referralId);
     }
 }

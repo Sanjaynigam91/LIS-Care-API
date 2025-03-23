@@ -21,8 +21,8 @@ namespace LISCareRepository.Implementation
 
         public TestMgmtRepository(IConfiguration configuration, LISCareDbContext dbContext)
         {
-            _configuration= configuration;
-            _dbContext= dbContext;
+            _configuration = configuration;
+            _dbContext = dbContext;
         }
 
         public APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode)
@@ -235,7 +235,7 @@ namespace LISCareRepository.Implementation
                 DbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                   
+
                     testData.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
                     testData.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
                     testData.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
@@ -253,7 +253,7 @@ namespace LISCareRepository.Implementation
                     testData.isActive = reader[ConstantResource.IsActive] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsActive]) : false;
                     testData.normalRangeOneline = reader[ConstantResource.NormalRangeOneline] != DBNull.Value ? Convert.ToString(reader[ConstantResource.NormalRangeOneline]) : string.Empty;
                     testData.reportTemplateName = reader[ConstantResource.ReportTemplateName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportTemplateName]) : string.Empty;
-                    testData.reportingDecimals = reader[ConstantResource.ReportingDecimals] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReportingDecimals]) :0;
+                    testData.reportingDecimals = reader[ConstantResource.ReportingDecimals] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReportingDecimals]) : 0;
                     testData.referenceUnits = reader[ConstantResource.ReferenceUnits] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReferenceUnits]) : string.Empty;
                     testData.B2CRates = reader[ConstantResource.B2CRates] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.B2CRates]) : 0;
                     testData.reportingStyle = reader[ConstantResource.ReportingStyle] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportingStyle]) : string.Empty;
@@ -263,10 +263,10 @@ namespace LISCareRepository.Implementation
                     testData.outlabCode = reader[ConstantResource.OutlabCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.OutlabCode]) : string.Empty;
                     testData.reportPrintOrder = reader[ConstantResource.ReportPrintOrder] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReportPrintOrder]) : 0;
                     testData.reportSection = reader[ConstantResource.ReportSection] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReportSection]) : string.Empty;
-                    testData.labRates = reader[ConstantResource.LabRates] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LabRates]) : 0;     
-                    testData.lowestAllowed = reader[ConstantResource.LowestAllowed] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LowestAllowed]) : 0;     
-                    testData.highestAllowed = reader[ConstantResource.HighestAllowed] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighestAllowed]) : 0;     
-                    testData.technology = reader[ConstantResource.Technology] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Technology]) : string.Empty;     
+                    testData.labRates = reader[ConstantResource.LabRates] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LabRates]) : 0;
+                    testData.lowestAllowed = reader[ConstantResource.LowestAllowed] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LowestAllowed]) : 0;
+                    testData.highestAllowed = reader[ConstantResource.HighestAllowed] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighestAllowed]) : 0;
+                    testData.technology = reader[ConstantResource.Technology] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Technology]) : string.Empty;
                     testData.printAs = reader[ConstantResource.PrintAs] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PrintAs]) : string.Empty;
                     testData.cptCode = reader[ConstantResource.CptCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.CptCode]) : string.Empty;
                     testData.calculatedValue = reader[ConstantResource.CalculatedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.CalculatedValue]) : string.Empty;
@@ -283,8 +283,8 @@ namespace LISCareRepository.Implementation
                     testData.testApplicable = reader[ConstantResource.TestApplicable] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestApplicable]) : string.Empty;
                     testData.isLMP = reader[ConstantResource.IsLMP] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsLMP]) : false;
                     testData.oldtestCode = reader[ConstantResource.OldtestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.OldtestCode]) : string.Empty;
-                    testData.isNABLApplicable = reader[ConstantResource.IsNABLApplicable] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsNABLApplicable]) :false;
-                    
+                    testData.isNABLApplicable = reader[ConstantResource.IsNABLApplicable] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsNABLApplicable]) : false;
+
                 }
             }
             catch
@@ -356,12 +356,12 @@ namespace LISCareRepository.Implementation
                 DbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpecialValueResponse special= new SpecialValueResponse();
+                    SpecialValueResponse special = new SpecialValueResponse();
                     special.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
                     special.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
                     special.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
                     special.allowedValue = reader[ConstantResource.AllowedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AllowedValue]) : string.Empty;
-                    if (Convert.ToString(reader[ConstantResource.IsAbnormal]) == "YES") 
+                    if (Convert.ToString(reader[ConstantResource.IsAbnormal]) == "YES")
                     {
                         special.isAbnormal = true;
                     }
@@ -369,7 +369,7 @@ namespace LISCareRepository.Implementation
                     {
                         special.isAbnormal = false;
                     }
-                    
+
                     special.recordId = reader[ConstantResource.RecordId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.RecordId]) : 0;
                     specialValue.Add(special);
                 }
@@ -404,7 +404,7 @@ namespace LISCareRepository.Implementation
                     centerRate.partnerCode = reader[ConstantResource.PartnerCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerCode]) : string.Empty;
                     centerRate.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
                     centerRate.partnerName = reader[ConstantResource.PartnerName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerName]) : string.Empty;
-                    centerRate.billRate = reader[ConstantResource.BillRate] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.BillRate]) :0;
+                    centerRate.billRate = reader[ConstantResource.BillRate] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.BillRate]) : 0;
                     centerRatesResponse.Add(centerRate);
                 }
             }
@@ -612,7 +612,11 @@ namespace LISCareRepository.Implementation
             }
             return response;
         }
-
+        /// <summary>
+        /// Used to Save or Update Referral Ranges
+        /// </summary>
+        /// <param name="referralRangesRequest"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest)
         {
             var response = new APIResponseModel<string>
@@ -620,14 +624,14 @@ namespace LISCareRepository.Implementation
                 StatusCode = (int)HttpStatusCode.BadRequest,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed,
-                Data=string.Empty
+                Data = string.Empty
             };
             try
             {
                 if (!string.IsNullOrEmpty(referralRangesRequest.ToString()))
                 {
                     if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
-                    _dbContext.Database.OpenConnection();
+                        _dbContext.Database.OpenConnection();
                     var command = _dbContext.Database.GetDbConnection().CreateCommand();
                     command.CommandText = ConstantResource.UspReferralRangesSaveUpdateChanges;
                     command.CommandType = CommandType.StoredProcedure;
@@ -646,7 +650,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, referralRangesRequest.PartnerId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamUpdatedBy, referralRangesRequest.UpdatedBy));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamHighCriticalValue, referralRangesRequest.HighCriticalValue));
-                  
+
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
                     {
@@ -674,17 +678,102 @@ namespace LISCareRepository.Implementation
                     };
 
                     if (parameterModel.IsSuccess)
-                    {    
+                    {
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Status = true;
-                        response.ResponseMessage = parameterModel.ErrorMessage;                       
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         response.Status = false;
                         response.ResponseMessage = parameterModel.ErrorMessage;
-                    }                   
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
+        /// Delete Referral Ranges by Referral Id
+        /// </summary>
+        /// <param name="referralId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> DeleteReferralRanges(int referralId)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (referralId > 0)
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspDeleteReferralRanges;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferralId, referralId));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = true;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = false;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.GreaterThanZero;
                 }
             }
             catch (Exception ex)
