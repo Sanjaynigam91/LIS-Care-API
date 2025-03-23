@@ -38,7 +38,8 @@
         public const string SearchAllUser = "SearchAllUser";
         public const string GetAllDepartments = "GetAllDepartments";
         public const string DeleteUserById = "DeleteUserById";
-
+        public const string AddSampleCollectedPlace = "AddSampleCollectedPlace";
+        public const string DeleteSamplePlace = "DeleteSamplePlace";
 
         #endregion
 
@@ -51,6 +52,12 @@
         public const string CreateNewMetaDataTag = "CreateNewMetaDataTag";
         public const string UpdateMetaDataTag = "UpdateMetaDataTag";
         public const string GetMetaTagById = "GetMetaTagById";
+        public const string GetReportTemplates = "GetReportTemplates";
+        public const string GetReportingStyle = "GetReportingStyle";
+        public const string GetSpecimenType = "GetSpecimenType";
+        public const string GetDepartments = "GetDepartments";
+        public const string GetSubTestDepartments = "GetSubTestDepartments";
+
 
         #endregion
 
@@ -85,7 +92,21 @@
 
         #region Sample Collection Module
         public const string GetSampleCollectedPlaces = "GetSampleCollectedPlaces";
+        public const string GetLabTestInfo = "GetLabTestInfo";
+        public const string GetTestDepartments = "GetTestDepartments";
+        public const string GetTestByTestCode = "GetTestByTestCode";
+        public const string DeleteTest = "DeleteTest";
+        public const string SearchTests = "SearchTests";
+        public const string GetReferalRangeByTestCode = "GetReferalRangeByTestCode";
+        public const string GetSpecialValueByTestCode = "GetSpecialValueByTestCode";
+        public const string GetCenterRateByTestCode = "GetCenterRateByTestCode";
+        public const string CreateTest = "CreateTest";
+        public const string UpdateTest = "UpdateTest";
+
+
+
         #endregion
+
 
         #endregion
 
@@ -156,8 +177,37 @@
         public const string ParamCriteria = "@Criteria";
         public const string ParamIsActive = "@IsActive";
         public const string ParamPageId = "@PageId";
+        public const string ParamSamplePlace = "@SamplePlace";
+        public const string ParamUpdatedBy = "@UpdatedBy";
+        public const string ParamTestName = "@TestName";
+        public const string ParamDeptOrDiscipline = "@DeptOrDiscipline";
+        public const string ParamisProcessedAt = "@isProcessedAt";
+        public const string ParamTestCode = "@TestCode";
+        public const string ParamSubDepartment = "@SubDepartment";
+        public const string ParamMethodology = "@Methodology";
+        public const string ParamSpecimenType = "@SpecimenType";
+        public const string ParamReferenceUnits = "@ReferenceUnits";
+        public const string ParamReportingStyle = "@ReportingStyle";
+        public const string ParamReportTemplateName = "@ReportTemplateName";
+        public const string ParamReportingDecimals = "@ReportingDecimals";
+        public const string ParamIsOutlab = "@IsOutlab";
+        public const string ParamPrintSequence = "@PrintSequence";
+        public const string ParamIsReserved = "@IsReserved";
+        public const string ParamTestShortName = "@TestShortName";
+        public const string ParamPatientRate = "@PatientRate";
+        public const string ParamClientRate = "@ClientRate";
+        public const string ParamLabRate= "@LabRate";
+        public const string ParamStatus= "@Status";
+        public const string ParamAnalyzerName= "@AnalyzerName";
+        public const string ParamIsAutomated= "@IsAutomated";
+        public const string ParamIsCalculated= "@IsCalculated";
+        public const string ParamLabTestCode= "@LabTestCode";
+        public const string ParamTestApplicable= "@TestApplicable";
+        public const string ParamIsLMP= "@IsLMP";
+        public const string ParamIsNABLApplicable= "@IsNABLApplicable";
+        public const string ParamReferelRangeComments= "@ReferelRangeComments";
 
-
+       
 
         #endregion
 
@@ -211,6 +261,72 @@
         public const string Criteria = "Criteria";
         public const string IsActive = "IsActive";
         public const string SampleCollectedAt = "SampleCollectedAt";
+        public const string TestCode = "test_code";
+        public const string TestName = "test_name";
+        public const string SpecimenType = "specimen_type";
+        public const string ContainerType = "Container_Type";
+        public const string SpecimenVolume = "Specimen_Volume";
+        public const string TransportConditions = "Transport_Conditions";
+        public const string ReferenceUnits = "Reference_units";
+        public const string Discipline = "Discipline";
+        public const string MRP = "MRP";
+        public const string B2CRates = "B2C_Rates";
+        public const string LabRates = "lab_rates";
+        public const string ReportingStyle = "reporting_Style";
+        public const string PrintAs = "PrintAs";
+        public const string AliasName = "AliasName";
+        public const string ReportTemplateName = "report_template_name";
+        public const string SubDiscipline = "Sub_Discipline";
+        public const string TestDepartment = "Test_Department";
+        public const string Methodology = "Methodology";
+        public const string AnalyzerName = "Analyzer_Name";
+        public const string IsAutomated = "IsAutomated";
+        public const string IsCalculated = "IsCalculated";
+        public const string ReportingLeadTime = "Reporting_Lead_Time";
+        public const string NormalRangeOneline = "normal_range_oneline";
+        public const string ReportingDecimals = "Reporting_Decimals";
+        public const string ScheduledDays = "Scheduled_Days";
+        public const string IsReserved = "IsReserved";
+        public const string IsOutlab = "IsOutlab";
+        public const string OutlabCode = "Outlab_Code";
+        public const string ReportPrintOrder = "report_print_order";
+        public const string ReportSection = "ReportSection";
+        public const string LowestAllowed = "LowestAllowed";
+        public const string HighestAllowed = "HighestAllowed";
+        public const string Technology = "technology";
+        public const string CptCode = "CptCode";
+        public const string CalculatedValue = "CalculatedValue";
+        public const string NormalRangeFooter = "normal_range_footer";
+        public const string DepartmentWiseNumbers = "DepartmentWiseNumbers";
+        public const string TestShortName = "TestShortName";
+        public const string Modality = "Modality";
+        public const string DefaultFilmCount = "DefaultFilmCount";
+        public const string DefaultContrastML = "DefaultContrastML";
+        public const string TestProfitRate = "TestProfitRate";
+        public const string LabTestCode = "LabTestCode";
+        public const string TestApplicable = "TestApplicable";
+        public const string IsLMP = "IsLMP";
+        public const string OldtestCode = "Oldtest_code";
+        public const string IsNABLApplicable = "IsNABLApplicable";
+        public const string ReferralId = "Referral_Id";
+        public const string Gender = "Gender";
+        public const string LowRange = "Low_Range";
+        public const string HighRange = "High_Range";
+        public const string NormalRange = "Normal_Range";
+        public const string AgeFrom = "AgeFrom";
+        public const string AgeTo = "AgeTo";
+        public const string IsPregnant = "isPregnant";
+        public const string CriticalValue = "CriticalValue";
+        public const string AgeUnits = "AgeUnits";
+        public const string HighCriticalValue = "HighCriticalValue";
+        public const string LabTest = "LabTest";
+        public const string AllowedValue = "Allowed_value";
+        public const string IsAbnormal = "IsAbnormal";
+        public const string PartnerCode = "PartnerCode";
+        public const string PartnerName = "PartnerName";
+        public const string BillRate = "Bill_Rate";
+
+
 
 
         #endregion
@@ -222,6 +338,7 @@
         public const string TagDescription = "TagDescription";
         public const string TagStatus = "TagStatus";
         public const string RecordId = "RecordId";
+       
         #endregion
 
         #region Global Role Access
@@ -243,7 +360,6 @@
         #endregion
 
         #endregion
-
 
         #region SQL Store Procedures
 
@@ -312,8 +428,28 @@
 
         #region Sample CollectedAt Module
         public const string UspGetAllSampleCollectedPlaces = "Usp_GetAllSampleCollectedPlaces";
+        public const string AddSampleCollectedPlaces = "AddSampleCollectedPlaces";
+        public const string RemoveSamplePlace = "RemoveSamplePlace";
 
-        
+        #endregion
+
+        #region Test Master data
+        public const string UspGetTestMasterData = "Usp_Get_TestMaster_Data";
+        public const string UspRetrieveTestDepartments = "Usp_Retrieve_Test_Departments";
+        public const string UspRetrieveTestByTestCode = "Usp_Retrieve_TestData_ByTestCode";
+        public const string UspDeleteTestRecord = "Usp_Delete_TestRecord";
+        public const string UspSearchTestData = "Usp_Search_TestData";
+        public const string UspGetReportTemplates = "Usp_Get_Report_Templates";
+        public const string UspGetReportingStyle = "Usp_Get_Reporting_Style";
+        public const string UspGetSpecimenType = "Usp_Get_Specimen_Type";
+        public const string UspGetTestDepartments = "Usp_Get_Test_Departments";
+        public const string UspGetTestSubdepartments = "Usp_Get_Test_Subdepartments";
+        public const string UspGetReferalRangesByTestCode = "Usp_Get_Referal_Ranges_ByTestCode";
+        public const string UspGetSpecialValues = "usp_Get_Special_values";
+        public const string UspRetrieveAllCCRates = "Usp_Retrieve_AllCCRates";
+        public const string UspSaveTestMasterDetails = "Usp_Save_TestMaster_Details";
+        public const string UspUpdateTestDetails = "Usp_Update_TestDetails";
+
         #endregion
 
         #endregion
@@ -337,7 +473,10 @@
         public readonly static string DelUserSuccess = "User Deleted Successfully ,User Master";
         public readonly static string DelRoleSuccess = "Role Deleted Successfully ,Role Master";
         public readonly static string PageSuccess = "Lis Page save Succssfully ,Lis Page Master";
-
+        public readonly static string DelSampleSuccess = "Sample Place has been deleted sucessfully ,Sample Collected Place";
+        public readonly static string AddSampleSuccess = "Sample Place has been save sucessfully ,Sample Collected Place";
+        public readonly static string DelTestSuccess = "Test data Deleted Successfully ,Test Master";
+        public readonly static string AddTestSuccess = "Test has been created Successfully ,Test Master";
 
         #endregion
     }

@@ -243,6 +243,148 @@ namespace LISCareLimited.Controllers
             }
 
         }
+        /// <summary>
+        /// This API is used to Get Report Templates
+        /// </summary>
+        /// <returns>List<IActionResult></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetReportTemplates)]
+        public IActionResult GetReportTemplates(string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _metaData.GetReportTemplates(partnerId);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
 
+        }
+        /// <summary>
+        /// This API is used to Get Report Templates
+        /// </summary>
+        /// <returns>List<IActionResult></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetReportingStyle)]
+        public IActionResult GetReportingStyle(string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _metaData.GetReportingStyle(partnerId);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
+        /// <summary>
+        /// This API is used to Get Report Templates
+        /// </summary>
+        /// <returns>List<IActionResult></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetSpecimenType)]
+        public IActionResult GetSpecimenType(string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _metaData.GetSpecimenType(partnerId);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+       
+        /// <summary>
+        /// This API is used to Get Report Templates
+        /// </summary>
+        /// <returns>List<IActionResult></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetSubTestDepartments)]
+        public IActionResult GetSubTestDepartments(string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _metaData.GetSubTestDepartments(partnerId);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
+
+        /// <summary>
+        /// This API is used to Get Report Templates
+        /// </summary>
+        /// <returns>List<IActionResult></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetDepartments)]
+        public IActionResult GetTestDepartments(string partnerId)
+        {
+            APIResponseModel<object> responseModel = new APIResponseModel<object>();
+            var result = _metaData.GetTestDepartments(partnerId);
+            if (result.Count > 0)
+            {
+                responseModel.Status = true;
+                responseModel.StatusCode = 200;
+                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Data = result;
+                return Ok(responseModel);
+            }
+            else
+            {
+                responseModel.Status = false;
+                responseModel.StatusCode = 400;
+                responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
+                responseModel.Data = result;
+                return NotFound(responseModel);
+            }
+
+        }
     }
 }
