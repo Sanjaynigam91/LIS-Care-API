@@ -102,8 +102,8 @@
         public const string GetCenterRateByTestCode = "GetCenterRateByTestCode";
         public const string CreateTest = "CreateTest";
         public const string UpdateTest = "UpdateTest";
-
-
+        public const string SaveUpdateReferralRanges = "SaveUpdateReferralRanges";
+        public const string DeleteReferralRanges = "DeleteReferralRanges";
 
         #endregion
 
@@ -449,7 +449,8 @@
         public const string UspRetrieveAllCCRates = "Usp_Retrieve_AllCCRates";
         public const string UspSaveTestMasterDetails = "Usp_Save_TestMaster_Details";
         public const string UspUpdateTestDetails = "Usp_Update_TestDetails";
-
+        public const string UspReferralRangesSaveUpdateChanges = "Usp_ReferralRanges_SaveUpdateChanges";
+        public const string UspDeleteReferralRanges = "Usp_Delete_Referral_Ranges";
         #endregion
 
         #endregion
@@ -477,7 +478,20 @@
         public readonly static string AddSampleSuccess = "Sample Place has been save sucessfully ,Sample Collected Place";
         public readonly static string DelTestSuccess = "Test data Deleted Successfully ,Test Master";
         public readonly static string AddTestSuccess = "Test has been created Successfully ,Test Master";
-
+        // Add these constants to the ConstantResource class to fix CS0117 errors
+        public const string ParamOpType = "@OpType";
+        public const string ParamReferralId = "@ReferralId";
+        public const string ParamRefTestCode = "@RefTestCode";
+        public const string ParamLowRange = "@LowRange";
+        public const string ParamHighRange = "@HighRange";
+        public const string ParamNormalRange = "@NormalRange";
+        public const string ParamAgeFrom = "@AgeFrom";
+        public const string ParamAgeTo = "@AgeTo";
+        public const string ParamGender = "@Gender";
+        public const string ParamIsPregnant = "@IsPregnant";
+        public const string ParamCriticalValue = "@CriticalValue";
+        public const string ParamHighCriticalValue = "@HighCriticalValue";
+        public const string GreaterThanZero = "Referral Id must be greater than zero.";
         #endregion
     }
 }
