@@ -45,7 +45,7 @@ namespace LISCareLimited.Controllers
                 responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
                 responseModel.Data = result;
                 return NotFound(responseModel);
-               
+
             }
 
         }

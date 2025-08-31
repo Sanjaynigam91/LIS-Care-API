@@ -325,7 +325,7 @@
         public const string PartnerCode = "PartnerCode";
         public const string PartnerName = "PartnerName";
         public const string BillRate = "Bill_Rate";
-
+        public const string RoletypeId = "RoletypeId";
 
 
 
