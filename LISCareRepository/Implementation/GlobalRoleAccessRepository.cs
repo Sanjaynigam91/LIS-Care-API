@@ -373,8 +373,9 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     RoleTypeResponseModel lISRoleType = new RoleTypeResponseModel();
-                    lISRoleType.roleType = Convert.ToString(reader[ConstantResource.RoleType]);
-                    response.Add(lISRoleType);
+                    lISRoleType.RoletypeId = Convert.ToInt32(reader[ConstantResource.RoletypeId]);
+                    lISRoleType.RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty;
+                    response.Add(lISRoleType);  
                 }
             }
             catch
@@ -451,11 +452,10 @@ namespace LISCareRepository.Implementation
                 {
                     RoleResponseModel lISRole = new RoleResponseModel();
                     lISRole.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    lISRole.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
+                    lISRole.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
                     response.Add(lISRole);
                 }
-            }
-            catch
+            }catch
             {
                 throw;
             }

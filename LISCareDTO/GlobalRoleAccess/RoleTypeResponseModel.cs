@@ -2,6 +2,7 @@
 {
     public class RoleTypeResponseModel
     {
-        public string roleType {  get; set; }
+        public int RoletypeId { get; set; }
+        public string RoleType { get; set; } = string.Empty;
     }
 }
