@@ -24,7 +24,7 @@ namespace LISCareReposotiory.Implementation
         private LISCareDbContext _dbContext;
         private readonly UploadImagePath _uploadImagePath;
 
-        public UserRepository(IConfiguration configuration, LISCareDbContext _DbContext,IOptions<UploadImagePath> upldImagePath)
+        public UserRepository(IConfiguration configuration, LISCareDbContext _DbContext, IOptions<UploadImagePath> upldImagePath)
         {
             _configuration = configuration;
             _dbContext = _DbContext;
@@ -59,7 +59,7 @@ namespace LISCareReposotiory.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.MobileNumber, signUpRequest.MobileNumber.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.RoleId, signUpRequest.RoleId));
                     var partnerId = Common.GeneratePartnerId(); // Generate a 06-character long partner ID
-                    command.Parameters.Add(new SqlParameter(ConstantResource.PartnerId, partnerId.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
 
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
@@ -82,7 +82,7 @@ namespace LISCareReposotiory.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -239,7 +239,7 @@ namespace LISCareReposotiory.Implementation
                     response.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]);
                     response.DepartmentId = Convert.ToInt32(reader[ConstantResource.DepartmentId]);
                     response.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]);
-                    if (reader[ConstantResource.UserLogoPrefix]!="")
+                    if (reader[ConstantResource.UserLogoPrefix] != "")
                     {
                         var imgPath = _uploadImagePath.FolderPath + Convert.ToString(reader[ConstantResource.UserLogo]);
                         var profileImage = Common.ConvertImageToBase64(imgPath);
@@ -283,23 +283,20 @@ namespace LISCareReposotiory.Implementation
                 while (reader.Read())
                 {
                     loginResponse.UserId = Convert.ToInt32(reader[ConstantResource.UserId]);
-                    loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]);
-                    var userPassword = Common.Base64Decode(Convert.ToString(reader[ConstantResource.UserPassword]));
+                    loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]) ?? string.Empty;
+                    var userPassword = Common.Base64Decode(Convert.ToString(reader[ConstantResource.UserPassword]) ?? string.Empty);
                     loginResponse.Password = userPassword;
-                    // loginResponse.AccountStatus = Convert.ToString(reader[ConstantResource.AccountStatus]);
                     loginResponse.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]);
-                    loginResponse.Email = Convert.ToString(reader[ConstantResource.UserEmail]);
-                    loginResponse.RoleType = Convert.ToString(reader[ConstantResource.RoleType]);
-                    loginResponse.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
-                    //   loginResponse.UserLogo = Configuration[ConstantResource.AppSettingsbaseUrl] + Convert.ToString(reader["UserLogo"]);
-                    loginResponse.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]);
-                    loginResponse.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]);
-                    loginResponse.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
+                    loginResponse.Email = Convert.ToString(reader[ConstantResource.UserEmail]) ?? string.Empty;
+                    loginResponse.RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty;
+                    loginResponse.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
+                    loginResponse.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty;
+                    loginResponse.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty;
+                    loginResponse.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
                     string token = Common.GenerateToken(loginResponse.Email, loginResponse.RoleType, this._configuration);
                     loginResponse.Token = token;
                     loginResponse.Expires_in = DateTime.Now.AddMinutes(Convert.ToDouble(ConstantResource.tokenExpirationTime));
-                    if (reader[ConstantResource.UserLogoPrefix] != "")
+                    if (Convert.ToString(reader[ConstantResource.UserLogoPrefix]) != "")
                     {
                         var imgPath = _uploadImagePath.FolderPath + Convert.ToString(reader[ConstantResource.UserLogo]);
                         var profileImage = Common.ConvertImageToBase64(imgPath);
@@ -855,16 +852,16 @@ namespace LISCareReposotiory.Implementation
                 if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
                     _dbContext.Database.OpenConnection();
                 var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
-                cmd.CommandText = ConstantResource.UspGetAllDepartment;               
+                cmd.CommandText = ConstantResource.UspGetAllDepartment;
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 DbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    LabDepartmentResponse labDepartment  = new LabDepartmentResponse();
+                    LabDepartmentResponse labDepartment = new LabDepartmentResponse();
                     labDepartment.DepartmentId = Convert.ToInt32(reader[ConstantResource.DepartmentId]);
                     labDepartment.DepartmentName = Convert.ToString(reader[ConstantResource.DepartmentName]);
-                    
+
                     response.Add(labDepartment);
                 }
 
@@ -988,7 +985,7 @@ namespace LISCareReposotiory.Implementation
 
                     command.Parameters.Add(new SqlParameter(ConstantResource.UserUniqueId, userId.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamDeletedById, delById.Trim()));
-                   
+
 
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
