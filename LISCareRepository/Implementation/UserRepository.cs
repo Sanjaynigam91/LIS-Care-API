@@ -90,15 +90,15 @@ namespace LISCareReposotiory.Implementation
                     if (parameterModel.IsSuccess)
 
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.Success;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -178,19 +178,19 @@ namespace LISCareReposotiory.Implementation
                 {
                     LoginResponseModel loginResponse = new LoginResponseModel();
                     loginResponse.UserId = Convert.ToInt32(reader[ConstantResource.UserId]);
-                    loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]);
-                    var userPassword = Common.Base64Decode(Convert.ToString(reader[ConstantResource.UserPassword]));
+                    loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]) ?? string.Empty;
+                    var userPassword = Common.Base64Decode(Convert.ToString(reader[ConstantResource.UserPassword]) ?? string.Empty);
                     loginResponse.Password = userPassword;
                     loginResponse.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    loginResponse.Email = Convert.ToString(reader[ConstantResource.UserEmail]);
-                    loginResponse.RoleType = Convert.ToString(reader[ConstantResource.RoleType]);
-                    loginResponse.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
+                    loginResponse.Email = Convert.ToString(reader[ConstantResource.UserEmail]) ?? string.Empty;
+                    loginResponse.RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty;
+                    loginResponse.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
                     loginResponse.IsMobileVerified = Convert.ToBoolean(reader[ConstantResource.IsMobileVerified]);
                     loginResponse.IsEmailVerified = Convert.ToBoolean(reader[ConstantResource.IsEmailVerified]);
                     //  response.UserLogo = Configuration[ConstantResources.AppSettingsbaseUrl] + Convert.ToString(reader["UserLogo"]);
-                    loginResponse.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]);
-                    loginResponse.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]);
-                    loginResponse.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
+                    loginResponse.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty;
+                    loginResponse.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty;
+                    loginResponse.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
                     response.Add(loginResponse);
                 }
 
@@ -860,8 +860,7 @@ namespace LISCareReposotiory.Implementation
                 {
                     LabDepartmentResponse labDepartment = new LabDepartmentResponse();
                     labDepartment.DepartmentId = Convert.ToInt32(reader[ConstantResource.DepartmentId]);
-                    labDepartment.DepartmentName = Convert.ToString(reader[ConstantResource.DepartmentName]);
-
+                    labDepartment.DepartmentName = Convert.ToString(reader[ConstantResource.DepartmentName]) ?? string.Empty;
                     response.Add(labDepartment);
                 }
 
@@ -913,6 +912,7 @@ namespace LISCareReposotiory.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamUserLogoPrefix, userlogoPrefix.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmCreatedById, partnerUser.CreatedById.Trim()));
 
+                   
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
                     {
@@ -934,7 +934,7 @@ namespace LISCareReposotiory.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -942,15 +942,15 @@ namespace LISCareReposotiory.Implementation
                     if (parameterModel.IsSuccess)
 
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.Success;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }

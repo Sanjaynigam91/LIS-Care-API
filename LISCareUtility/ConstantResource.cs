@@ -142,6 +142,7 @@
         public const string ParamAccountId = "@AccountId";
         public const string ParamCreatedBy = "@CreatedBy";
         public const string ParamDepartment = "@Department";
+        public const string ParamDepartmentId = "@DepartmentId";
         public const string ParamOwnerId = "@ownerId";
         public const string ParamCategory = "@category";
         public const string ParamItemType = "@itemType";

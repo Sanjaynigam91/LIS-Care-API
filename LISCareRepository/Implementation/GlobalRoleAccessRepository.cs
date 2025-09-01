@@ -141,7 +141,7 @@ namespace LISCareRepository.Implementation
                 {
                     LabRolesResponse labRoles = new LabRolesResponse();
                     labRoles.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    labRoles.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
+                    labRoles.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
                     response.Add(labRoles);
                 }
             }

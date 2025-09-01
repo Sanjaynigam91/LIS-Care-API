@@ -46,8 +46,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleName, lISRoleRequest.RoleName.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.RoleStatus, lISRoleRequest.RoleStatus.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleType, lISRoleRequest.RoleType.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, lISRoleRequest.Department.Trim()));
-
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, (lISRoleRequest.Department ?? string.Empty).Trim()));
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
                     {
@@ -69,7 +68,7 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -191,16 +190,17 @@ namespace LISCareRepository.Implementation
                 cmd.CommandText = ConstantResource.UspGetAllLISRoles;
                 cmd.CommandType = CommandType.StoredProcedure;
 
+
                 DbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     LISRoleResponseModel lISRole = new LISRoleResponseModel();
                     lISRole.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    lISRole.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
-                    lISRole.RoleCode = Convert.ToString(reader[ConstantResource.RoleCode]);
-                    lISRole.RoleType = Convert.ToString(reader[ConstantResource.RoleType]);
-                    lISRole.Department = Convert.ToString(reader[ConstantResource.Department]);
-                    lISRole.RoleStatus = Convert.ToString(reader[ConstantResource.RoleStatus]);
+                    lISRole.RoleName = reader[ConstantResource.RoleName] as string ?? string.Empty;
+                    lISRole.RoleCode = reader[ConstantResource.RoleCode] as string ?? string.Empty;
+                    lISRole.RoleType = reader[ConstantResource.RoleType] as string ?? string.Empty;
+                    lISRole.Department = reader[ConstantResource.Department] as string ?? string.Empty;
+                    lISRole.RoleStatus = reader[ConstantResource.RoleStatus] as string ?? string.Empty;
                     response.Add(lISRole);
                 }
             }
@@ -272,7 +272,7 @@ namespace LISCareRepository.Implementation
                     lISRole.RoleCode = Convert.ToString(reader[ConstantResource.RoleCode]);
                     lISRole.RoleType = Convert.ToString(reader[ConstantResource.RoleType]);
                     lISRole.Department = Convert.ToString(reader[ConstantResource.Department]);
-                    lISRole.RoleStatus = Convert.ToString(reader[ConstantResource.RoleStatus]);   
+                    lISRole.RoleStatus = Convert.ToString(reader[ConstantResource.RoleStatus]);
                 }
             }
             catch
@@ -296,13 +296,13 @@ namespace LISCareRepository.Implementation
             };
             try
             {
-                if (roleId>0)
+                if (roleId > 0)
                 {
                     var command = _dbContext.Database.GetDbConnection().CreateCommand();
                     command.CommandText = ConstantResource.UspDeleteRolebyId;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.RoleId, roleId));
-                
+
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
                     {
