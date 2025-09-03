@@ -600,7 +600,7 @@ namespace LISCareReposotiory.Implementation
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         response.Status = parameterModel.IsError;
-                        response.ResponseMessage = parameterModel.ErrorMessage; 
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -964,7 +964,7 @@ namespace LISCareReposotiory.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.NotFound,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -1002,7 +1002,7 @@ namespace LISCareReposotiory.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -1010,15 +1010,15 @@ namespace LISCareReposotiory.Implementation
                     if (parameterModel.IsSuccess)
 
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.DelUserSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
