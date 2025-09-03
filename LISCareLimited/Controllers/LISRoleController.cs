@@ -30,19 +30,19 @@ namespace LISCareLimited.Controllers
             var result = _lISRole.AddNewLISRole(lISRoleRequest);
             if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
             {
-                responseModel.Status = true;
-                responseModel.StatusCode = 200;
-                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
+                responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = result;
                 return Ok(responseModel);
             }
             else
             {
-                responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = (int)HttpStatusCode.BadRequest;
                 responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = result;
-                return NotFound(responseModel);
+                return BadRequest(responseModel);
             }
 
         }
@@ -58,19 +58,19 @@ namespace LISCareLimited.Controllers
             var result = _lISRole.UpdateLISRole(lISRoleUpdate);
             if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
             {
-                responseModel.Status = true;
-                responseModel.StatusCode = 200;
-                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
+                responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = result;
                 return Ok(responseModel);
             }
             else
             {
-                responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = (int)HttpStatusCode.BadRequest;
                 responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = result;
-                return NotFound(responseModel);
+                return BadRequest(responseModel);
             }
 
         }
@@ -87,7 +87,7 @@ namespace LISCareLimited.Controllers
             if (result.Count > 0)
             {
                 responseModel.Status = true;
-                responseModel.StatusCode = 200;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
                 responseModel.ResponseMessage = ConstantResource.Success;
                 responseModel.Data = result;
                 return Ok(responseModel);
@@ -95,7 +95,7 @@ namespace LISCareLimited.Controllers
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)HttpStatusCode.NotFound;
                 responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
                 responseModel.Data = result;
                 return NotFound(responseModel);
@@ -115,7 +115,7 @@ namespace LISCareLimited.Controllers
             if (result.Count > 0)
             {
                 responseModel.Status = true;
-                responseModel.StatusCode = 200;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
                 responseModel.ResponseMessage = ConstantResource.Success;
                 responseModel.Data = result;
                 return Ok(responseModel);
@@ -123,7 +123,7 @@ namespace LISCareLimited.Controllers
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)HttpStatusCode.NotFound;
                 responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
                 responseModel.Data = result;
                 return NotFound(responseModel);
@@ -143,7 +143,7 @@ namespace LISCareLimited.Controllers
             if (result.RoleId > 0)
             {
                 responseModel.Status = true;
-                responseModel.StatusCode = 200;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
                 responseModel.ResponseMessage = ConstantResource.Success;
                 responseModel.Data = result;
                 return Ok(responseModel);
@@ -151,7 +151,7 @@ namespace LISCareLimited.Controllers
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)HttpStatusCode.NotFound;
                 responseModel.ResponseMessage = ConstantResource.RoleNotExists;
                 responseModel.Data = result;
                 return NotFound(responseModel);
@@ -167,19 +167,19 @@ namespace LISCareLimited.Controllers
             var result = _lISRole.RoleDeletedById(roleId);
             if (result.Status && result.StatusCode == (int)HttpStatusCode.OK)
             {
-                responseModel.Status = true;
-                responseModel.StatusCode = 200;
-                responseModel.ResponseMessage = ConstantResource.Success;
+                responseModel.Status = result.Status;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
+                responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = result;
                 return Ok(responseModel);
             }
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)HttpStatusCode.BadRequest;
                 responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = result;
-                return NotFound(responseModel);
+                return BadRequest(responseModel);
             }
 
         }
