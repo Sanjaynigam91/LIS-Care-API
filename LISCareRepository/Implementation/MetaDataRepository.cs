@@ -539,8 +539,8 @@ namespace LISCareRepository.Implementation
                     if (!string.IsNullOrEmpty(partnerId))
                     {
                         MetaTagResponse templates = new MetaTagResponse();
-                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
-                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]) ?? string.Empty;
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]) ?? string.Empty;
                         response.Add(templates);
                     }
                 }
@@ -602,7 +602,7 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value)??string.Empty,
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
