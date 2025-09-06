@@ -46,8 +46,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleName, lISRoleRequest.RoleName.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.RoleStatus, lISRoleRequest.RoleStatus.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleType, lISRoleRequest.RoleType.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, lISRoleRequest.Department.Trim()));
-
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, (lISRoleRequest.Department ?? string.Empty).Trim()));
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
                     {
@@ -69,22 +68,22 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.LISRoleSuccessMsg;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -107,7 +106,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.NotFound,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -119,11 +118,11 @@ namespace LISCareRepository.Implementation
                     command.CommandText = ConstantResource.UspUpdateLISRole;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleId, lISRoleUpdate.RoleId));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleCode, lISRoleUpdate.RoleCode.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleName, lISRoleUpdate.RoleName.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.RoleStatus, lISRoleUpdate.RoleStatus.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleType, lISRoleUpdate.RoleType.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, lISRoleUpdate.Department.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleCode, (lISRoleUpdate.RoleCode ?? string.Empty).Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleName, (lISRoleUpdate.RoleName ?? string.Empty).Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleStatus, lISRoleUpdate.RoleStatus.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRoleType, (lISRoleUpdate.RoleType ?? string.Empty).Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, (lISRoleUpdate.Department ?? string.Empty).Trim()));
 
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
@@ -146,22 +145,22 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.LISRoleUpdateMsg;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -191,16 +190,17 @@ namespace LISCareRepository.Implementation
                 cmd.CommandText = ConstantResource.UspGetAllLISRoles;
                 cmd.CommandType = CommandType.StoredProcedure;
 
+
                 DbDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     LISRoleResponseModel lISRole = new LISRoleResponseModel();
                     lISRole.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    lISRole.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
-                    lISRole.RoleCode = Convert.ToString(reader[ConstantResource.RoleCode]);
-                    lISRole.RoleType = Convert.ToString(reader[ConstantResource.RoleType]);
-                    lISRole.Department = Convert.ToString(reader[ConstantResource.Department]);
-                    lISRole.RoleStatus = Convert.ToString(reader[ConstantResource.RoleStatus]);
+                    lISRole.RoleName = reader[ConstantResource.RoleName] as string ?? string.Empty;
+                    lISRole.RoleCode = reader[ConstantResource.RoleCode] as string ?? string.Empty;
+                    lISRole.RoleType = reader[ConstantResource.RoleType] as string ?? string.Empty;
+                    lISRole.Department = reader[ConstantResource.Department] as string ?? string.Empty;
+                    lISRole.RoleStatus = reader[ConstantResource.RoleStatus] as string ?? string.Empty;
                     response.Add(lISRole);
                 }
             }
@@ -268,11 +268,11 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     lISRole.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    lISRole.RoleName = Convert.ToString(reader[ConstantResource.RoleName]);
-                    lISRole.RoleCode = Convert.ToString(reader[ConstantResource.RoleCode]);
-                    lISRole.RoleType = Convert.ToString(reader[ConstantResource.RoleType]);
-                    lISRole.Department = Convert.ToString(reader[ConstantResource.Department]);
-                    lISRole.RoleStatus = Convert.ToString(reader[ConstantResource.RoleStatus]);   
+                    lISRole.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
+                    lISRole.RoleCode = Convert.ToString(reader[ConstantResource.RoleCode]) ?? string.Empty;
+                    lISRole.RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty;
+                    lISRole.Department = Convert.ToString(reader[ConstantResource.Department]) ?? string.Empty;
+                    lISRole.RoleStatus = Convert.ToString(reader[ConstantResource.RoleStatus]) ?? string.Empty;
                 }
             }
             catch
@@ -296,13 +296,13 @@ namespace LISCareRepository.Implementation
             };
             try
             {
-                if (roleId>0)
+                if (roleId > 0)
                 {
                     var command = _dbContext.Database.GetDbConnection().CreateCommand();
                     command.CommandText = ConstantResource.UspDeleteRolebyId;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.RoleId, roleId));
-                
+
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
                     {
@@ -324,21 +324,21 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.DelRoleSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }

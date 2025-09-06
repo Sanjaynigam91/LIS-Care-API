@@ -142,11 +142,12 @@
         public const string ParamAccountId = "@AccountId";
         public const string ParamCreatedBy = "@CreatedBy";
         public const string ParamDepartment = "@Department";
+        public const string ParamDepartmentId = "@DepartmentId";
         public const string ParamOwnerId = "@ownerId";
-        public const string ParamCategory = "@category";
-        public const string ParamItemType = "@itemType";
-        public const string ParamItemDescription = "@itemDescription";
-        public const string ParamRecordId = "@recordId";
+        public const string ParamCategory = "@Category";
+        public const string ParamItemType = "@ItemType";
+        public const string ParamItemDescription = "@ItemDescription";
+        public const string ParamRecordId = "@RecordId";
         public const string ParamTagCode = "@tagCode";
         public const string ParamTagDescription = "@tagDescription";
         public const string ParamTagStatus = "@TagStatus";
@@ -170,7 +171,7 @@
         public const string ParamUserLogoPrefix = "@UserLogoPrefix";
         public const string ParamModifiedById = "@ModifiedById";
         public const string ParamDeletedById = "@DeletedById";
-        public const string ParamTagId = "@tagId";
+        public const string ParamTagId = "@TagId";
         public const string ParamNavigationId = "@NavigationId";
         public const string ParamPageName = "@PageName";
         public const string ParamPageEntity = "@PageEntity";
@@ -401,7 +402,7 @@
         public const string UspDeleteMasterList = "Usp_DeleteMasterList";
         public const string UspCreateNewTag = "Usp_CreateNewTag";
         public const string UspUpdateTag = "Usp_UpdateTag";
-        public const string UspGetTagsByTagId = "getTagsByTagId";
+        public const string UspGetTagsByTagId = "Usp_GetTagsByTagId";
 
         #endregion
 
@@ -428,8 +429,8 @@
 
         #region Sample CollectedAt Module
         public const string UspGetAllSampleCollectedPlaces = "Usp_GetAllSampleCollectedPlaces";
-        public const string AddSampleCollectedPlaces = "AddSampleCollectedPlaces";
-        public const string RemoveSamplePlace = "RemoveSamplePlace";
+        public const string UspAddSampleCollectedPlaces = "Usp_AddSampleCollectedPlaces";
+        public const string UspRemoveSamplePlace = "Usp_RemoveSamplePlace"; 
 
         #endregion
 

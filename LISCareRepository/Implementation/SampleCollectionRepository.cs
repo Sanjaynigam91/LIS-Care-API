@@ -20,8 +20,8 @@ namespace LISCareRepository.Implementation
 
         public SampleCollectionRepository(IConfiguration configuration, LISCareDbContext _DbContext)
         {
-            _configuration=configuration;
-            _dbContext=_DbContext;
+            _configuration = configuration;
+            _dbContext = _DbContext;
         }
         public List<SampleCollectedAtResponse> GetSampleCollectedPlace(string partnerId)
         {
@@ -38,8 +38,8 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     SampleCollectedAtResponse sample = new SampleCollectedAtResponse();
-                    sample.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
-                    sample.SampleCollectedPlaceName = Convert.ToString(reader[ConstantResource.SampleCollectedAt]);
+                    sample.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
+                    sample.SampleCollectedPlaceName = Convert.ToString(reader[ConstantResource.SampleCollectedAt]) ?? string.Empty;
                     sample.RecordId = Convert.ToInt32(reader[ConstantResource.RecordId]);
                     response.Add(sample);
                 }
@@ -60,7 +60,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)(HttpStatusCode.BadRequest),
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -69,7 +69,7 @@ namespace LISCareRepository.Implementation
                 if (!string.IsNullOrEmpty(sampleCollected.ToString()))
                 {
                     var command = _dbContext.Database.GetDbConnection().CreateCommand();
-                    command.CommandText = ConstantResource.AddSampleCollectedPlaces;
+                    command.CommandText = ConstantResource.UspAddSampleCollectedPlaces;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, sampleCollected.PartnerId.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamSamplePlace, sampleCollected.SampleColletedPlace.Trim()));
@@ -95,21 +95,21 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.AddSampleSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.NotFound,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -137,7 +137,7 @@ namespace LISCareRepository.Implementation
                 if (recordId > 0)
                 {
                     var command = _dbContext.Database.GetDbConnection().CreateCommand();
-                    command.CommandText = ConstantResource.RemoveSamplePlace;
+                    command.CommandText = ConstantResource.UspRemoveSamplePlace;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.RecordId, recordId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
@@ -161,21 +161,21 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.DelSampleSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                 }
             }

@@ -42,7 +42,7 @@ namespace LISCareLimited.Controllers
                 responseModel.StatusCode = result.StatusCode;
                 responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = string.Empty;
-                return NotFound(responseModel);
+                return BadRequest(responseModel);
             }
 
         }
@@ -70,7 +70,7 @@ namespace LISCareLimited.Controllers
                 responseModel.StatusCode = result.StatusCode;
                 responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = string.Empty;
-                return NotFound(responseModel);
+                return BadRequest(responseModel);
             }
 
         }
@@ -98,7 +98,7 @@ namespace LISCareLimited.Controllers
                 responseModel.StatusCode = result.StatusCode;
                 responseModel.ResponseMessage = result.ResponseMessage;
                 responseModel.Data = string.Empty;
-                return NotFound(responseModel);
+                return BadRequest(responseModel);
             }
 
         }
