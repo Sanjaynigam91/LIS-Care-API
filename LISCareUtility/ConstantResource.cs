@@ -176,13 +176,13 @@
         public const string ParamPageName = "@PageName";
         public const string ParamPageEntity = "@PageEntity";
         public const string ParamCriteria = "@Criteria";
-        public const string ParamIsActive = "@IsActive";
+        public const string ParamTestStatus = "@TestStatus";
         public const string ParamPageId = "@PageId";
         public const string ParamSamplePlace = "@SamplePlace";
         public const string ParamUpdatedBy = "@UpdatedBy";
         public const string ParamTestName = "@TestName";
         public const string ParamDeptOrDiscipline = "@DeptOrDiscipline";
-        public const string ParamisProcessedAt = "@isProcessedAt";
+        public const string ParamIsProcessedAt = "@IsProcessedAt";
         public const string ParamTestCode = "@TestCode";
         public const string ParamSubDepartment = "@SubDepartment";
         public const string ParamMethodology = "@Methodology";
@@ -260,7 +260,7 @@
         public const string PageName = "PageName";
         public const string PageEntity = "PageEntity";
         public const string Criteria = "Criteria";
-        public const string IsActive = "IsActive";
+        public const string TestStatus = "TestStatus";
         public const string SampleCollectedAt = "SampleCollectedAt";
         public const string TestCode = "test_code";
         public const string TestName = "test_name";
@@ -278,7 +278,7 @@
         public const string AliasName = "AliasName";
         public const string ReportTemplateName = "report_template_name";
         public const string SubDiscipline = "Sub_Discipline";
-        public const string TestDepartment = "Test_Department";
+        public const string TestDepartment = "TestDepartment";
         public const string Methodology = "Methodology";
         public const string AnalyzerName = "Analyzer_Name";
         public const string IsAutomated = "IsAutomated";

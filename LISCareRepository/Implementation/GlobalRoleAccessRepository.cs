@@ -177,7 +177,7 @@ namespace LISCareRepository.Implementation
                     lisPage.PageEntity = Convert.ToString(reader[ConstantResource.PageEntity]);
                     lisPage.Criteria = Convert.ToString(reader[ConstantResource.Criteria]);
                     lisPage.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
-                    if (Convert.ToBoolean(reader[ConstantResource.IsActive]))
+                    if (Convert.ToBoolean(reader[ConstantResource.TestStatus]))
                     {
                         lisPage.Status = "Active";
                     }
@@ -410,7 +410,7 @@ namespace LISCareRepository.Implementation
                     response.PageEntity = Convert.ToString(reader[ConstantResource.PageEntity]);
                     response.Criteria = Convert.ToString(reader[ConstantResource.Criteria]);
                     response.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
-                    if (Convert.ToBoolean(reader[ConstantResource.IsActive]))
+                    if (Convert.ToBoolean(reader[ConstantResource.TestStatus]))
                     {
                         response.Status = "Active";
                     }
@@ -495,7 +495,7 @@ namespace LISCareRepository.Implementation
                     {
                         status = false;
                     }
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsActive, status));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestStatus, status));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, lisPageRequest.PartnerId.ToString()));
 
                     // output parameters
@@ -654,7 +654,7 @@ namespace LISCareRepository.Implementation
                     lisPage.PageEntity = Convert.ToString(reader[ConstantResource.PageEntity]);
                     lisPage.Criteria = Convert.ToString(reader[ConstantResource.Criteria]);
                     lisPage.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
-                    if (Convert.ToBoolean(reader[ConstantResource.IsActive]))
+                    if (Convert.ToBoolean(reader[ConstantResource.TestStatus]))
                     {
                         lisPage.Status = "Active";
                     }
@@ -786,7 +786,7 @@ namespace LISCareRepository.Implementation
                     {
                         status = false;
                     }
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsActive, status));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestStatus, status));
 
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
