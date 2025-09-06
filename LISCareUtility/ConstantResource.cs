@@ -429,8 +429,8 @@
 
         #region Sample CollectedAt Module
         public const string UspGetAllSampleCollectedPlaces = "Usp_GetAllSampleCollectedPlaces";
-        public const string AddSampleCollectedPlaces = "AddSampleCollectedPlaces";
-        public const string RemoveSamplePlace = "RemoveSamplePlace";
+        public const string UspAddSampleCollectedPlaces = "Usp_AddSampleCollectedPlaces";
+        public const string UspRemoveSamplePlace = "Usp_RemoveSamplePlace"; 
 
         #endregion
 
