@@ -14,8 +14,8 @@ namespace LISCareBussiness.Interface
         ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode);
         List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode);
         List<CenterRateResponse> GetCenterRates(string partnerId, string testCode);
-        APIResponseModel<object> SaveTestDetails(TestMasterRequest testMasterRequest);
-        APIResponseModel<object> UpdateTestDetails(TestMasterRequest testMasterRequest);
+        Task<APIResponseModel<object>> SaveTestDetailsAsync(TestMasterRequest testMasterRequest);
+        Task<APIResponseModel<object>> UpdateTestDetails(TestMasterRequest testMasterRequest);
         Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest);
         Task<APIResponseModel<string>> DeleteReferralRanges(int referralId);
     }

@@ -224,53 +224,45 @@ namespace LISCareLimited.Controllers
 
         [HttpPost]
         [Route(ConstantResource.CreateTest)]
-        public IActionResult CreateNewTest(TestMasterRequest testMasterRequest)
+        public async Task<IActionResult> CreateNewTestAsync(TestMasterRequest testMasterRequest)
         {
-            APIResponseModel<object> responseModel = new APIResponseModel<object>();
-            var result = _testMgmt.SaveTestDetails(testMasterRequest);
-            if (result.Status && result.StatusCode == 200)
+            if (!ModelState.IsValid)
             {
-                responseModel.Status = true;
-                responseModel.StatusCode = 200;
-                responseModel.ResponseMessage = ConstantResource.Success;
-                responseModel.Data = result;
-                return Ok(responseModel);
-            }
-            else
-            {
-                responseModel.Status = false;
-                responseModel.StatusCode = 400;
-                responseModel.ResponseMessage = "No Record found!";
-                responseModel.Data = result;
-                return NotFound(responseModel);
-            }
+                var errors = ModelState
+                   .Where(ms => ms.Value?.Errors != null && ms.Value.Errors.Count > 0)
+                   .Select(ms => new
+                   {
+                       Field = ms.Key,
+                       Errors = ms.Value?.Errors?.Select(e => e.ErrorMessage) ?? Enumerable.Empty<string>()
+                   });
+                return BadRequest(ModelState);
 
+            }
+            var result = await _testMgmt.SaveTestDetailsAsync(testMasterRequest);
+            return StatusCode(result.StatusCode, result);
         }
 
         [HttpPut]
         [Route(ConstantResource.UpdateTest)]
-        public IActionResult UpdateTestInfo(TestMasterRequest testMasterRequest)
+        public async Task<IActionResult> UpdateTestInfo([FromBody] TestMasterRequest testMasterRequest)
         {
-            APIResponseModel<object> responseModel = new APIResponseModel<object>();
-            var result = _testMgmt.UpdateTestDetails(testMasterRequest);
-            if (result.Status && result.StatusCode == 200)
+            if (!ModelState.IsValid)
             {
-                responseModel.Status = true;
-                responseModel.StatusCode = 200;
-                responseModel.ResponseMessage = ConstantResource.Success;
-                responseModel.Data = result;
-                return Ok(responseModel);
-            }
-            else
-            {
-                responseModel.Status = false;
-                responseModel.StatusCode = 400;
-                responseModel.ResponseMessage = "No Record found!";
-                responseModel.Data = result;
-                return NotFound(responseModel);
+                var errors = ModelState
+                   .Where(ms => ms.Value?.Errors != null && ms.Value.Errors.Count > 0)
+                   .Select(ms => new
+                   {
+                       Field = ms.Key,
+                       Errors = ms.Value?.Errors?.Select(e => e.ErrorMessage) ?? Enumerable.Empty<string>()
+                   });
+                return BadRequest(ModelState);
+     
             }
 
+            var result = await _testMgmt.UpdateTestDetails(testMasterRequest);
+            return StatusCode(result.StatusCode, result);
         }
+
 
         [HttpPost]
         [Route(ConstantResource.SaveUpdateReferralRanges)]

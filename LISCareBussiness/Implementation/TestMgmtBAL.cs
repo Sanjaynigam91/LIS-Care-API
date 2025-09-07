@@ -129,32 +129,29 @@ namespace LISCareBussiness.Implementation
             return response;
         }
 
-        public APIResponseModel<object> SaveTestDetails(TestMasterRequest testMasterRequest)
+        public async Task<APIResponseModel<object>> SaveTestDetailsAsync(TestMasterRequest testMasterRequest)
         {
-            var response = new APIResponseModel<object>();
             try
             {
-                response = _testMgmtRepository.SaveTestDetails(testMasterRequest);
+                return await _testMgmtRepository.SaveTestDetailsAsync(testMasterRequest);
             }
             catch
             {
                 throw;
             }
-            return response;
         }
 
-        public APIResponseModel<object> UpdateTestDetails(TestMasterRequest testMasterRequest)
+
+        public async Task<APIResponseModel<object>> UpdateTestDetails(TestMasterRequest testMasterRequest)
         {
-            var response = new APIResponseModel<object>();
             try
             {
-                response = _testMgmtRepository.UpdateTestDetails(testMasterRequest);
+                return await _testMgmtRepository.UpdateTestDetails(testMasterRequest);
             }
             catch
             {
                 throw;
             }
-            return response;
         }
 
         public async Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest)
