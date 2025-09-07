@@ -87,19 +87,26 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
-        public ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode)
+        public async Task<ReferalRangeResponse> GetReferalRangeValueAsync(string partnerId, string testCode)
         {
-            var response = new ReferalRangeResponse();
+            if (string.IsNullOrWhiteSpace(partnerId))
+                throw new ArgumentException("PartnerId cannot be null or empty", nameof(partnerId));
+
+            if (string.IsNullOrWhiteSpace(testCode))
+                throw new ArgumentException("TestCode cannot be null or empty", nameof(testCode));
+
             try
             {
-                response = _testMgmtRepository.GetReferalRangeValue(partnerId, testCode);
+                // Assuming repository also has async version
+                return await _testMgmtRepository.GetReferalRangeValueAsync(partnerId, testCode);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                // log ex here if needed
+                throw; // Rethrow keeps stack trace intact
             }
-            return response;
         }
+
 
         public List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode)
         {

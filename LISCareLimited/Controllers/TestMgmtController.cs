@@ -95,6 +95,10 @@ namespace LISCareLimited.Controllers
 
         }
 
+        // Fix CS8601: Possible null reference assignment.
+        // Ensure that responseModel.Data is never assigned a null value.
+        // Use the null-coalescing operator to assign an empty object or collection if result is null.
+
         [HttpGet]
         [Route(ConstantResource.GetTestByTestCode)]
         public IActionResult GetTestByTestCode(string partnerId, string testCode)
@@ -114,10 +118,9 @@ namespace LISCareLimited.Controllers
                 responseModel.Status = false;
                 responseModel.StatusCode = 400;
                 responseModel.ResponseMessage = "No Record found!";
-                responseModel.Data = result;
+                responseModel.Data = result ?? new object(); 
                 return NotFound(responseModel);
             }
-
         }
 
         [HttpDelete]
@@ -147,10 +150,10 @@ namespace LISCareLimited.Controllers
 
         [HttpGet]
         [Route(ConstantResource.GetReferalRangeByTestCode)]
-        public IActionResult GetReferalRangeByTestCode(string partnerId, string testCode)
+        public async Task<IActionResult> GetReferalRangeByTestCode(string partnerId, string testCode)
         {
             APIResponseModel<object> responseModel = new APIResponseModel<object>();
-            var result = _testMgmt.GetReferalRangeValue(partnerId, testCode);
+            var result = await _testMgmt.GetReferalRangeValueAsync(partnerId, testCode);
             if (result != null)
             {
                 responseModel.Status = true;
@@ -164,10 +167,9 @@ namespace LISCareLimited.Controllers
                 responseModel.Status = false;
                 responseModel.StatusCode = 400;
                 responseModel.ResponseMessage = "No Record found!";
-                responseModel.Data = result;
+                responseModel.Data = result ?? new object(); // Fix: never assign null
                 return NotFound(responseModel);
             }
-
         }
 
 
