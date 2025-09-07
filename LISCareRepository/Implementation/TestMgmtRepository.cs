@@ -412,108 +412,97 @@ namespace LISCareRepository.Implementation
             return centerRatesResponse;
         }
 
-        public APIResponseModel<object> SaveTestDetails(TestMasterRequest testMasterRequest)
+        public async Task<APIResponseModel<object>> SaveTestDetailsAsync(TestMasterRequest testMasterRequest)
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.BadRequest,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
+
             try
             {
-                if (!string.IsNullOrEmpty(testMasterRequest.ToString()))
+                if (testMasterRequest != null)
                 {
-                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    await using var connection = _dbContext.Database.GetDbConnection();
+                    await connection.OpenAsync();
+
+                    await using var command = connection.CreateCommand();
                     command.CommandText = ConstantResource.UspSaveTestMasterDetails;
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, testMasterRequest.partnerId.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testMasterRequest.testCode.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestName, testMasterRequest.testName.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, testMasterRequest.department.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSubDepartment, testMasterRequest.subDepartment.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMethodology, testMasterRequest.methodology.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, testMasterRequest.specimenType.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferenceUnits, testMasterRequest.referenceUnits.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReportingStyle, testMasterRequest.reportingStyle.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReportTemplateName, testMasterRequest.reportTemplateName.Trim()));
+                    // input parameters
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, testMasterRequest.partnerId?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testMasterRequest.testCode?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestName, testMasterRequest.testName?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDepartment, testMasterRequest.department?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSubDepartment, testMasterRequest.subDepartment?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMethodology, testMasterRequest.methodology?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, testMasterRequest.specimenType?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferenceUnits, testMasterRequest.referenceUnits?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReportingStyle, testMasterRequest.reportingStyle?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReportTemplateName, testMasterRequest.reportTemplateName?.Trim() ?? string.Empty));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamReportingDecimals, testMasterRequest.reportingDecimals));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsOutlab, testMasterRequest.isOutlab));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamPrintSequence, testMasterRequest.printSequence));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsReserved, testMasterRequest.isReserved.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestShortName, testMasterRequest.testShortName.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsReserved, testMasterRequest.isReserved?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestShortName, testMasterRequest.testShortName?.Trim() ?? string.Empty));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientRate, testMasterRequest.patientRate));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamClientRate, testMasterRequest.clientRate));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabRate, testMasterRequest.labRate));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamStatus, testMasterRequest.status));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerName, testMasterRequest.analyzerName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerName, testMasterRequest.analyzerName ?? string.Empty));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsAutomated, testMasterRequest.isAutomated));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsCalculated, testMasterRequest.isCalculated));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabTestCode, testMasterRequest.labTestCode.Trim()));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestApplicable, testMasterRequest.testApplicable.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabTestCode, testMasterRequest.labTestCode?.Trim() ?? string.Empty));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestApplicable, testMasterRequest.testApplicable?.Trim() ?? string.Empty));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsLMP, testMasterRequest.isLMP));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsNABLApplicable, testMasterRequest.isNABLApplicable));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferelRangeComments, testMasterRequest.referalRangeComments));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferelRangeComments, testMasterRequest.referalRangeComments ?? string.Empty));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamUpdatedBy, testMasterRequest.updatedBy));
 
                     // output parameters
-                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
-                    {
+                    var outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    var outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    var outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404) { Direction = ParameterDirection.Output };
 
-                        Direction = ParameterDirection.Output
-                    };
-                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
                     command.Parameters.Add(outputBitParm);
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
-                    _dbContext.Database.GetDbConnection().Open();
-                    command.ExecuteScalar();
-                    OutputParameterModel parameterModel = new OutputParameterModel
+
+                    // async execution
+                    await command.ExecuteScalarAsync();
+
+                    var parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
-                    if (parameterModel.IsSuccess)
-                    {
-                        response.Status = true;
-                        response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.AddTestSuccess;
-                    }
-                    else
-                    {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
-
-                    }
+                    response.ResponseMessage = parameterModel.ErrorMessage;
+                    response.Status = parameterModel.IsSuccess;
+                    response.StatusCode = parameterModel.IsSuccess
+                                            ? (int)HttpStatusCode.OK
+                                            : (int)HttpStatusCode.BadRequest;
                 }
             }
             catch (Exception ex)
             {
                 response.ResponseMessage = ex.Message;
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
-            finally
-            {
-                _dbContext.Database.GetDbConnection().Close();
-            }
+
             return response;
         }
 
-        public APIResponseModel<object> UpdateTestDetails(TestMasterRequest testMasterRequest)
+        public async Task<APIResponseModel<object>> UpdateTestDetails(TestMasterRequest testMasterRequest)
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.BadRequest,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -572,32 +561,29 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
                     _dbContext.Database.GetDbConnection().Open();
-                    command.ExecuteScalar();
-                    OutputParameterModel parameterModel = new OutputParameterModel
+
+                    // async execution
+                    await command.ExecuteScalarAsync();
+
+                    var parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
-                    if (parameterModel.IsSuccess)
-                    {
-                        response.Status = true;
-                        response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.AddTestSuccess;
-                    }
-                    else
-                    {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
-
-                    }
+                    response.ResponseMessage = parameterModel.ErrorMessage;
+                    response.Status = parameterModel.IsSuccess;
+                    response.StatusCode = parameterModel.IsSuccess
+                                            ? (int)HttpStatusCode.OK
+                                            : (int)HttpStatusCode.BadRequest;
                 }
             }
             catch (Exception ex)
             {
                 response.ResponseMessage = ex.Message;
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
             finally
             {
