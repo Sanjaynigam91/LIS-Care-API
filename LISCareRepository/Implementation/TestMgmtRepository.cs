@@ -145,7 +145,7 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     TestDataSearchResponse testSearch = new TestDataSearchResponse();
-                    testSearch.TestCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) ?? string.Empty : string.Empty;
+                    testSearch.TestCode = reader[ConstantResource.Test_Code] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Test_Code]) ?? string.Empty : string.Empty;
                     testSearch.TestName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) ?? string.Empty : string.Empty;
                     testSearch.SpecimenType = reader[ConstantResource.SpecimenType] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SpecimenType]) ?? string.Empty : string.Empty;
                     testSearch.ReferenceUnits = reader[ConstantResource.ReferenceUnits] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ReferenceUnits]) ?? string.Empty : string.Empty;
@@ -231,7 +231,7 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     testData.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty : string.Empty;
-                    testData.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) ?? string.Empty : string.Empty;
+                    testData.testCode = reader[ConstantResource.Test_Code] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Test_Code]) ?? string.Empty : string.Empty;
                     testData.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) ?? string.Empty : string.Empty;
                     testData.specimenType = reader[ConstantResource.SpecimenType] != DBNull.Value ? Convert.ToString(reader[ConstantResource.SpecimenType]) ?? string.Empty : string.Empty;
                     testData.containerType = reader[ConstantResource.ContainerType] != DBNull.Value ? Convert.ToString(reader[ConstantResource.ContainerType]) ?? string.Empty : string.Empty;
@@ -291,46 +291,50 @@ namespace LISCareRepository.Implementation
             return testData;
         }
 
-        public ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode)
+        public async Task<ReferalRangeResponse> GetReferalRangeValueAsync(string partnerId, string testCode)
         {
-            ReferalRangeResponse referalRange = new ReferalRangeResponse();
+            var referalRange = new ReferalRangeResponse();
+
             try
             {
                 if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
-                    _dbContext.Database.OpenConnection();
-                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    await _dbContext.Database.OpenConnectionAsync();
+
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
                 cmd.CommandText = ConstantResource.UspGetReferalRangesByTestCode;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
                 cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode.Trim()));
-                DbDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
-                    referalRange.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
-                    referalRange.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
+                    referalRange.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? reader[ConstantResource.PartnerId]?.ToString() ?? string.Empty : string.Empty;
+                    referalRange.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? reader[ConstantResource.TestCode]?.ToString() ?? string.Empty : string.Empty;
                     referalRange.referralId = reader[ConstantResource.ReferralId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ReferralId]) : 0;
-                    referalRange.gender = reader[ConstantResource.Gender] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Gender]) : string.Empty;
+                    referalRange.gender = reader[ConstantResource.Gender] != DBNull.Value ? reader[ConstantResource.Gender]?.ToString() ?? string.Empty : string.Empty;
                     referalRange.lowRange = reader[ConstantResource.LowRange] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LowRange]) : 0;
                     referalRange.highRange = reader[ConstantResource.HighRange] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighRange]) : 0;
-                    referalRange.normalRange = reader[ConstantResource.NormalRange] != DBNull.Value ? Convert.ToString(reader[ConstantResource.NormalRange]) : string.Empty;
+                    referalRange.normalRange = reader[ConstantResource.NormalRange] != DBNull.Value ? reader[ConstantResource.NormalRange]?.ToString() ?? string.Empty : string.Empty;
                     referalRange.ageFrom = reader[ConstantResource.AgeFrom] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AgeFrom]) : 0;
                     referalRange.ageTo = reader[ConstantResource.AgeTo] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AgeTo]) : 0;
-                    referalRange.isPregnant = reader[ConstantResource.IsPregnant] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsPregnant]) : false;
-                    referalRange.lowCriticalValue = reader[ConstantResource.CriticalValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.CriticalValue]) : 0;
-                    referalRange.ageUnits = reader[ConstantResource.AgeUnits] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AgeUnits]) : string.Empty;
+                    referalRange.isPregnant = reader[ConstantResource.IsPregnant] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsPregnant]);
+                    referalRange.lowCriticalValue = reader[ConstantResource.LowCriticalValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.LowCriticalValue]) : 0;
+                    referalRange.ageUnits = reader[ConstantResource.AgeUnits] != DBNull.Value ? reader[ConstantResource.AgeUnits]?.ToString() ?? string.Empty : string.Empty;
                     referalRange.highCriticalValue = reader[ConstantResource.HighCriticalValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.HighCriticalValue]) : 0;
                     referalRange.labTest = reader[ConstantResource.LabTest] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.LabTest]) : 0;
-
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                // log if needed
                 throw;
             }
             finally
             {
-                _dbContext.Database.GetDbConnection().Close();
+                await _dbContext.Database.CloseConnectionAsync();
             }
+
             return referalRange;
         }
 
@@ -350,19 +354,11 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     SpecialValueResponse special = new SpecialValueResponse();
-                    special.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) : string.Empty;
-                    special.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
-                    special.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) : string.Empty;
-                    special.allowedValue = reader[ConstantResource.AllowedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AllowedValue]) : string.Empty;
-                    if (Convert.ToString(reader[ConstantResource.IsAbnormal]) == "YES")
-                    {
-                        special.isAbnormal = true;
-                    }
-                    else
-                    {
-                        special.isAbnormal = false;
-                    }
-
+                    special.partnerId = reader[ConstantResource.PartnerId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty : string.Empty;
+                    special.testCode = reader[ConstantResource.Test_Code] != DBNull.Value ? Convert.ToString(reader[ConstantResource.Test_Code]) ?? string.Empty : string.Empty;
+                    special.testName = reader[ConstantResource.TestName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestName]) ?? string.Empty : string.Empty;
+                    special.allowedValue = reader[ConstantResource.AllowedValue] != DBNull.Value ? Convert.ToString(reader[ConstantResource.AllowedValue]) ?? string.Empty : string.Empty;
+                    special.isAbnormal = reader[ConstantResource.IsAbnormal] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.IsAbnormal]) : false;
                     special.recordId = reader[ConstantResource.RecordId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.RecordId]) : 0;
                     specialValue.Add(special);
                 }

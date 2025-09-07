@@ -11,9 +11,7 @@ namespace LISCareRepository.Interface
         // This interface used delete Users
         APIResponseModel<object> DeleteTestByTestCode(string partnerId, string testCode);
         List<TestDataSearchResponse> SearchTestDetails(TestMasterSearchRequest searchRequest);
-
-        ReferalRangeResponse GetReferalRangeValue(string partnerId, string testCode);
-
+        Task<ReferalRangeResponse> GetReferalRangeValueAsync(string partnerId, string testCode);
         List<SpecialValueResponse> GetSpecialValue(string partnerId, string testCode);
         List<CenterRateResponse> GetCenterRates(string partnerId, string testCode);
         Task<APIResponseModel<object>> SaveTestDetailsAsync(TestMasterRequest testMasterRequest);
