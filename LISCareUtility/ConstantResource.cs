@@ -491,7 +491,7 @@
         public const string ParamAgeTo = "@AgeTo";
         public const string ParamGender = "@Gender";
         public const string ParamIsPregnant = "@IsPregnant";
-        public const string ParamCriticalValue = "@CriticalValue";
+        public const string ParamLowCriticalValue = "@LowCriticalValue";
         public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
         #endregion

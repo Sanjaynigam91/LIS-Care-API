@@ -390,9 +390,9 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     CenterRateResponse centerRate = new CenterRateResponse();
-                    centerRate.partnerCode = reader[ConstantResource.PartnerCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerCode]) : string.Empty;
-                    centerRate.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) : string.Empty;
-                    centerRate.partnerName = reader[ConstantResource.PartnerName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerName]) : string.Empty;
+                    centerRate.partnerCode = reader[ConstantResource.PartnerCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerCode]) ?? string.Empty : string.Empty;
+                    centerRate.testCode = reader[ConstantResource.TestCode] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestCode]) ?? string.Empty : string.Empty;
+                    centerRate.partnerName = reader[ConstantResource.PartnerName] != DBNull.Value ? Convert.ToString(reader[ConstantResource.PartnerName]) ?? string.Empty : string.Empty;
                     centerRate.billRate = reader[ConstantResource.BillRate] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.BillRate]) : 0;
                     centerRatesResponse.Add(centerRate);
                 }
@@ -621,7 +621,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamAgeTo, referralRangesRequest.AgeTo));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamGender, referralRangesRequest.Gender.Trim()));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsPregnant, referralRangesRequest.IsPregnant));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCriticalValue, referralRangesRequest.CriticalValue));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLowCriticalValue, referralRangesRequest.LowCriticalValue));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, referralRangesRequest.PartnerId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamUpdatedBy, referralRangesRequest.UpdatedBy));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamHighCriticalValue, referralRangesRequest.HighCriticalValue));
@@ -647,7 +647,7 @@ namespace LISCareRepository.Implementation
                     await command.ExecuteScalarAsync();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -726,7 +726,7 @@ namespace LISCareRepository.Implementation
                     await command.ExecuteScalarAsync();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -734,13 +734,13 @@ namespace LISCareRepository.Implementation
                     if (parameterModel.IsSuccess)
                     {
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
+                        response.Status = parameterModel.IsError;
                         response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                 }
