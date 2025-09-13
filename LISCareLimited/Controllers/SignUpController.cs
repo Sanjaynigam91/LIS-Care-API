@@ -320,7 +320,7 @@ namespace LISCare.Controllers
             if (result != null && result.Count > 0)
             {
                 responseModel.Status = true;
-                responseModel.StatusCode = 200;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
                 responseModel.ResponseMessage = ConstantResource.Success;
                 responseModel.Data = result;
                 return Ok(responseModel);
@@ -328,7 +328,7 @@ namespace LISCare.Controllers
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)HttpStatusCode.NotFound;
                 responseModel.ResponseMessage = ConstantResource.Failed;
                 responseModel.Data = result;
                 return NotFound(responseModel);

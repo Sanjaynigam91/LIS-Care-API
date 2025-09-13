@@ -33,7 +33,7 @@ namespace LISCareLimited.Controllers
             if (result.Count > 0)
             {
                 responseModel.Status = true;
-                responseModel.StatusCode = 200;
+                responseModel.StatusCode = (int)(HttpStatusCode.OK); ;
                 responseModel.ResponseMessage = ConstantResource.Success;
                 responseModel.Data = result;
                 return Ok(responseModel);
@@ -41,10 +41,11 @@ namespace LISCareLimited.Controllers
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)(HttpStatusCode.NotFound);
                 responseModel.ResponseMessage = ConstantResource.NoMetaDataFound;
                 responseModel.Data = result;
                 return NotFound(responseModel);
+
             }
 
         }
@@ -61,7 +62,7 @@ namespace LISCareLimited.Controllers
             if (result.Count > 0)
             {
                 responseModel.Status = true;
-                responseModel.StatusCode = 200;
+                responseModel.StatusCode = (int)HttpStatusCode.OK;
                 responseModel.ResponseMessage = ConstantResource.Success;
                 responseModel.Data = result;
                 return Ok(responseModel);
@@ -69,7 +70,7 @@ namespace LISCareLimited.Controllers
             else
             {
                 responseModel.Status = false;
-                responseModel.StatusCode = 400;
+                responseModel.StatusCode = (int)HttpStatusCode.NotFound;
                 responseModel.ResponseMessage = ConstantResource.RoleNotExists;
                 responseModel.Data = result;
                 return NotFound(responseModel);

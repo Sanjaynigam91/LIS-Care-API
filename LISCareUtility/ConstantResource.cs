@@ -142,11 +142,12 @@
         public const string ParamAccountId = "@AccountId";
         public const string ParamCreatedBy = "@CreatedBy";
         public const string ParamDepartment = "@Department";
+        public const string ParamDepartmentId = "@DepartmentId";
         public const string ParamOwnerId = "@ownerId";
-        public const string ParamCategory = "@category";
-        public const string ParamItemType = "@itemType";
-        public const string ParamItemDescription = "@itemDescription";
-        public const string ParamRecordId = "@recordId";
+        public const string ParamCategory = "@Category";
+        public const string ParamItemType = "@ItemType";
+        public const string ParamItemDescription = "@ItemDescription";
+        public const string ParamRecordId = "@RecordId";
         public const string ParamTagCode = "@tagCode";
         public const string ParamTagDescription = "@tagDescription";
         public const string ParamTagStatus = "@TagStatus";
@@ -170,18 +171,18 @@
         public const string ParamUserLogoPrefix = "@UserLogoPrefix";
         public const string ParamModifiedById = "@ModifiedById";
         public const string ParamDeletedById = "@DeletedById";
-        public const string ParamTagId = "@tagId";
+        public const string ParamTagId = "@TagId";
         public const string ParamNavigationId = "@NavigationId";
         public const string ParamPageName = "@PageName";
         public const string ParamPageEntity = "@PageEntity";
         public const string ParamCriteria = "@Criteria";
-        public const string ParamIsActive = "@IsActive";
+        public const string ParamTestStatus = "@TestStatus";
         public const string ParamPageId = "@PageId";
         public const string ParamSamplePlace = "@SamplePlace";
         public const string ParamUpdatedBy = "@UpdatedBy";
         public const string ParamTestName = "@TestName";
         public const string ParamDeptOrDiscipline = "@DeptOrDiscipline";
-        public const string ParamisProcessedAt = "@isProcessedAt";
+        public const string ParamIsProcessedAt = "@IsProcessedAt";
         public const string ParamTestCode = "@TestCode";
         public const string ParamSubDepartment = "@SubDepartment";
         public const string ParamMethodology = "@Methodology";
@@ -259,9 +260,10 @@
         public const string PageName = "PageName";
         public const string PageEntity = "PageEntity";
         public const string Criteria = "Criteria";
-        public const string IsActive = "IsActive";
+        public const string TestStatus = "TestStatus";
         public const string SampleCollectedAt = "SampleCollectedAt";
-        public const string TestCode = "test_code";
+        public const string TestCode = "TestCode";
+        public const string Test_Code = "test_code";
         public const string TestName = "test_name";
         public const string SpecimenType = "specimen_type";
         public const string ContainerType = "Container_Type";
@@ -277,7 +279,7 @@
         public const string AliasName = "AliasName";
         public const string ReportTemplateName = "report_template_name";
         public const string SubDiscipline = "Sub_Discipline";
-        public const string TestDepartment = "Test_Department";
+        public const string TestDepartment = "TestDepartment";
         public const string Methodology = "Methodology";
         public const string AnalyzerName = "Analyzer_Name";
         public const string IsAutomated = "IsAutomated";
@@ -308,15 +310,15 @@
         public const string IsLMP = "IsLMP";
         public const string OldtestCode = "Oldtest_code";
         public const string IsNABLApplicable = "IsNABLApplicable";
-        public const string ReferralId = "Referral_Id";
+        public const string ReferralId = "NormalRangeId";
         public const string Gender = "Gender";
-        public const string LowRange = "Low_Range";
-        public const string HighRange = "High_Range";
-        public const string NormalRange = "Normal_Range";
+        public const string LowRange = "LowRange";
+        public const string HighRange = "HighRange";
+        public const string NormalRange = "NormalRange";
         public const string AgeFrom = "AgeFrom";
         public const string AgeTo = "AgeTo";
         public const string IsPregnant = "isPregnant";
-        public const string CriticalValue = "CriticalValue";
+        public const string LowCriticalValue = "LowCriticalValue";
         public const string AgeUnits = "AgeUnits";
         public const string HighCriticalValue = "HighCriticalValue";
         public const string LabTest = "LabTest";
@@ -325,7 +327,7 @@
         public const string PartnerCode = "PartnerCode";
         public const string PartnerName = "PartnerName";
         public const string BillRate = "Bill_Rate";
-
+        public const string RoletypeId = "RoletypeId";
 
 
 
@@ -401,7 +403,7 @@
         public const string UspDeleteMasterList = "Usp_DeleteMasterList";
         public const string UspCreateNewTag = "Usp_CreateNewTag";
         public const string UspUpdateTag = "Usp_UpdateTag";
-        public const string UspGetTagsByTagId = "getTagsByTagId";
+        public const string UspGetTagsByTagId = "Usp_GetTagsByTagId";
 
         #endregion
 
@@ -428,8 +430,8 @@
 
         #region Sample CollectedAt Module
         public const string UspGetAllSampleCollectedPlaces = "Usp_GetAllSampleCollectedPlaces";
-        public const string AddSampleCollectedPlaces = "AddSampleCollectedPlaces";
-        public const string RemoveSamplePlace = "RemoveSamplePlace";
+        public const string UspAddSampleCollectedPlaces = "Usp_AddSampleCollectedPlaces";
+        public const string UspRemoveSamplePlace = "Usp_RemoveSamplePlace"; 
 
         #endregion
 
@@ -489,7 +491,7 @@
         public const string ParamAgeTo = "@AgeTo";
         public const string ParamGender = "@Gender";
         public const string ParamIsPregnant = "@IsPregnant";
-        public const string ParamCriticalValue = "@CriticalValue";
+        public const string ParamLowCriticalValue = "@LowCriticalValue";
         public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
         #endregion

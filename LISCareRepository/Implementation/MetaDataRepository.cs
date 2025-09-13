@@ -69,22 +69,22 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.Success;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -107,7 +107,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.NotFound,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -145,22 +145,22 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.TagSuccessMsg;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -184,7 +184,7 @@ namespace LISCareRepository.Implementation
 
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.NotFound,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -220,22 +220,22 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.Success;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
@@ -273,10 +273,10 @@ namespace LISCareRepository.Implementation
                     {
                         MetaDataResponseModel metaData = new MetaDataResponseModel();
                         metaData.TagId = Convert.ToInt32(reader[ConstantResource.TagId]);
-                        metaData.TagCode = Convert.ToString(reader[ConstantResource.TagCode]);
-                        metaData.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
-                        metaData.TagDescription = Convert.ToString(reader[ConstantResource.TagDescription]);
-                        metaData.MetaStatus = Convert.ToString(reader[ConstantResource.TagStatus]);
+                        metaData.TagCode = Convert.ToString(reader[ConstantResource.TagCode]) ?? string.Empty;
+                        metaData.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
+                        metaData.TagDescription = Convert.ToString(reader[ConstantResource.TagDescription]) ?? string.Empty;
+                        metaData.MetaStatus = Convert.ToString(reader[ConstantResource.TagStatus]) ?? string.Empty;
                         response.Add(metaData);
                     }
                 }
@@ -308,10 +308,10 @@ namespace LISCareRepository.Implementation
                 while (reader.Read())
                 {
                     response.TagId = Convert.ToInt32(reader[ConstantResource.TagId]);
-                    response.TagCode = Convert.ToString(reader[ConstantResource.TagCode]);
-                    response.TagDescription = Convert.ToString(reader[ConstantResource.TagDescription]);
-                    response.MetaStatus = Convert.ToString(reader[ConstantResource.TagStatus]);
-                    response.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
+                    response.TagCode = Convert.ToString(reader[ConstantResource.TagCode]) ?? string.Empty;
+                    response.TagDescription = Convert.ToString(reader[ConstantResource.TagDescription]) ?? string.Empty;
+                    response.MetaStatus = Convert.ToString(reader[ConstantResource.TagStatus]) ?? string.Empty;
+                    response.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
                 }
             }
             catch
@@ -349,7 +349,7 @@ namespace LISCareRepository.Implementation
                     {
                         MetaDataTagsResponseModel metaDataTags = new MetaDataTagsResponseModel();
                         metaDataTags.RecordId = Convert.ToInt32(reader[ConstantResource.RecordId]);
-                        metaDataTags.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]);
+                        metaDataTags.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
                         metaDataTags.ItemType = Convert.ToString(reader[ConstantResource.ItemType]); ;
                         metaDataTags.ItemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
                         metaDataTags.Category = Convert.ToString(reader[ConstantResource.Category]);
@@ -539,8 +539,8 @@ namespace LISCareRepository.Implementation
                     if (!string.IsNullOrEmpty(partnerId))
                     {
                         MetaTagResponse templates = new MetaTagResponse();
-                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]);
-                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]);
+                        templates.itemType = Convert.ToString(reader[ConstantResource.ItemType]) ?? string.Empty;
+                        templates.itemDescription = Convert.ToString(reader[ConstantResource.ItemDescription]) ?? string.Empty;
                         response.Add(templates);
                     }
                 }
@@ -564,7 +564,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.BadRequest,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -602,7 +602,7 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
@@ -640,7 +640,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<object>
             {
-                StatusCode = 404,
+                StatusCode = (int)HttpStatusCode.BadRequest,
                 Status = false,
                 ResponseMessage = ConstantResource.Failed
             };
@@ -678,22 +678,22 @@ namespace LISCareRepository.Implementation
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
-                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value),
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
                     };
 
                     if (parameterModel.IsSuccess)
                     {
-                        response.Status = true;
+                        response.Status = parameterModel.IsSuccess;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = ConstantResource.UpdateTagSuccessMsg;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
                     }
                     else
                     {
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        response.Status = false;
-                        response.ResponseMessage = ConstantResource.Failed;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
 
                     }
                 }
