@@ -14,7 +14,7 @@ namespace LISCareDTO.TestMaster
         public int AgeTo {  get; set; }=0;
         public string Gender {  get; set; }=string.Empty;
         public bool IsPregnant {  get; set; }=false;
-        public decimal CriticalValue {  get; set; }=0;
+        public decimal LowCriticalValue {  get; set; }=0;
         public string PartnerId {  get; set; }=string.Empty;
         public string UpdatedBy {  get; set; }=string.Empty;
         public decimal HighCriticalValue {  get; set; }=0;

@@ -104,6 +104,9 @@
         public const string UpdateTest = "UpdateTest";
         public const string SaveUpdateReferralRanges = "SaveUpdateReferralRanges";
         public const string DeleteReferralRanges = "DeleteReferralRanges";
+        public const string SaveUpdateSpecialValues = "SaveUpdateSpecialValues";
+        public const string DeleteSpecialValue = "DeleteSpecialValue";
+
 
         #endregion
 
@@ -207,6 +210,9 @@
         public const string ParamIsLMP= "@IsLMP";
         public const string ParamIsNABLApplicable= "@IsNABLApplicable";
         public const string ParamReferelRangeComments= "@ReferelRangeComments";
+        public const string ParamAllowedvalue = "@Allowedvalue";
+        public const string ParamIsAbnormal = "@IsAbnormal";
+
 
        
 
@@ -453,6 +459,9 @@
         public const string UspUpdateTestDetails = "Usp_Update_TestDetails";
         public const string UspReferralRangesSaveUpdateChanges = "Usp_ReferralRanges_SaveUpdateChanges";
         public const string UspDeleteReferralRanges = "Usp_Delete_Referral_Ranges";
+        public const string UspAllowedValuesSaveUpdateChanges = "Usp_AllowedValues_SaveUpdateChanges";
+        public const string UspDeleteAllowedValue = "Usp_DeleteAllowedValue";
+
         #endregion
 
         #endregion
@@ -491,7 +500,7 @@
         public const string ParamAgeTo = "@AgeTo";
         public const string ParamGender = "@Gender";
         public const string ParamIsPregnant = "@IsPregnant";
-        public const string ParamCriticalValue = "@CriticalValue";
+        public const string ParamLowCriticalValue = "@LowCriticalValue";
         public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
         #endregion

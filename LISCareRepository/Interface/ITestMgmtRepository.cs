@@ -18,5 +18,8 @@ namespace LISCareRepository.Interface
         Task<APIResponseModel<object>> UpdateTestDetails(TestMasterRequest testMasterRequest);
         Task<APIResponseModel<string>> SaveUpdateReferralRanges(ReferralRangesRequest referralRangesRequest);
         Task<APIResponseModel<string>> DeleteReferralRanges(int referralId);
+        Task<APIResponseModel<string>> SaveUpdateSepecialValue(SpecialValueRequest specialValueRequest);
+        Task<APIResponseModel<string>> DeleteSpecialValue(int recordId,string partnerId);
+
     }
 }
