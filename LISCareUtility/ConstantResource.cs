@@ -40,7 +40,7 @@
         public const string DeleteUserById = "DeleteUserById";
         public const string AddSampleCollectedPlace = "AddSampleCollectedPlace";
         public const string DeleteSamplePlace = "DeleteSamplePlace";
-
+        public const string GetAllProfileDetails = "GetAllProfileDetails";
         #endregion
 
         #region Meta Data Module
@@ -334,7 +334,22 @@
         public const string PartnerName = "PartnerName";
         public const string BillRate = "Bill_Rate";
         public const string RoletypeId = "RoletypeId";
-
+        public const string ProfileCode = "ProfileCode";
+        public const string ProfileStatus = "ProfileStatus";
+        public const string ProfileB2CRates = "B2CRates";
+        public const string SampleTypes = "SampleTypes";
+        public const string ProfileLabRates = "Labrates";
+        public const string TatHrs = "TatHrs";
+        public const string CptCodes = "CptCodes";
+        public const string PrintSequence = "PrintSequence";
+        public const string IsRestricted = "IsRestricted";
+        public const string SubProfilesCount = "SubProfilesCount";
+        public const string ProfileNormalRangeFooter = "NormalRangeFooter";
+        public const string ProfileProfitRate = "ProfileProfitRate";
+        public const string LabTestCodes = "LabTestCodes";
+        public const string IsProfileOutLab = "IsProfileOutLab";
+        public const string ProfileName = "ProfileName";
+        public const string ProfileLabTestCode = "LabTestCode";
 
 
         #endregion
@@ -441,7 +456,7 @@
 
         #endregion
 
-        #region Test Master data
+        #region Test & Profile Master data
         public const string UspGetTestMasterData = "Usp_Get_TestMaster_Data";
         public const string UspRetrieveTestDepartments = "Usp_Retrieve_Test_Departments";
         public const string UspRetrieveTestByTestCode = "Usp_Retrieve_TestData_ByTestCode";
@@ -461,6 +476,9 @@
         public const string UspDeleteReferralRanges = "Usp_Delete_Referral_Ranges";
         public const string UspAllowedValuesSaveUpdateChanges = "Usp_AllowedValues_SaveUpdateChanges";
         public const string UspDeleteAllowedValue = "Usp_DeleteAllowedValue";
+        public const string UspRetrieveProfileDetails = "Usp_Retrieve_ProfileDetails";
+
+
 
         #endregion
 
