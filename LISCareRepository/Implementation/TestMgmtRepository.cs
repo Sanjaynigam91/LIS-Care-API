@@ -16,8 +16,8 @@ namespace LISCareRepository.Implementation
 {
     public class TestMgmtRepository : ITestMgmtRepository
     {
-        private IConfiguration _configuration;
-        private LISCareDbContext _dbContext;
+        private readonly IConfiguration _configuration;
+        private readonly LISCareDbContext _dbContext;
 
         public TestMgmtRepository(IConfiguration configuration, LISCareDbContext dbContext)
         {

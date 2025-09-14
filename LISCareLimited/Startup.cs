@@ -46,6 +46,8 @@ namespace LISCareLimited
             services.AddScoped<ISampleCollectionRepository, SampleCollectionRepository>();
             services.AddScoped<ITestMgmt, TestMgmtBAL>();
             services.AddScoped<ITestMgmtRepository, TestMgmtRepository>();
+            services.AddScoped<IProfile, ProfileBAL>();
+            services.AddScoped<IProfileRepository, ProfileRepository>();
 
             services.AddCors(options =>
             {
