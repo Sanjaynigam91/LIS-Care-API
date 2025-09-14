@@ -177,16 +177,38 @@ namespace LISCareBussiness.Implementation
 
         public async Task<APIResponseModel<string>> DeleteReferralRanges(int referralId)
         {
-            var response = new APIResponseModel<string>();
             try
             {
-                response = await _testMgmtRepository.DeleteReferralRanges(referralId);
+                return await _testMgmtRepository.DeleteReferralRanges(referralId);
             }
             catch
             {
                 throw;
             }
-            return response;
+        }
+
+        public async Task<APIResponseModel<string>> SaveUpdateSepecialValue(SpecialValueRequest specialValueRequest)
+        {
+            try
+            {
+                return await _testMgmtRepository.SaveUpdateSepecialValue(specialValueRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<string>> DeleteSpecialValue(int recordId, string partnerId)
+        {
+            try
+            {
+                return await _testMgmtRepository.DeleteSpecialValue(recordId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

@@ -764,5 +764,178 @@ namespace LISCareRepository.Implementation
             response.Data = string.Empty;
             return response;
         }
+        /// <summary>
+        /// used for Save Update Sepecial Value
+        /// </summary>
+        /// <param name="specialValueRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> SaveUpdateSepecialValue(SpecialValueRequest specialValueRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(specialValueRequest.ToString()))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspAllowedValuesSaveUpdateChanges;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, specialValueRequest.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType, specialValueRequest.OpType.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, specialValueRequest.TestCode.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRecordId, specialValueRequest.RecordId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestName, specialValueRequest.TestName.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAllowedvalue, specialValueRequest.AllowedValue.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsAbnormal, specialValueRequest.IsAbnormal));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
+        /// used for delete Special Value
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<string>> DeleteSpecialValue(int recordId, string partnerId)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (recordId > 0)
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspDeleteAllowedValue;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRecordId, recordId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.GreaterThanZero;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
     }
 }
