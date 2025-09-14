@@ -95,10 +95,6 @@ namespace LISCareLimited.Controllers
 
         }
 
-        // Fix CS8601: Possible null reference assignment.
-        // Ensure that responseModel.Data is never assigned a null value.
-        // Use the null-coalescing operator to assign an empty object or collection if result is null.
-
         [HttpGet]
         [Route(ConstantResource.GetTestByTestCode)]
         public IActionResult GetTestByTestCode(string partnerId, string testCode)
@@ -316,5 +312,36 @@ namespace LISCareLimited.Controllers
 
         }
 
+        [HttpPost]
+        [Route(ConstantResource.SaveUpdateSpecialValues)]
+        public async Task<IActionResult> SaveUpdateSpecialValues(SpecialValueRequest specialValueRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                   .Where(ms => ms.Value?.Errors != null && ms.Value.Errors.Count > 0)
+                   .Select(ms => new
+                   {
+                       Field = ms.Key,
+                       Errors = ms.Value?.Errors?.Select(e => e.ErrorMessage) ?? Enumerable.Empty<string>()
+                   });
+                return BadRequest(ModelState);
+
+            }
+            var result = await _testMgmt.SaveUpdateSepecialValue(specialValueRequest);
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpDelete]
+        [Route(ConstantResource.DeleteSpecialValue)]
+        public async Task<IActionResult> DeleteSpecialValue(int recordId, string partnerId)
+        {
+            if (recordId > 0 && !string.IsNullOrEmpty(partnerId))
+            {
+                var result = await _testMgmt.DeleteSpecialValue(recordId, partnerId);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid recordId or partnerId.");
+        }
     }
 }
