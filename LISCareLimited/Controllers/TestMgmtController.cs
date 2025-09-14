@@ -311,7 +311,11 @@ namespace LISCareLimited.Controllers
             }
 
         }
-
+        /// <summary>
+        /// Save Update Special value API
+        /// </summary>
+        /// <param name="specialValueRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route(ConstantResource.SaveUpdateSpecialValues)]
         public async Task<IActionResult> SaveUpdateSpecialValues(SpecialValueRequest specialValueRequest)
@@ -331,6 +335,12 @@ namespace LISCareLimited.Controllers
             var result = await _testMgmt.SaveUpdateSepecialValue(specialValueRequest);
             return StatusCode(result.StatusCode, result);
         }
+        /// <summary>
+        /// Delete Special Value API
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route(ConstantResource.DeleteSpecialValue)]
         public async Task<IActionResult> DeleteSpecialValue(int recordId, string partnerId)
