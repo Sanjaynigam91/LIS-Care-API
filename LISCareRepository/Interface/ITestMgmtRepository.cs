@@ -21,5 +21,6 @@ namespace LISCareRepository.Interface
         Task<APIResponseModel<string>> SaveUpdateSepecialValue(SpecialValueRequest specialValueRequest);
         Task<APIResponseModel<string>> DeleteSpecialValue(int recordId,string partnerId);
 
+
     }
 }

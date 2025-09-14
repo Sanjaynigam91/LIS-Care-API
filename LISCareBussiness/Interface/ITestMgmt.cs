@@ -20,5 +20,6 @@ namespace LISCareBussiness.Interface
         Task<APIResponseModel<string>> DeleteReferralRanges(int referralId);
         Task<APIResponseModel<string>> SaveUpdateSepecialValue(SpecialValueRequest specialValueRequest);
         Task<APIResponseModel<string>> DeleteSpecialValue(int recordId, string partnerId);
+
     }
 }
