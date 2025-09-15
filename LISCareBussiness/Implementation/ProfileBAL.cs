@@ -15,7 +15,11 @@ namespace LISCareBussiness.Implementation
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IProfileRepository _profileRepository = profileRepository;
-
+        /// <summary>
+        /// used to get all profiles details
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<List<ProfileResponse>>> GetAllProfileDetails(string partnerId)
         {
             try

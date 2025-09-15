@@ -24,7 +24,11 @@ namespace LISCareRepository.Implementation
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly LISCareDbContext _dbContext = dbContext;
-
+        /// <summary>
+        /// used to get all profiles details
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<List<ProfileResponse>>> GetAllProfileDetails(string partnerId)
         {
             var response = new APIResponseModel<List<ProfileResponse>>
