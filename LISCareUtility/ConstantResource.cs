@@ -106,7 +106,7 @@
         public const string DeleteReferralRanges = "DeleteReferralRanges";
         public const string SaveUpdateSpecialValues = "SaveUpdateSpecialValues";
         public const string DeleteSpecialValue = "DeleteSpecialValue";
-
+        public const string DeleteProfileByProfileCode = "DeleteProfileByProfileCode";
 
         #endregion
 
@@ -212,6 +212,7 @@
         public const string ParamReferelRangeComments= "@ReferelRangeComments";
         public const string ParamAllowedvalue = "@Allowedvalue";
         public const string ParamIsAbnormal = "@IsAbnormal";
+        public const string ParamProfileCode = "@ProfileCode";
 
 
        
@@ -477,6 +478,8 @@
         public const string UspAllowedValuesSaveUpdateChanges = "Usp_AllowedValues_SaveUpdateChanges";
         public const string UspDeleteAllowedValue = "Usp_DeleteAllowedValue";
         public const string UspRetrieveProfileDetails = "Usp_Retrieve_ProfileDetails";
+        public const string UspDeleteProfileDetails = "Usp_Delete_ProfileDetails";
+
 
 
 
@@ -521,6 +524,7 @@
         public const string ParamLowCriticalValue = "@LowCriticalValue";
         public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
+        public const string ProfileCodeEmpty = "Profile code or partnerId should not be empty or blank.";
         #endregion
     }
 }

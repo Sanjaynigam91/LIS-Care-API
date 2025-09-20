@@ -16,6 +16,25 @@ namespace LISCareBussiness.Implementation
         private readonly IConfiguration _configuration = configuration;
         private readonly IProfileRepository _profileRepository = profileRepository;
         /// <summary>
+        /// Delete profile by profile code and partnerId
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="profileCode"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<string>> DeleteProfile(string partnerId, string profileCode)
+        {
+            try
+            {
+                return await _profileRepository.DeleteProfile(partnerId,profileCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// used to get all profiles details
         /// </summary>
         /// <param name="partnerId"></param>
