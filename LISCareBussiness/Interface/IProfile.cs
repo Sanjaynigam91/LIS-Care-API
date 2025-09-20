@@ -16,5 +16,6 @@ namespace LISCareBussiness.Interface
       /// <param name="partnerId"></param>
       /// <returns></returns>
         Task<APIResponseModel<List<ProfileResponse>>> GetAllProfileDetails(string partnerId);
+        Task<APIResponseModel<string>> DeleteProfile(string partnerId,string profileCode);
     }
 }
