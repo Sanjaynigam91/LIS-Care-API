@@ -59,5 +59,17 @@ namespace LISCareLimited.Controllers
 
             return BadRequest(ConstantResource.ProfileCodeEmpty);
         }
+        [HttpGet]
+        [Route(ConstantResource.GetProfileByProfileCode)]
+        public async Task<IActionResult> GetProfileByProfileCode(string partnerId, string profileCode)
+        {
+            if (!string.IsNullOrEmpty(partnerId) && !string.IsNullOrEmpty(profileCode))
+            {
+                var result = await _profile.GetProfilesByProfileCode(partnerId, profileCode);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return NotFound(ConstantResource.ProfileCodeEmpty);
+        }
     }
 }

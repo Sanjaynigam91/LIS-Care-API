@@ -50,5 +50,22 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+        /// <summary>
+        /// used to get profiles by profile code
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="profileCode"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<ProfileResponse>> GetProfilesByProfileCode(string partnerId, string profileCode)
+        {
+            try
+            {
+                return await _profileRepository.GetProfilesByProfileCode(partnerId, profileCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
