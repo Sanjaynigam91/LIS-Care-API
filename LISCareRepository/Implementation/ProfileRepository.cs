@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LISCareRepository.Implementation
 {
@@ -192,7 +193,88 @@ namespace LISCareRepository.Implementation
 
             return response;
         }
+        /// <summary>
+        /// used to get profiles by profile code
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="profileCode"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<ProfileResponse>> GetProfilesByProfileCode(string partnerId, string profileCode)
+        {
+            var response = new APIResponseModel<ProfileResponse>
+            {
+                Data = new ProfileResponse()
+            };
 
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId) && string.IsNullOrEmpty(profileCode))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.UspGetProfileDetailsByProfileCode;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileCode, profileCode.Trim()));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    ProfileResponse profile = new ProfileResponse();
+                    while (await reader.ReadAsync())
+                    {
+                        profile.PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty;
+                        profile.ProfileCode = reader[ConstantResource.ProfileCode] as string ?? string.Empty;
+                        profile.ProfileName = reader[ConstantResource.ProfileName] as string ?? string.Empty;
+                        profile.MRP = reader[ConstantResource.MRP] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.MRP]) : 0;
+                        profile.ProfileStatus = reader[ConstantResource.ProfileStatus] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.ProfileStatus]);
+                        profile.B2CRates = reader[ConstantResource.ProfileB2CRates] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ProfileB2CRates]) : 0;
+                        profile.SampleTypes = reader[ConstantResource.SampleTypes] as string ?? string.Empty;
+                        profile.Labrates = reader[ConstantResource.ProfileLabRates] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ProfileLabRates]) : 0;
+                        profile.TatHrs = reader[ConstantResource.TatHrs] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.TatHrs]) : 0;
+                        profile.CptCodes = reader[ConstantResource.CptCodes] as string ?? string.Empty;
+                        profile.PrintSequence = reader[ConstantResource.PrintSequence] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.PrintSequence]) : 0;
+                        profile.IsRestricted = reader[ConstantResource.IsRestricted] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsRestricted]);
+                        profile.SubProfilesCount = reader[ConstantResource.SubProfilesCount] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.SubProfilesCount]) : 0;
+                        profile.RecordId = reader[ConstantResource.RecordId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.RecordId]) : 0;
+                        profile.NormalRangeFooter = reader[ConstantResource.ProfileNormalRangeFooter] as string ?? string.Empty;
+                        profile.TestShortName = reader[ConstantResource.TestShortName] as string ?? string.Empty;
+                        profile.ProfileProfitRate = reader[ConstantResource.ProfileProfitRate] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.ProfileProfitRate]) : 0;
+                        profile.LabTestCodes = reader[ConstantResource.ProfileLabTestCode] as string ?? string.Empty;
+                        profile.IsProfileOutLab = reader[ConstantResource.IsProfileOutLab] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsProfileOutLab]);
+                        profile.TestApplicable = reader[ConstantResource.TestApplicable] as string ?? string.Empty;
+                        profile.IsLMP = reader[ConstantResource.IsLMP] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsLMP]);
+                        profile.IsNABLApplicable = reader[ConstantResource.IsNABLApplicable] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsNABLApplicable]);
+
+                        response.Data = profile;
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Profiles retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
     }
 
 }
