@@ -4,6 +4,7 @@ using LISCareDTO.ProfileMaster;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LISCareLimited.Controllers
 {
@@ -82,6 +83,31 @@ namespace LISCareLimited.Controllers
             }
 
             return NotFound(ConstantResource.ProfileCodeEmpty);
+        }
+        [HttpPost]
+        [Route(ConstantResource.CreateProfile)]
+        public async Task<IActionResult> SaveProfileDetails(ProfileRequest profileRequest)
+        {
+            if (!string.IsNullOrEmpty(profileRequest.PartnerId) && !string.IsNullOrEmpty(profileRequest.ProfileName))
+            {
+                var result = await _profile.SaveProfileDetails(profileRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid pofile request");
+        }
+
+        [HttpPut]
+        [Route(ConstantResource.UpdateTestProfile)]
+        public async Task<IActionResult>UpdateProfileDetails(ProfileRequest profileRequest)
+        {
+            if (!string.IsNullOrEmpty(profileRequest.PartnerId) && !string.IsNullOrEmpty(profileRequest.ProfileName))
+            {
+                var result = await _profile.UpdateProfileDetails(profileRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid pofile request");
         }
     }
 }

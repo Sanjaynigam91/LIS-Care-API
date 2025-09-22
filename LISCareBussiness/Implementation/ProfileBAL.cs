@@ -85,5 +85,37 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+        /// <summary>
+        /// used to save profile details
+        /// </summary>
+        /// <param name="profileRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> SaveProfileDetails(ProfileRequest profileRequest)
+        {
+            try
+            {
+                return await _profileRepository.SaveProfileDetails(profileRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to update profile details
+        /// </summary>
+        /// <param name="profileRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateProfileDetails(ProfileRequest profileRequest)
+        {
+            try
+            {
+                return await _profileRepository.UpdateProfileDetails(profileRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
