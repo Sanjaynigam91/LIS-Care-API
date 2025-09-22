@@ -33,6 +33,24 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+        /// <summary>
+        /// used to get all profile's mapped test details
+        /// </summary>
+        /// <param name="profileCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<List<ProfileMappingResponse>>> GetAllMappedTests(string profileCode, string partnerId)
+        {
+            try
+            {
+                return await _profileRepository.GetAllMappedTests(profileCode, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// used to get all profiles details
