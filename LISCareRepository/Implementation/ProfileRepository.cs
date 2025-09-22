@@ -160,6 +160,7 @@ namespace LISCareRepository.Implementation
                             PrintOrder = reader[ConstantResource.PrintOrder] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.PrintOrder]) : 0,
                             SectionName = reader[ConstantResource.SectionName] as string ?? string.Empty,
                             GroupHeader = reader[ConstantResource.GroupHeader] as string ?? string.Empty,
+                            ReportTemplateName = reader[ConstantResource.ProfileTemplateName] as string ?? string.Empty,
                             CanPrintSeparately = reader[ConstantResource.CanPrintSeparately] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.CanPrintSeparately]) : false
                         });
                         response.Status = true;
