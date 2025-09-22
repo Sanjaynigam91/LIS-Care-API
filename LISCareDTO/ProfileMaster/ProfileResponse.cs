@@ -30,6 +30,8 @@ namespace LISCareDTO.ProfileMaster
         public string TestApplicable {get; set; }=string.Empty;
         public bool IsLMP { get; set; }=false;
         public bool IsNABLApplicable { get; set; }=false;
+        public bool IsAvailableForAll { get; set; }=false;
+
 
 
     }

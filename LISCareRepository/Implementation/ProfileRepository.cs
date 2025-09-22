@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -182,7 +183,6 @@ namespace LISCareRepository.Implementation
 
             return response;
         }
-
         /// <summary>
         /// used to get all profiles details
         /// </summary>
@@ -321,6 +321,7 @@ namespace LISCareRepository.Implementation
                         profile.TestApplicable = reader[ConstantResource.TestApplicable] as string ?? string.Empty;
                         profile.IsLMP = reader[ConstantResource.IsLMP] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsLMP]);
                         profile.IsNABLApplicable = reader[ConstantResource.IsNABLApplicable] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsNABLApplicable]);
+                        profile.IsAvailableForAll = reader[ConstantResource.IsAvailableForAll] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsAvailableForAll]);
 
                         response.Data = profile;
                         response.Status = true;
@@ -342,6 +343,207 @@ namespace LISCareRepository.Implementation
                 await _dbContext.Database.CloseConnectionAsync();
             }
 
+            return response;
+        }
+        /// <summary>
+        /// used to save profile details
+        /// </summary>
+        /// <param name="profileRequest"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<string>> SaveProfileDetails(ProfileRequest profileRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(profileRequest.ProfileName) && !string.IsNullOrEmpty(profileRequest.PartnerId))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.USPSaveProfileDetails;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileCode, profileRequest.ProfileCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ProfileName, profileRequest.ProfileName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.PartnerId, profileRequest.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientRate, profileRequest.PatientRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamClientRate, profileRequest.ClientRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabRate, profileRequest.LabRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileStatus, profileRequest.ProfileStatus));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestShortName, profileRequest.TestShortName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPrintSequence, profileRequest.PrintSequence));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSampleTypes, profileRequest.SampleTypes));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsAvailableForAll, profileRequest.IsAvailableForAll));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabTestCode, profileRequest.LabTestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsProfileOutLab, profileRequest.IsProfileOutLab));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestApplicable, profileRequest.TestApplicable));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsLMP, profileRequest.IsLMP));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsNABApplicable, profileRequest.IsNABApplicable));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileFooter, profileRequest.ProfileFooter));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
+        /// used to update profile details
+        /// </summary>
+        /// <param name="profileRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateProfileDetails(ProfileRequest profileRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(profileRequest.ProfileName) && !string.IsNullOrEmpty(profileRequest.PartnerId))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.USPUpdateProfileDetails;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileCode, profileRequest.ProfileCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ProfileName, profileRequest.ProfileName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.PartnerId, profileRequest.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientRate, profileRequest.PatientRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamClientRate, profileRequest.ClientRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabRate, profileRequest.LabRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileStatus, profileRequest.ProfileStatus));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestShortName, profileRequest.TestShortName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPrintSequence, profileRequest.PrintSequence));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSampleTypes, profileRequest.SampleTypes));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsAvailableForAll, profileRequest.IsAvailableForAll));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabTestCode, profileRequest.LabTestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsProfileOutLab, profileRequest.IsProfileOutLab));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestApplicable, profileRequest.TestApplicable));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsLMP, profileRequest.IsLMP));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsNABApplicable, profileRequest.IsNABApplicable));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileFooter, profileRequest.ProfileFooter));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
             return response;
         }
     }

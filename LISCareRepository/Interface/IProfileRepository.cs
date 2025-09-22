@@ -38,6 +38,17 @@ namespace LISCareRepository.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<ProfileMappingResponse>>> GetAllMappedTests(string profileCode, string partnerId);
-
+        /// <summary>
+        /// Used to save profile details
+        /// </summary>
+        /// <param name="profileRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> SaveProfileDetails(ProfileRequest profileRequest);
+        /// <summary>
+        /// used to update profile details
+        /// </summary>
+        /// <param name="profileRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateProfileDetails(ProfileRequest profileRequest);
     }
 }
