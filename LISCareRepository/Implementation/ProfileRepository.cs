@@ -113,6 +113,75 @@ namespace LISCareRepository.Implementation
             response.Data = string.Empty;
             return response;
         }
+        /// <summary>
+        /// used to get all mapped test into profile's
+        /// </summary>
+        /// <param name="profileCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<List<ProfileMappingResponse>>> GetAllMappedTests(string profileCode, string partnerId)
+        {
+            var response = new APIResponseModel<List<ProfileMappingResponse>>
+            {
+                Data = new List<ProfileMappingResponse>()
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId) && string.IsNullOrEmpty(profileCode))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.UspProfileMappingRetrieve;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamProfileCode, profileCode.Trim()));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new ProfileMappingResponse
+                        {
+                            TestsMappingId = reader[ConstantResource.TestsMappingId] as string ?? string.Empty,
+                            ProfileCode = reader[ConstantResource.ProfileCode] as string ?? string.Empty,
+                            ProfileName = reader[ConstantResource.ProfileName] as string ?? string.Empty,
+                            TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty,
+                            PrintOrder = reader[ConstantResource.PrintOrder] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.PrintOrder]) : 0,
+                            SectionName = reader[ConstantResource.SectionName] as string ?? string.Empty,
+                            GroupHeader = reader[ConstantResource.GroupHeader] as string ?? string.Empty,
+                            CanPrintSeparately = reader[ConstantResource.CanPrintSeparately] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.CanPrintSeparately]) : false
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Profile's mapped tests retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
 
         /// <summary>
         /// used to get all profiles details

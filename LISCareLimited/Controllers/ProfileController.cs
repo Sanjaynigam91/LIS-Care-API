@@ -71,5 +71,17 @@ namespace LISCareLimited.Controllers
 
             return NotFound(ConstantResource.ProfileCodeEmpty);
         }
+        [HttpGet]
+        [Route(ConstantResource.GetAllMappedTests)]
+        public async Task<IActionResult> GetAllProfilesMappedTests(string profileCode, string partnerId)
+        {
+            if (!string.IsNullOrEmpty(partnerId) && !string.IsNullOrEmpty(profileCode))
+            {
+                var result = await _profile.GetAllMappedTests(profileCode, partnerId);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return NotFound(ConstantResource.ProfileCodeEmpty);
+        }
     }
 }
