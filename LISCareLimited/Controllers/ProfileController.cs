@@ -109,5 +109,18 @@ namespace LISCareLimited.Controllers
 
             return BadRequest("Invalid pofile request");
         }
+
+        [HttpDelete]
+        [Route(ConstantResource.DeleteMappedTest)]
+        public async Task<IActionResult> DeleteMappedTests(string mappingId, string partnerId)
+        {
+            if (!string.IsNullOrEmpty(partnerId) && !string.IsNullOrEmpty(mappingId))
+            {
+                var result = await _profile.DeleteMappingTests(mappingId, partnerId);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest(ConstantResource.MappingIdEmpty);
+        }
     }
 }
