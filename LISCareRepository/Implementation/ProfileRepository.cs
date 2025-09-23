@@ -19,6 +19,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LISCareRepository.Implementation
 {
@@ -26,6 +27,94 @@ namespace LISCareRepository.Implementation
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly LISCareDbContext _dbContext = dbContext;
+        /// <summary>
+        /// used to delete tests mapping by mapping Id and partnerId
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> DeleteMappingTests(string mappingId, string partnerId)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(mappingId) && !string.IsNullOrEmpty(partnerId))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspDeleteMappingDetails;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMappingId, mappingId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+
         /// <summary>
         /// Delete profile by profile code and partnerId
         /// </summary>
@@ -152,16 +241,22 @@ namespace LISCareRepository.Implementation
                     {
                         response.Data.Add(new ProfileMappingResponse
                         {
-                            TestsMappingId = reader[ConstantResource.TestsMappingId] as string ?? string.Empty,
+                            TestsMappingId = reader[ConstantResource.TestsMappingId] != DBNull.Value ? Convert.ToString(reader[ConstantResource.TestsMappingId]) ?? string.Empty : string.Empty,
                             ProfileCode = reader[ConstantResource.ProfileCode] as string ?? string.Empty,
                             ProfileName = reader[ConstantResource.ProfileName] as string ?? string.Empty,
                             TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
                             TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty,
-                            PrintOrder = reader[ConstantResource.PrintOrder] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.PrintOrder]) : 0,
+                            PrintOrder = reader[ConstantResource.PrintOrder] != DBNull.Value
+                         ? Convert.ToInt32(reader[ConstantResource.PrintOrder])
+                         : 0,
                             SectionName = reader[ConstantResource.SectionName] as string ?? string.Empty,
                             GroupHeader = reader[ConstantResource.GroupHeader] as string ?? string.Empty,
-                            CanPrintSeparately = reader[ConstantResource.CanPrintSeparately] != DBNull.Value ? Convert.ToBoolean(reader[ConstantResource.CanPrintSeparately]) : false
+                            ReportTemplateName = reader[ConstantResource.ProfileTemplateName] as string ?? string.Empty,
+                            CanPrintSeparately = reader[ConstantResource.CanPrintSeparately] != DBNull.Value
+                         ? Convert.ToBoolean(reader[ConstantResource.CanPrintSeparately])
+                         : false
                         });
+
                         response.Status = true;
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.ResponseMessage = "Profile's mapped tests retrieved successfully.";

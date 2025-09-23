@@ -16,6 +16,25 @@ namespace LISCareBussiness.Implementation
         private readonly IConfiguration _configuration = configuration;
         private readonly IProfileRepository _profileRepository = profileRepository;
         /// <summary>
+        /// used to delete tests mapping by mapping Id and partnerId
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<string>> DeleteMappingTests(string mappingId, string partnerId)
+        {
+            try
+            {
+                return await _profileRepository.DeleteMappingTests(mappingId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Delete profile by profile code and partnerId
         /// </summary>
         /// <param name="partnerId"></param>

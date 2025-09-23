@@ -49,5 +49,12 @@ namespace LISCareBussiness.Interface
         /// <param name="profileRequest"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> UpdateProfileDetails(ProfileRequest profileRequest);
+        /// <summary>
+        /// Used to delete tests mapping by mapping Id and partnerId
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="profileCode"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> DeleteMappingTests(string mappingId, string partnerId);
     }
 }
