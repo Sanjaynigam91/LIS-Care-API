@@ -122,5 +122,18 @@ namespace LISCareLimited.Controllers
 
             return BadRequest(ConstantResource.MappingIdEmpty);
         }
+        [HttpPost]
+        [Route(ConstantResource.SaveMappingTest)]
+        public async Task<IActionResult> SaveTestMapping(TestMappingRequest mappingRequest)
+        {
+            if (!string.IsNullOrEmpty(mappingRequest.ProfileCode) && !string.IsNullOrEmpty(mappingRequest.TestCode))
+            {
+                var result = await _profile.SaveTestMappingDeatils(mappingRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid mapping request");
+        }
+
     }
 }

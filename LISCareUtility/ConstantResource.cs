@@ -107,6 +107,14 @@
         public const string SaveUpdateSpecialValues = "SaveUpdateSpecialValues";
         public const string DeleteSpecialValue = "DeleteSpecialValue";
         public const string DeleteProfileByProfileCode = "DeleteProfileByProfileCode";
+        public const string GetProfileByProfileCode = "GetProfileByProfileCode";
+        public const string GetAllMappedTests = "GetAllMappedTests";
+        public const string CreateProfile = "CreateProfile";
+        public const string UpdateTestProfile = "UpdateTestProfile";
+        public const string DeleteMappedTest = "DeleteMappedTest";
+        public const string SaveMappingTest = "SaveMappingTest";
+
+
 
         #endregion
 
@@ -213,9 +221,18 @@
         public const string ParamAllowedvalue = "@Allowedvalue";
         public const string ParamIsAbnormal = "@IsAbnormal";
         public const string ParamProfileCode = "@ProfileCode";
+        public const string ParamProfileName = "@ProfileName";
+        public const string ParamProfileStatus = "@ProfileStatus";
+        public const string ParamSampleTypes = "@SampleTypes";
+        public const string ParamIsAvailableForAll = "@IsAvailableForAll";
+        public const string ParamIsProfileOutLab = "@IsProfileOutLab";
+        public const string ParamProfileFooter = "@ProfileFooter";
+        public const string ParamIsNABApplicable= "@IsNABApplicable";
+        public const string ParamMappingId= "@MappingId";
+        public const string ParamSectionName= "@SectionName";
+        public const string ParamPrintOrder= "@PrintOrder";
+        public const string ParamGroupHeader= "@GroupHeader";
 
-
-       
 
         #endregion
 
@@ -351,6 +368,15 @@
         public const string IsProfileOutLab = "IsProfileOutLab";
         public const string ProfileName = "ProfileName";
         public const string ProfileLabTestCode = "LabTestCode";
+        public const string TestsMappingId = "testsmappingid";
+        public const string ProfileReportTemplateName = "reporttemplatename";
+        public const string PrintOrder = "ReportPrintOrder";
+        public const string SectionName = "ReportLogicalSection";
+        public const string GroupHeader = "groupheader";
+        public const string CanPrintSeparately = "CanPrintSeparately";
+        public const string MappedTestName = "TestName";
+        public const string IsAvailableForAll = "IsAvailableForAll";
+        public const string ProfileTemplateName = "reporttemplatename";
 
 
         #endregion
@@ -479,9 +505,12 @@
         public const string UspDeleteAllowedValue = "Usp_DeleteAllowedValue";
         public const string UspRetrieveProfileDetails = "Usp_Retrieve_ProfileDetails";
         public const string UspDeleteProfileDetails = "Usp_Delete_ProfileDetails";
-
-
-
+        public const string UspGetProfileDetailsByProfileCode = "Usp_GetProfileDetails_ByProfileCode";
+        public const string UspProfileMappingRetrieve = "usp_ProfileMapping_Retrieve";
+        public const string USPSaveProfileDetails = "USP_SaveProfileDetails";
+        public const string USPUpdateProfileDetails = "USP_UpdateProfileDetails";
+        public const string UspDeleteMappingDetails = "Usp_DeleteMappingDetails";
+        public const string UspTestMappingForProfile = "Usp_TestMappingForProfile";
 
         #endregion
 
@@ -524,7 +553,9 @@
         public const string ParamLowCriticalValue = "@LowCriticalValue";
         public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
-        public const string ProfileCodeEmpty = "Profile code or partnerId should not be empty or blank.";
+        public const string ProfileCodeEmpty = "Profile code should not be empty or blank.";
+        public const string MappingIdEmpty = "Mapping Id should not be empty or blank.";
+
         #endregion
     }
 }
