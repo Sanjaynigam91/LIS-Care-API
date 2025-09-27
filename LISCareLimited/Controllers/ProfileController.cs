@@ -134,6 +134,18 @@ namespace LISCareLimited.Controllers
 
             return BadRequest("Invalid mapping request");
         }
+        [HttpPut]
+        [Route(ConstantResource.UpdateAllMappings)]
+        public async Task<IActionResult> UpdateAllMappingDetails(List<TestMappingRequest> mappingRequests)
+        {
+            if (mappingRequests.Count>0)
+            {
+                var result = await _profile.UpdateAllMapping(mappingRequests);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest(ConstantResource.InvaidMappingRequest);
+        }
 
     }
 }
