@@ -138,6 +138,18 @@ namespace LISCareBussiness.Implementation
             }
         }
 
+        public async Task<APIResponseModel<string>> UpdateAllMapping(List<TestMappingRequest> mappingRequests)
+        {
+            try
+            {
+                return await _profileRepository.UpdateAllMapping(mappingRequests);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to update profile details
         /// </summary>

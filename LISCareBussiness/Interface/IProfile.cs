@@ -62,5 +62,11 @@ namespace LISCareBussiness.Interface
         /// <param name="mappingRequest"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> SaveTestMappingDeatils(TestMappingRequest mappingRequest);
+        /// <summary>
+        /// used to update all mapping
+        /// </summary>
+        /// <param name="mappingRequests"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateAllMapping(List<TestMappingRequest> mappingRequests);
     }
 }

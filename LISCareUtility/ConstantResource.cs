@@ -113,8 +113,7 @@
         public const string UpdateTestProfile = "UpdateTestProfile";
         public const string DeleteMappedTest = "DeleteMappedTest";
         public const string SaveMappingTest = "SaveMappingTest";
-
-
+        public const string UpdateAllMappings = "UpdateAllMappings";
 
         #endregion
 
@@ -511,6 +510,7 @@
         public const string USPUpdateProfileDetails = "USP_UpdateProfileDetails";
         public const string UspDeleteMappingDetails = "Usp_DeleteMappingDetails";
         public const string UspTestMappingForProfile = "Usp_TestMappingForProfile";
+        public const string UspUpdateTestMapping = "Usp_UpdateTestMapping";
 
         #endregion
 
@@ -555,6 +555,7 @@
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
         public const string ProfileCodeEmpty = "Profile code should not be empty or blank.";
         public const string MappingIdEmpty = "Mapping Id should not be empty or blank.";
+        public readonly static string InvaidMappingRequest = "Invaid Mapping Request";
 
         #endregion
     }
