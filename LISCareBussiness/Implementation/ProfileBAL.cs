@@ -121,6 +121,24 @@ namespace LISCareBussiness.Implementation
             }
         }
         /// <summary>
+        /// used to save test mapping details
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<APIResponseModel<string>> SaveTestMappingDeatils(TestMappingRequest mappingRequest)
+        {
+            try
+            {
+                return await _profileRepository.SaveTestMappingDeatils(mappingRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// used to update profile details
         /// </summary>
         /// <param name="profileRequest"></param>
