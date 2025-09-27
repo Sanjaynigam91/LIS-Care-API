@@ -57,6 +57,18 @@ namespace LISCareRepository.Interface
         /// <param name="profileCode"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> DeleteMappingTests(string mappingId, string partnerId);
+        /// <summary>
+        /// used to save test mapping details
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> SaveTestMappingDeatils(TestMappingRequest mappingRequest);
+        /// <summary>
+        /// used to update all mapping
+        /// </summary>
+        /// <param name="mappingRequests"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateAllMapping(List<TestMappingRequest> mappingRequests);
 
     }
 }
