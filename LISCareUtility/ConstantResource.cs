@@ -41,6 +41,8 @@
         public const string AddSampleCollectedPlace = "AddSampleCollectedPlace";
         public const string DeleteSamplePlace = "DeleteSamplePlace";
         public const string GetAllProfileDetails = "GetAllProfileDetails";
+        public const string GetAllAnalyzers = "GetAllAnalyzers";
+
         #endregion
 
         #region Meta Data Module
@@ -231,6 +233,7 @@
         public const string ParamSectionName= "@SectionName";
         public const string ParamPrintOrder= "@PrintOrder";
         public const string ParamGroupHeader= "@GroupHeader";
+        public const string ParamAnalyzerNameOrShortCode = "@AnalyzerNameOrShortCode";
 
 
         #endregion
@@ -376,6 +379,16 @@
         public const string MappedTestName = "TestName";
         public const string IsAvailableForAll = "IsAvailableForAll";
         public const string ProfileTemplateName = "reporttemplatename";
+        public const string AnalyzerId = "AnalyzerId";
+        public const string AnalyzerNames = "AnalyzerName";
+        public const string AnalyzerShortCode = "AnalyzerShortCode";
+        public const string Status = "Status";
+        public const string SupplierCode = "SupplierCode";
+        public const string PurchasedValue = "PurchasedValue";
+        public const string WarrantyEndDate = "WarrantyEndDate";
+        public const string EngineerContactNo = "EngineerContactNo";
+        public const string AssetCode = "AssetCode";
+
 
 
         #endregion
@@ -511,6 +524,12 @@
         public const string UspDeleteMappingDetails = "Usp_DeleteMappingDetails";
         public const string UspTestMappingForProfile = "Usp_TestMappingForProfile";
         public const string UspUpdateTestMapping = "Usp_UpdateTestMapping";
+
+        #endregion
+
+        #region Analyzer Master 
+        public const string USPGetAllAnalyzers = "USP_GetAllAnalyzers";
+
 
         #endregion
 

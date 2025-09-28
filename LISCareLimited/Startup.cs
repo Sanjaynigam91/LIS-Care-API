@@ -48,6 +48,8 @@ namespace LISCareLimited
             services.AddScoped<ITestMgmtRepository, TestMgmtRepository>();
             services.AddScoped<IProfile, ProfileBAL>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IAnalyzer, AnalyzerBAL>();
+            services.AddScoped<IAnalyzerRepository, AnalyzerRepository>();
 
             services.AddCors(options =>
             {
