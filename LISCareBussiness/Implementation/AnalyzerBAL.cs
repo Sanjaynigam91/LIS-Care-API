@@ -34,5 +34,38 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+        /// <summary>
+        /// used to get all suppliers
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SupplierResponse>>> GetAllSuppliers(string partnerId)
+        {
+            try
+            {
+                return await _analyzerRepository.GetAllSuppliers(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to get analyzer details by analyzerId
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<AnalyzerResponse>>> GetAnalyzerDetails(string partnerId, int analyzerId)
+        {
+            try
+            {
+                return await _analyzerRepository.GetAnalyzerDetails(partnerId, analyzerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

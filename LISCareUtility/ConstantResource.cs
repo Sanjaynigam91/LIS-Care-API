@@ -42,6 +42,10 @@
         public const string DeleteSamplePlace = "DeleteSamplePlace";
         public const string GetAllProfileDetails = "GetAllProfileDetails";
         public const string GetAllAnalyzers = "GetAllAnalyzers";
+        public const string GetAllSuppliers = "GetAllSuppliers";
+        public const string GetAnalyzerDetailById = "GetAnalyzerDetailById";
+
+
 
         #endregion
 
@@ -234,6 +238,7 @@
         public const string ParamPrintOrder= "@PrintOrder";
         public const string ParamGroupHeader= "@GroupHeader";
         public const string ParamAnalyzerNameOrShortCode = "@AnalyzerNameOrShortCode";
+        public const string ParamAnalyzerId = "@AnalyzerId";
 
 
         #endregion
@@ -388,6 +393,8 @@
         public const string WarrantyEndDate = "WarrantyEndDate";
         public const string EngineerContactNo = "EngineerContactNo";
         public const string AssetCode = "AssetCode";
+        public const string SupplierName = "CompanyName";
+
 
 
 
@@ -529,7 +536,8 @@
 
         #region Analyzer Master 
         public const string USPGetAllAnalyzers = "USP_GetAllAnalyzers";
-
+        public const string USPGetAllSuppliers = "USP_GetAllSuppliers";
+        public const string USPGetAnalyzerDetailsById = "USP_GetAnalyzerDetailsById";
 
         #endregion
 
