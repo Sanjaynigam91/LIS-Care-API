@@ -14,7 +14,7 @@ namespace LISCareDTO.AnalyzerMaster
         public Boolean AnalyzerStatus { get; set; }=false;
         public string SupplierCode { get; set; }= string.Empty; 
         public decimal PurchaseValue { get; set; }=0;
-        public DateTime WarrantyEndDate { get; set; }=DateTime.Now;
+        public string WarrantyEndDate { get; set; }=string.Empty;
         public string EngineerContactNo { get; set; }= string.Empty;
         public string AssetCode { get; set; }= string.Empty;
         public required string PartnerId { get; set; }

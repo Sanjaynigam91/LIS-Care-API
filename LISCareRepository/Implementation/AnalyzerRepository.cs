@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace LISCareRepository.Implementation
 {
-    public class AnalyzerRepository(IConfiguration configuration, LISCareDbContext dbContext): IAnalyzerRepository
+    public class AnalyzerRepository(IConfiguration configuration, LISCareDbContext dbContext) : IAnalyzerRepository
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly LISCareDbContext _dbContext = dbContext;
@@ -70,13 +70,146 @@ namespace LISCareRepository.Implementation
                             AnalyzerStatus = reader[ConstantResource.Status] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.Status]),
                             SupplierCode = reader[ConstantResource.SupplierCode] as string ?? string.Empty,
                             PurchaseValue = reader[ConstantResource.PurchasedValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.PurchasedValue]) : 0,
-                            WarrantyEndDate = reader[ConstantResource.WarrantyEndDate] != DBNull.Value ? Convert.ToDateTime(reader[ConstantResource.WarrantyEndDate]) : DateTime.Now,
+                            WarrantyEndDate = reader[ConstantResource.WarrantyEndDate] != DBNull.Value
+                            ? Convert.ToDateTime(reader[ConstantResource.WarrantyEndDate]).ToString("yyyyMMdd")
+                            : DateTime.Now.ToString("yyyyMMdd"),
                             EngineerContactNo = reader[ConstantResource.EngineerContactNo] as string ?? string.Empty,
                             AssetCode = reader[ConstantResource.AssetCode] as string ?? string.Empty
                         });
                         response.Status = true;
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        response.ResponseMessage = "Profiles retrieved successfully.";
+                        response.ResponseMessage = "Analyzers retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
+        /// <summary>
+        /// used to get all suppliers
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SupplierResponse>>> GetAllSuppliers(string partnerId)
+        {
+            var response = new APIResponseModel<List<SupplierResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.USPGetAllSuppliers;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new SupplierResponse
+                        {
+                            SupplierCode = reader[ConstantResource.SupplierCode] as string ?? string.Empty,
+                            SupplierName = reader[ConstantResource.SupplierName] as string ?? string.Empty
+
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Supplier details retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
+        /// <summary>
+        /// used to get analyzer details by analyzerId
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<AnalyzerResponse>>> GetAnalyzerDetails(string partnerId, int analyzerId)
+        {
+            var response = new APIResponseModel<List<AnalyzerResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.USPGetAnalyzerDetailsById;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, analyzerId));
+
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new AnalyzerResponse
+                        {
+                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
+                            AnalyzerId = reader[ConstantResource.AnalyzerId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AnalyzerId]) : 0,
+                            AnalyzerName = reader[ConstantResource.AnalyzerNames] as string ?? string.Empty,
+                            AnalyzerCode = reader[ConstantResource.AnalyzerShortCode] as string ?? string.Empty,
+                            AnalyzerStatus = reader[ConstantResource.Status] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.Status]),
+                            SupplierCode = reader[ConstantResource.SupplierCode] as string ?? string.Empty,
+                            PurchaseValue = reader[ConstantResource.PurchasedValue] != DBNull.Value ? Convert.ToDecimal(reader[ConstantResource.PurchasedValue]) : 0,
+                            WarrantyEndDate = reader[ConstantResource.WarrantyEndDate] != DBNull.Value
+                            ? Convert.ToDateTime(reader[ConstantResource.WarrantyEndDate]).ToString("yyyyMMdd")
+                            : DateTime.Now.ToString("yyyyMMdd"),
+                            EngineerContactNo = reader[ConstantResource.EngineerContactNo] as string ?? string.Empty,
+                            AssetCode = reader[ConstantResource.AssetCode] as string ?? string.Empty
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Analyzers retrieved successfully.";
                     }
                 }
 

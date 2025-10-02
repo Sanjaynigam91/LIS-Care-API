@@ -48,6 +48,64 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetAllSuppliers)]
+        public async Task<IActionResult> GetAllSupplierData([FromQuery] string partnerId)
+        {
+            var response = new APIResponseModel<List<SupplierResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _analyzer.GetAllSuppliers(partnerId);
+                if (response.Data == null || response.Data.Count == 0)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No suppliers details found for the given PartnerId.";
+                }
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        /// <summary>
+        /// used to get all analyzer details
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetAnalyzerDetailById)]
+        public async Task<IActionResult> GetAnalyzersDetailsById([FromQuery] string partnerId, int analyzerId)
+        {
+            var response = new APIResponseModel<List<AnalyzerResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _analyzer.GetAnalyzerDetails(partnerId, analyzerId);
+                if (response.Data == null)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No analyzers details found for the given PartnerId.";
+                }
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
 
     }
 }
