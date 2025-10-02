@@ -35,7 +35,7 @@ namespace LISCareRepository.Implementation
         {
             var response = new APIResponseModel<List<AnalyzerResponse>>
             {
-                Data = new List<AnalyzerResponse>()
+                Data = []
             };
 
             try
