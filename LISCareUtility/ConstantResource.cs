@@ -44,8 +44,7 @@
         public const string GetAllAnalyzers = "GetAllAnalyzers";
         public const string GetAllSuppliers = "GetAllSuppliers";
         public const string GetAnalyzerDetailById = "GetAnalyzerDetailById";
-
-
+        public const string GetAnalyzerTestMappings = "GetAnalyzerTestMappings";
 
         #endregion
 
@@ -394,7 +393,11 @@
         public const string EngineerContactNo = "EngineerContactNo";
         public const string AssetCode = "AssetCode";
         public const string SupplierName = "CompanyName";
-
+        public const string MappingId = "MappingId";
+        public const string AnalyzerTestCode = "Analyzer_TestCode";
+        public const string AnalyzerLabTestCode = "Lab_TestCode";
+        public const string IsProfileCode = "IsProfileCode";
+        public const string SampleType = "SampleType";
 
 
 
@@ -538,6 +541,8 @@
         public const string USPGetAllAnalyzers = "USP_GetAllAnalyzers";
         public const string USPGetAllSuppliers = "USP_GetAllSuppliers";
         public const string USPGetAnalyzerDetailsById = "USP_GetAnalyzerDetailsById";
+        public const string UspGetAnalyzerTestMapping = "Usp_GetAnalyzerTestMapping";
+
 
         #endregion
 

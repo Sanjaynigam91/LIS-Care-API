@@ -30,6 +30,13 @@ namespace LISCareRepository.Interface
         /// <param name="analyzerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<AnalyzerResponse>>> GetAnalyzerDetails(string partnerId,int analyzerId);
+        /// <summary>
+        /// used to get anlyzer's test mapping details
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<AnalyzerMappingResponse>>>GetAnalyzerTestMappings(string partnerId, int analyzerId);
 
     }
 }
