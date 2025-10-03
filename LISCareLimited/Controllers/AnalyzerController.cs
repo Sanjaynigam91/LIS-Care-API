@@ -79,6 +79,7 @@ namespace LISCareLimited.Controllers
         /// used to get all analyzer details
         /// </summary>
         /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
         /// <returns></returns>
         [HttpGet]
         [Route(ConstantResource.GetAnalyzerDetailById)]
@@ -106,6 +107,37 @@ namespace LISCareLimited.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
         }
-
+        /// <summary>
+        /// used to get analyzer's test mappings
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetAnalyzerTestMappings)]
+        public async Task<IActionResult> GetAnalyzersMappings([FromQuery] string partnerId, int analyzerId)
+        {
+            var response = new APIResponseModel<List<AnalyzerMappingResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _analyzer.GetAnalyzerTestMappings(partnerId, analyzerId);
+                if (response.Data == null)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No analyzers test mappings details found for the given PartnerId.";
+                }
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
     }
 }

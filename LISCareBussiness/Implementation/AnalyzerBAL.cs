@@ -67,5 +67,22 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+        /// <summary>
+        /// used to get Analyzer's test mappings
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<AnalyzerMappingResponse>>> GetAnalyzerTestMappings(string partnerId, int analyzerId)
+        {
+            try
+            {
+                return await _analyzerRepository.GetAnalyzerTestMappings(partnerId, analyzerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

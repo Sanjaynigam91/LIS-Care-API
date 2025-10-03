@@ -228,5 +228,67 @@ namespace LISCareRepository.Implementation
 
             return response;
         }
+
+        public async Task<APIResponseModel<List<AnalyzerMappingResponse>>> GetAnalyzerTestMappings(string partnerId, int analyzerId)
+        {
+            var response = new APIResponseModel<List<AnalyzerMappingResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.UspGetAnalyzerTestMapping;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, analyzerId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new AnalyzerMappingResponse
+                        {
+                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
+                            AnalyzerId = reader[ConstantResource.AnalyzerId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AnalyzerId]) : 0,
+                            MappingId = reader[ConstantResource.MappingId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.MappingId]) : 0,
+                            AnalyzerTestCode = reader[ConstantResource.AnalyzerTestCode] as string ?? string.Empty,
+                            LabTestCode = reader[ConstantResource.AnalyzerLabTestCode] as string ?? string.Empty,
+                            Status = reader[ConstantResource.Status] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.Status]),
+                            IsProfileCode = reader[ConstantResource.IsProfileCode] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsProfileCode]),
+                            SampleType = reader[ConstantResource.SampleType] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.TestName] as string ?? string.Empty
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Analyzer's test mappings retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
     }
 }
