@@ -23,6 +23,12 @@ namespace LISCareRepository.Implementation
         private readonly IConfiguration _configuration = configuration;
         private readonly LISCareDbContext _dbContext = dbContext;
 
+        /// <summary>
+        /// used to delete analyzer details
+        /// </summary>
+        /// <param name="analyzerId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> DeleteAnalyzerDetails(int analyzerId, string partnerId)
         {
             var response = new APIResponseModel<string>
@@ -43,6 +49,93 @@ namespace LISCareRepository.Implementation
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, analyzerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
+        /// used to delete analyzer test mapping
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> DeleteAnalyzerTestMapping(int mappingId, string partnerId)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (mappingId > 0 && !string.IsNullOrEmpty(partnerId))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspDeleteMappingById;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMappingId, mappingId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
 
 
@@ -311,7 +404,78 @@ namespace LISCareRepository.Implementation
 
             return response;
         }
+        /// <summary>
+        /// used to get analyzer test mapping By Id
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<AnalyzerTestMappingResponse>>> GetAnalyzerTestMappingById(int mappingId, string partnerId)
+        {
+            var response = new APIResponseModel<List<AnalyzerTestMappingResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
 
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.UspGetAnalyzerTestMappingById;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamMappingId, mappingId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new AnalyzerTestMappingResponse
+                        {
+                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
+                            AnalyzerId = reader[ConstantResource.AnalyzerId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.AnalyzerId]) : 0,
+                            MappingId = reader[ConstantResource.MappingId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.MappingId]) : 0,
+                            AnalyzerTestCode = reader[ConstantResource.AnalyzerTestCode] as string ?? string.Empty,
+                            LabTestCode = reader[ConstantResource.AnalyzerLabTestCode] as string ?? string.Empty,
+                            Status = reader[ConstantResource.Status] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.Status]),
+                            IsProfileCode = reader[ConstantResource.IsProfileCode] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsProfileCode]),
+                            SampleType = reader[ConstantResource.SampleType] as string ?? string.Empty
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Analyzer's test mappings retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
+        /// <summary>
+        /// used to get analyzer test mappings
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<List<AnalyzerMappingResponse>>> GetAnalyzerTestMappings(string partnerId, int analyzerId)
         {
             var response = new APIResponseModel<List<AnalyzerMappingResponse>>
@@ -467,6 +631,95 @@ namespace LISCareRepository.Implementation
             return response;
         }
         /// <summary>
+        /// used to save analyzer test mapping
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> SaveAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (mappingRequest.AnalyzerId > 0)
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspSaveAnalyzerTestMapping;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, mappingRequest.AnalyzerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerTestCode, mappingRequest.AnalyzerTestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabTestCode, mappingRequest.LabTestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamStatus, mappingRequest.Status));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, mappingRequest.PartnerId));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
         /// used to update analyzer details
         /// </summary>
         /// <param name="analyzerRequest"></param>
@@ -500,6 +753,96 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamEngineerContactNo, analyzerRequest.EngineerContactNo));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamAssetCode, analyzerRequest.AssetCode));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, analyzerRequest.PartnerId));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
+        /// used to update test mapping details
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (mappingRequest.MappingId > 0)
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspUpdateAnalyzerTestMapping;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMappingId, mappingRequest.MappingId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, mappingRequest.AnalyzerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerTestCode, mappingRequest.AnalyzerTestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabTestCode, mappingRequest.LabTestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamStatus, mappingRequest.Status));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, mappingRequest.PartnerId));
 
 
                     // output parameters

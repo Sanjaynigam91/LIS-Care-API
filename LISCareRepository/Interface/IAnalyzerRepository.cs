@@ -16,7 +16,7 @@ namespace LISCareRepository.Interface
         /// </summary>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<AnalyzerResponse>>> GetAllAnalyzerDetails(string partnerId, string? AnalyzerNameOrShortCode = "", string? AnalyzerStatus="");
+        Task<APIResponseModel<List<AnalyzerResponse>>> GetAllAnalyzerDetails(string partnerId, string? AnalyzerNameOrShortCode = "", string? AnalyzerStatus = "");
         /// <summary>
         /// used to get all suppliers
         /// </summary>
@@ -29,14 +29,14 @@ namespace LISCareRepository.Interface
         /// <param name="partnerId"></param>
         /// <param name="analyzerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<AnalyzerResponse>>> GetAnalyzerDetails(string partnerId,int analyzerId);
+        Task<APIResponseModel<List<AnalyzerResponse>>> GetAnalyzerDetails(string partnerId, int analyzerId);
         /// <summary>
         /// used to get anlyzer's test mapping details
         /// </summary>
         /// <param name="partnerId"></param>
         /// <param name="analyzerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<AnalyzerMappingResponse>>>GetAnalyzerTestMappings(string partnerId, int analyzerId);
+        Task<APIResponseModel<List<AnalyzerMappingResponse>>> GetAnalyzerTestMappings(string partnerId, int analyzerId);
         /// <summary>
         /// used to save analyzer details
         /// </summary>
@@ -55,8 +55,33 @@ namespace LISCareRepository.Interface
         /// <param name="analyzerId"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<string>>DeleteAnalyzerDetails(int analyzerId, string partnerId);
-
+        Task<APIResponseModel<string>> DeleteAnalyzerDetails(int analyzerId, string partnerId);
+        /// <summary>
+        /// used to get Test mapping By Id
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<AnalyzerTestMappingResponse>>> GetAnalyzerTestMappingById(int mappingId, string partnerId);
+        /// <summary>
+        /// used to save analyzer test mapping
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> SaveAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest);
+        /// <summary>
+        /// used to update analyzer test mapping
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest);
+        /// <summary>
+        /// used to delete analyzer test mapping 
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> DeleteAnalyzerTestMapping(int mappingId, string partnerId);
 
 
     }
