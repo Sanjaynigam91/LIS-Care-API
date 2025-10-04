@@ -48,7 +48,10 @@
         public const string AddNewAnalyzer = "AddNewAnalyzer";
         public const string UpdateAnalyzer = "UpdateAnalyzer";
         public const string DeleteAnalyzer = "DeleteAnalyzer";
-
+        public const string GetMappingByMappingId = "GetMappingByMappingId";
+        public const string AddTestMapping = "AddTestMapping";
+        public const string UpdateTestMapping = "UpdateTestMapping";
+        public const string DeleteTestMapping = "DeleteTestMapping";
 
         #endregion
 
@@ -248,6 +251,9 @@
         public const string ParamWarrantyEndDate = "@WarrantyEndDate";
         public const string ParamEngineerContactNo = "@EngineerContactNo";
         public const string ParamAssetCode = "@AssetCode";
+        public const string ParamAnalyzerTestCode = "@AnalyzerTestCode";
+
+
 
         #endregion
 
@@ -554,6 +560,10 @@
         public const string UspAddNewLISAnalyzer = "Usp_AddNewLISAnalyzer";
         public const string UspUpdateLISAnalyzerDetails = "Usp_UpdateLISAnalyzerDetails";
         public const string UspDeleteAnalyzerById = "Usp_DeleteAnalyzerById";
+        public const string UspGetAnalyzerTestMappingById = "Usp_GetAnalyzerTestMappings";
+        public const string UspSaveAnalyzerTestMapping = "Usp_SaveAnalyzerTestMapping";
+        public const string UspUpdateAnalyzerTestMapping = "Usp_UpdateAnalyzerTestMapping";
+        public const string UspDeleteMappingById = "Usp_DeleteMappingById";
 
         #endregion
 

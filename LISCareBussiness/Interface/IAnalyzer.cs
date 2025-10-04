@@ -50,5 +50,31 @@ namespace LISCareBussiness.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> DeleteAnalyzerDetails(int analyzerId, string partnerId);
+        /// <summary>
+        /// used to get Test mapping By Id
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<AnalyzerTestMappingResponse>>> GetAnalyzerTestMappingById(int mappingId, string partnerId);
+        /// <summary>
+        /// used to save analyzer test mapping
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> SaveAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest);
+        /// <summary>
+        /// used to update analyzer test mapping
+        /// </summary>
+        /// <param name="mappingRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest);
+        /// <summary>
+        /// used to delete analyzer test mapping 
+        /// </summary>
+        /// <param name="mappingId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> DeleteAnalyzerTestMapping(int mappingId, string partnerId);
     }
 }

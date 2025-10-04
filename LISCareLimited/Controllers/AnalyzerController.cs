@@ -177,5 +177,83 @@ namespace LISCareLimited.Controllers
 
             return BadRequest(ConstantResource.ProfileCodeEmpty);
         }
+        /// <summary>
+        /// used to get analyzer's test mappings
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="analyzerId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetMappingByMappingId)]
+        public async Task<IActionResult> GetAnalyzerTestMappingById([FromQuery] int mappingId, string partnerId)
+        {
+            var response = new APIResponseModel<List<AnalyzerTestMappingResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _analyzer.GetAnalyzerTestMappingById(mappingId, partnerId);
+                if (response.Data == null)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No analyzers test mappings details found for the given PartnerId.";
+                }
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+        /// <summary>
+        /// used to save analyzer test mapping
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(ConstantResource.AddTestMapping)]
+        public async Task<IActionResult> SaveAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest)
+        {
+            if (!string.IsNullOrEmpty(mappingRequest.PartnerId) && mappingRequest.AnalyzerId > 0)
+            {
+                var result = await _analyzer.SaveAnalyzerTestMapping(mappingRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid analyzer request");
+        }
+        /// <summary>
+        /// used to save analyzer test mapping
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route(ConstantResource.UpdateTestMapping)]
+        public async Task<IActionResult> UpdateAnalyzerTestMapping(AnalyzerMappingRequest mappingRequest)
+        {
+            if (!string.IsNullOrEmpty(mappingRequest.PartnerId) && mappingRequest.MappingId > 0)
+            {
+                var result = await _analyzer.UpdateAnalyzerTestMapping(mappingRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid analyzer request");
+        }
+        [HttpDelete]
+        [Route(ConstantResource.DeleteTestMapping)]
+        public async Task<IActionResult> DeleteAnalyzerTestMapping (int mappingId, string partnerId)
+        {
+            if (mappingId > 0 && !string.IsNullOrEmpty(partnerId))
+            {
+                var result = await _analyzer.DeleteAnalyzerTestMapping(mappingId, partnerId);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest(ConstantResource.ProfileCodeEmpty);
+        }
     }
 }
