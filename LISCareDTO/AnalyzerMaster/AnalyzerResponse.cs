@@ -18,6 +18,7 @@ namespace LISCareDTO.AnalyzerMaster
         public string EngineerContactNo { get; set; }= string.Empty;
         public string AssetCode { get; set; }= string.Empty;
         public required string PartnerId { get; set; }
+        public string SupplierName { get; set; }= string.Empty; 
 
     }
 }

@@ -15,6 +15,19 @@ namespace LISCareBussiness.Implementation
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IAnalyzerRepository _analyzerRepository = analyzerRepository;
+
+        public async Task<APIResponseModel<string>> DeleteAnalyzerDetails(int analyzerId, string partnerId)
+        {
+            try
+            {
+                return await _analyzerRepository.DeleteAnalyzerDetails(analyzerId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to get all analyzer details
         /// </summary>
@@ -78,6 +91,34 @@ namespace LISCareBussiness.Implementation
             try
             {
                 return await _analyzerRepository.GetAnalyzerTestMappings(partnerId, analyzerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to save analyzer details
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> SaveAnalyzerDetails(AnalyzerRequest analyzerRequest)
+        {
+            try
+            {
+                return await _analyzerRepository.SaveAnalyzerDetails(analyzerRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<string>> UpdateAnalyzerDetails(AnalyzerRequest analyzerRequest)
+        {
+            try
+            {
+                return await _analyzerRepository.UpdateAnalyzerDetails(analyzerRequest);
             }
             catch
             {
