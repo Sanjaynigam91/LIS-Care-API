@@ -23,6 +23,88 @@ namespace LISCareRepository.Implementation
         private readonly IConfiguration _configuration = configuration;
         private readonly LISCareDbContext _dbContext = dbContext;
 
+        public async Task<APIResponseModel<string>> DeleteAnalyzerDetails(int analyzerId, string partnerId)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (analyzerId > 0 && !string.IsNullOrEmpty(partnerId))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspDeleteAnalyzerById;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, analyzerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+
         /// <summary>
         /// used to get all analyzer details
         /// </summary>
@@ -74,7 +156,8 @@ namespace LISCareRepository.Implementation
                             ? Convert.ToDateTime(reader[ConstantResource.WarrantyEndDate]).ToString("yyyyMMdd")
                             : DateTime.Now.ToString("yyyyMMdd"),
                             EngineerContactNo = reader[ConstantResource.EngineerContactNo] as string ?? string.Empty,
-                            AssetCode = reader[ConstantResource.AssetCode] as string ?? string.Empty
+                            AssetCode = reader[ConstantResource.AssetCode] as string ?? string.Empty,
+                            SupplierName= reader[ConstantResource.SupplierName] as string ?? string.Empty
                         });
                         response.Status = true;
                         response.StatusCode = (int)HttpStatusCode.OK;
@@ -288,6 +371,193 @@ namespace LISCareRepository.Implementation
                 await _dbContext.Database.CloseConnectionAsync();
             }
 
+            return response;
+        }
+        /// <summary>
+        /// used to save analyzer details
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> SaveAnalyzerDetails(AnalyzerRequest analyzerRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(analyzerRequest.AnalyzerName) && !string.IsNullOrEmpty(analyzerRequest.PartnerId))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspAddNewLISAnalyzer;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerName, analyzerRequest.AnalyzerName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerShortCode, analyzerRequest.AnalyzerShortCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamStatus, analyzerRequest.Status));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSupplierCode, analyzerRequest.SupplierCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPurchasedValue, analyzerRequest.PurchasedValue));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamWarrantyEndDate, analyzerRequest.WarrantyEndDate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamEngineerContactNo, analyzerRequest.EngineerContactNo));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAssetCode, analyzerRequest.AssetCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, analyzerRequest.PartnerId));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+        /// <summary>
+        /// used to update analyzer details
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateAnalyzerDetails(AnalyzerRequest analyzerRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (analyzerRequest.AnalyzerId > 0)
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspUpdateLISAnalyzerDetails;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerId, analyzerRequest.AnalyzerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerName, analyzerRequest.AnalyzerName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAnalyzerShortCode, analyzerRequest.AnalyzerShortCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamStatus, analyzerRequest.Status));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSupplierCode, analyzerRequest.SupplierCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPurchasedValue, analyzerRequest.PurchasedValue));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamWarrantyEndDate, analyzerRequest.WarrantyEndDate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamEngineerContactNo, analyzerRequest.EngineerContactNo));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAssetCode, analyzerRequest.AssetCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, analyzerRequest.PartnerId));
+
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.ProfileCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
             return response;
         }
     }

@@ -11,7 +11,7 @@ namespace LISCareLimited.Controllers
 {
     [Route(ConstantResource.APIRoute)]
     [ApiController]
-    public class AnalyzerController(IConfiguration configuration,IAnalyzer analyzer) : ControllerBase
+    public class AnalyzerController(IConfiguration configuration, IAnalyzer analyzer) : ControllerBase
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IAnalyzer _analyzer = analyzer;
@@ -31,7 +31,7 @@ namespace LISCareLimited.Controllers
             };
             try
             {
-                response = await _analyzer.GetAllAnalyzerDetails(partnerId,AnalyzerNameOrShortCode,AnalyzerStatus);
+                response = await _analyzer.GetAllAnalyzerDetails(partnerId, AnalyzerNameOrShortCode, AnalyzerStatus);
                 if (response.Data == null || response.Data.Count == 0)
                 {
                     response.Status = false;
@@ -138,6 +138,44 @@ namespace LISCareLimited.Controllers
                 response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
+        }
+
+        [HttpPost]
+        [Route(ConstantResource.AddNewAnalyzer)]
+        public async Task<IActionResult> AddNewLISAanalyzer(AnalyzerRequest analyzerRequest)
+        {
+            if (!string.IsNullOrEmpty(analyzerRequest.PartnerId) && !string.IsNullOrEmpty(analyzerRequest.AnalyzerName))
+            {
+                var result = await _analyzer.SaveAnalyzerDetails(analyzerRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid analyzer request");
+        }
+        [HttpPut]
+        [Route(ConstantResource.UpdateAnalyzer)]
+        public async Task<IActionResult> UpdateLISAanalyzer(AnalyzerRequest analyzerRequest)
+        {
+            if (analyzerRequest.AnalyzerId > 0)
+            {
+                var result = await _analyzer.UpdateAnalyzerDetails(analyzerRequest);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid analyzer request");
+        }
+
+        [HttpDelete]
+        [Route(ConstantResource.DeleteAnalyzer)]
+        public async Task<IActionResult> DeleteAnalyzerById(int analyzerId, string partnerId)
+        {
+            if (analyzerId > 0 && !string.IsNullOrEmpty(partnerId))
+            {
+                var result = await _analyzer.DeleteAnalyzerDetails(analyzerId, partnerId);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest(ConstantResource.ProfileCodeEmpty);
         }
     }
 }

@@ -37,6 +37,27 @@ namespace LISCareRepository.Interface
         /// <param name="analyzerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<AnalyzerMappingResponse>>>GetAnalyzerTestMappings(string partnerId, int analyzerId);
+        /// <summary>
+        /// used to save analyzer details
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> SaveAnalyzerDetails(AnalyzerRequest analyzerRequest);
+        /// <summary>
+        /// used to update analyzer details
+        /// </summary>
+        /// <param name="analyzerRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateAnalyzerDetails(AnalyzerRequest analyzerRequest);
+        /// <summary>
+        /// used to delete analyzer details
+        /// </summary>
+        /// <param name="analyzerId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>>DeleteAnalyzerDetails(int analyzerId, string partnerId);
+
+
 
     }
 }

@@ -45,6 +45,10 @@
         public const string GetAllSuppliers = "GetAllSuppliers";
         public const string GetAnalyzerDetailById = "GetAnalyzerDetailById";
         public const string GetAnalyzerTestMappings = "GetAnalyzerTestMappings";
+        public const string AddNewAnalyzer = "AddNewAnalyzer";
+        public const string UpdateAnalyzer = "UpdateAnalyzer";
+        public const string DeleteAnalyzer = "DeleteAnalyzer";
+
 
         #endregion
 
@@ -238,7 +242,12 @@
         public const string ParamGroupHeader= "@GroupHeader";
         public const string ParamAnalyzerNameOrShortCode = "@AnalyzerNameOrShortCode";
         public const string ParamAnalyzerId = "@AnalyzerId";
-
+        public const string ParamAnalyzerShortCode = "@AnalyzerShortCode";
+        public const string ParamSupplierCode = "@SupplierCode";
+        public const string ParamPurchasedValue = "@PurchasedValue";
+        public const string ParamWarrantyEndDate = "@WarrantyEndDate";
+        public const string ParamEngineerContactNo = "@EngineerContactNo";
+        public const string ParamAssetCode = "@AssetCode";
 
         #endregion
 
@@ -542,7 +551,9 @@
         public const string USPGetAllSuppliers = "USP_GetAllSuppliers";
         public const string USPGetAnalyzerDetailsById = "USP_GetAnalyzerDetailsById";
         public const string UspGetAnalyzerTestMapping = "Usp_GetAnalyzerTestMapping";
-
+        public const string UspAddNewLISAnalyzer = "Usp_AddNewLISAnalyzer";
+        public const string UspUpdateLISAnalyzerDetails = "Usp_UpdateLISAnalyzerDetails";
+        public const string UspDeleteAnalyzerById = "Usp_DeleteAnalyzerById";
 
         #endregion
 
