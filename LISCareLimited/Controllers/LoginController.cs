@@ -1,5 +1,7 @@
 ﻿using LISCare.Interface;
+using LISCareBussiness.Interface;
 using LISCareDTO;
+using LISCareDTO.AnalyzerMaster;
 using LISCareUtility;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -23,29 +25,12 @@ namespace LISCareLimited.Controllers
         }
 
         [HttpPost]
-      //  [EnableCors("AllowSpecificOrigin")]
+        //  [EnableCors("AllowSpecificOrigin")]
         [Route(ConstantResource.Login)]
-        public IActionResult UserLogin(LoginRequsetModel loginRequset)
+        public async Task<IActionResult> UserLogin(LoginRequsetModel loginRequset)
         {
-            APIResponseModel<object> responseModel = new APIResponseModel<object>();
-            var result = User.UserLogin(loginRequset);
-            if (result != null && result.UserId > 0)
-            {
-                responseModel.Status = true;
-                responseModel.StatusCode = 200;
-                responseModel.ResponseMessage = ConstantResource.Success;
-                responseModel.Data = result;
-                return Ok(responseModel);
-            }
-            else
-            {
-                responseModel.Status = false;
-                responseModel.StatusCode = 400;
-                responseModel.ResponseMessage = ConstantResource.Failed;
-                responseModel.Data = result;
-                return NotFound(responseModel);
-            }
-            
+            var result = await User.UserLogin(loginRequset);
+            return StatusCode(result.StatusCode, result);
         }
     }
 }

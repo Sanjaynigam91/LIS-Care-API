@@ -2,9 +2,11 @@
 using Azure.Core;
 using LISCareDataAccess.LISCareDbContext;
 using LISCareDTO;
+using LISCareDTO.AnalyzerMaster;
 using LISCareDTO.MetaData;
 using LISCareReposotiory.Interface;
 using LISCareUtility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -260,58 +262,93 @@ namespace LISCareReposotiory.Implementation
         /// This method is used for user login
         /// </summary>
         /// <returns>List<LoginResponseModel></returns>
-        public LoginResponseModel UserLogin(LoginRequsetModel loginRequset)
-        {
-            LoginResponseModel loginResponse = new LoginResponseModel();
-            try
-            {
-                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
-                    _dbContext.Database.OpenConnection();
-                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
-                cmd.CommandText = ConstantResource.UspValidateUserLogin;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter(ConstantResource.UserName, SqlDbType.VarChar) { Value = loginRequset.UserName });
-                var password = Common.Base64Encode(loginRequset.Password);
-                cmd.Parameters.Add(new SqlParameter(ConstantResource.Password, SqlDbType.VarChar) { Value = password });
-                DbDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    loginResponse.UserId = Convert.ToInt32(reader[ConstantResource.UserId]);
-                    loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]) ?? string.Empty;
-                    var userPassword = Common.Base64Decode(Convert.ToString(reader[ConstantResource.UserPassword]) ?? string.Empty);
-                    loginResponse.Password = userPassword;
-                    loginResponse.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
-                    loginResponse.Email = Convert.ToString(reader[ConstantResource.UserEmail]) ?? string.Empty;
-                    loginResponse.RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty;
-                    loginResponse.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
-                    loginResponse.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty;
-                    loginResponse.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty;
-                    loginResponse.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
-                    string token = Common.GenerateToken(loginResponse.Email, loginResponse.RoleType, this._configuration);
-                    loginResponse.Token = token;
-                    loginResponse.Expires_in = DateTime.Now.AddMinutes(Convert.ToDouble(ConstantResource.tokenExpirationTime));
-                    if (Convert.ToString(reader[ConstantResource.UserLogoPrefix]) != "")
-                    {
-                        var imgPath = _uploadImagePath.FolderPath + Convert.ToString(reader[ConstantResource.UserLogo]);
-                        var profileImage = Common.ConvertImageToBase64(imgPath);
-                        var finalUserImage = reader[ConstantResource.UserLogoPrefix] + profileImage;
-                        loginResponse.UserLogo = finalUserImage;
-                    }
+        //public LoginResponseModel UserLogin(LoginRequsetModel loginRequset)
+        //{
+        //    LoginResponseModel loginResponse = new LoginResponseModel();
 
-                }
-            }
-            catch
-            {
+        //    try
+        //    {
+        //        if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+        //            _dbContext.Database.OpenConnection();
 
-                throw;
-            }
-            finally
-            {
-                _dbContext.Database.GetDbConnection().Close();
+        //        using (var cmd = _dbContext.Database.GetDbConnection().CreateCommand())
+        //        {
+        //            cmd.CommandText = ConstantResource.UspValidateUserLogin;
+        //            cmd.CommandType = CommandType.StoredProcedure;
 
-            }
-            return loginResponse;
-        }
+        //            cmd.Parameters.Add(new SqlParameter(ConstantResource.UserName, SqlDbType.VarChar)
+        //            {
+        //                Value = loginRequset.UserName
+        //            });
+
+        //            var password = Common.Base64Encode(loginRequset.Password);
+        //            cmd.Parameters.Add(new SqlParameter(ConstantResource.Password, SqlDbType.VarChar)
+        //            {
+        //                Value = password
+        //            });
+
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                if (reader.HasRows) // ✅ Check if any records exist
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        loginResponse.UserId = Convert.ToInt32(reader[ConstantResource.UserId]);
+        //                        loginResponse.FullName = Convert.ToString(reader[ConstantResource.FullName]) ?? string.Empty;
+
+        //                        var userPassword = Common.Base64Decode(
+        //                            Convert.ToString(reader[ConstantResource.UserPassword]) ?? string.Empty);
+        //                        loginResponse.Password = userPassword;
+
+        //                        loginResponse.RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]);
+        //                        loginResponse.Email = Convert.ToString(reader[ConstantResource.UserEmail]) ?? string.Empty;
+        //                        loginResponse.RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty;
+        //                        loginResponse.RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty;
+        //                        loginResponse.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty;
+        //                        loginResponse.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty;
+        //                        loginResponse.PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty;
+
+        //                        string token = Common.GenerateToken(loginResponse.Email, loginResponse.RoleType, this._configuration);
+        //                        loginResponse.Token = token;
+        //                        loginResponse.Expires_in = DateTime.Now.AddMinutes(
+        //                            Convert.ToDouble(ConstantResource.tokenExpirationTime));
+        //                        // In the UserLogin method, update the following block to handle possible null for UserLogo:
+        //                        if (!string.IsNullOrEmpty(Convert.ToString(reader[ConstantResource.UserLogoPrefix])))
+        //                        {
+        //                            var userLogoValue = Convert.ToString(reader[ConstantResource.UserLogo]);
+        //                            if (!string.IsNullOrEmpty(userLogoValue))
+        //                            {
+        //                                var imgPath = Path.Combine(_uploadImagePath.FolderPath, userLogoValue);
+        //                                var profileImage = Common.ConvertImageToBase64(imgPath);
+        //                                var finalUserImage = reader[ConstantResource.UserLogoPrefix] + profileImage;
+        //                                loginResponse.UserLogo = finalUserImage;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    // ❌ No records found — handle as per your business logic
+        //                    loginResponse.Message = "Invalid username or password.";
+        //                    loginResponse.Status = false;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Always capture and handle exceptions
+        //        throw new Exception("Error occurred during user login.", ex);
+        //    }
+        //    finally
+        //    {
+        //        if (_dbContext.Database.GetDbConnection().State == ConnectionState.Open)
+        //            _dbContext.Database.GetDbConnection().Close();
+        //    }
+
+        //    return loginResponse;
+        //}
+
         /// <summary>
         /// This method is used to get All LIS User information
         /// </summary>
@@ -1033,5 +1070,102 @@ namespace LISCareReposotiory.Implementation
             }
             return response;
         }
+        /// <summary>
+        /// used for user login and generate token
+        /// </summary>
+        /// <param name="loginRequset"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<LoginResponseModel>> UserLogin(LoginRequsetModel loginRequset)
+        {
+            var response = new APIResponseModel<LoginResponseModel>
+            {
+                Data = new LoginResponseModel(),
+                Status = true,
+                StatusCode = (int)HttpStatusCode.OK,
+                ResponseMessage = "Success"
+            };
+
+            try
+            {
+                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    await _dbContext.Database.OpenConnectionAsync();
+
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = ConstantResource.UspValidateUserLogin;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.UserName, SqlDbType.VarChar)
+                {
+                    Value = loginRequset.UserName
+                });
+
+                var encodedPassword = Common.Base64Encode(loginRequset.Password);
+                cmd.Parameters.Add(new SqlParameter(ConstantResource.Password, SqlDbType.VarChar)
+                {
+                    Value = encodedPassword
+                });
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (reader.HasRows) // ✅ Records exist
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var loginResponse = new LoginResponseModel
+                        {
+                            UserId = Convert.ToInt32(reader[ConstantResource.UserId]),
+                            FullName = Convert.ToString(reader[ConstantResource.FullName]) ?? string.Empty,
+                            Password = Common.Base64Decode(Convert.ToString(reader[ConstantResource.UserPassword]) ?? string.Empty),
+                            RoleId = Convert.ToInt32(reader[ConstantResource.UserRoleId]),
+                            Email = Convert.ToString(reader[ConstantResource.UserEmail]) ?? string.Empty,
+                            RoleType = Convert.ToString(reader[ConstantResource.RoleType]) ?? string.Empty,
+                            RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty,
+                            MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty,
+                            UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty,
+                            PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty
+                        };
+
+                        // Generate Token
+                        loginResponse.Token = Common.GenerateToken(loginResponse.Email, loginResponse.RoleType, _configuration);
+                        loginResponse.Expires_in = DateTime.Now.AddMinutes(Convert.ToDouble(ConstantResource.tokenExpirationTime));
+                        // Add Logo if available
+                        if (!string.IsNullOrEmpty(Convert.ToString(reader[ConstantResource.UserLogoPrefix])))
+                        {
+                            // Asynchronous UserLogin method
+                            if (!string.IsNullOrEmpty(Convert.ToString(reader[ConstantResource.UserLogoPrefix])))
+                            {
+                                var userLogoValue = Convert.ToString(reader[ConstantResource.UserLogo]);
+                                if (!string.IsNullOrEmpty(userLogoValue))
+                                {
+                                    var imgPath = Path.Combine(_uploadImagePath.FolderPath, userLogoValue);
+                                    var profileImage = Common.ConvertImageToBase64(imgPath);
+                                    loginResponse.UserLogo = reader[ConstantResource.UserLogoPrefix] + profileImage;
+                                }
+                            }
+                        }
+                        response.Data = loginResponse;
+                    }
+                }
+                else
+                {
+                    // ❌ No record found
+                    response.Status = false;
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.ResponseMessage = ConstantResource.InvalidUsernamePassword;
+                }
+            }
+            catch 
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ConstantResource.InvalidUsernamePassword; ;
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
+
     }
 }
