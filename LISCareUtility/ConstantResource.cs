@@ -609,6 +609,8 @@
         public const string ProfileCodeEmpty = "Profile code should not be empty or blank.";
         public const string MappingIdEmpty = "Mapping Id should not be empty or blank.";
         public readonly static string InvaidMappingRequest = "Invaid Mapping Request";
+        public readonly static string InvalidUsernamePassword = "Invalid username or password";
+
 
         #endregion
     }
