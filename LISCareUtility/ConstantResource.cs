@@ -52,6 +52,8 @@
         public const string AddTestMapping = "AddTestMapping";
         public const string UpdateTestMapping = "UpdateTestMapping";
         public const string DeleteTestMapping = "DeleteTestMapping";
+        public const string GetAllCenters = "GetAllCenters";
+
 
         #endregion
 
@@ -252,6 +254,9 @@
         public const string ParamEngineerContactNo = "@EngineerContactNo";
         public const string ParamAssetCode = "@AssetCode";
         public const string ParamAnalyzerTestCode = "@AnalyzerTestCode";
+        public const string ParamCenterStatus = "@CenterStatus";
+        public const string ParamSearchBy = "@SearchBy";
+
 
 
 
@@ -413,6 +418,22 @@
         public const string AnalyzerLabTestCode = "Lab_TestCode";
         public const string IsProfileCode = "IsProfileCode";
         public const string SampleType = "SampleType";
+        public const string CenterCode = "CenterCode";
+        public const string CenterName = "CenterrName";
+        public const string CenterInchargeName = "CenterInchargeName";
+        public const string SalesIncharge = "SalesIncharge";
+        public const string CenterAddress = "CenterAddress";
+        public const string PinCode = "PinCode";
+        public const string CenterMobileNumber = "MobileNumber";
+        public const string AlternateContactNo = "AlternateContactNo";
+        public const string EmailId = "EmailId";
+        public const string RateType = "RateType";
+        public const string CenterStatus = "CenterStatus";
+        public const string IntroducedBy = "IntroducedBy";
+        public const string IsAutoBarcode = "IsAutoBarcode";
+        public const string City = "City";
+        public const string CreditLimit = "CreditLimit";
+
 
 
 
@@ -564,6 +585,11 @@
         public const string UspSaveAnalyzerTestMapping = "Usp_SaveAnalyzerTestMapping";
         public const string UspUpdateAnalyzerTestMapping = "Usp_UpdateAnalyzerTestMapping";
         public const string UspDeleteMappingById = "Usp_DeleteMappingById";
+
+        #endregion
+
+        #region Center master
+        public const string UspGetAllCenters = "Usp_GetAllCenters";
 
         #endregion
 
