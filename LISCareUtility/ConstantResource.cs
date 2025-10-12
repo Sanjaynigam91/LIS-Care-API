@@ -53,6 +53,11 @@
         public const string UpdateTestMapping = "UpdateTestMapping";
         public const string DeleteTestMapping = "DeleteTestMapping";
         public const string GetAllCenters = "GetAllCenters";
+        public const string GetSalesIncharge = "GetSalesIncharge";
+        public const string AddNewCenter = "AddNewCenter";
+        public const string UpdateCenter = "UpdateCenter";
+        public const string DeleteCenter = "DeleteCenter";
+        public const string GetCenterByCenterCode = "GetCenterByCenterCode";
 
 
         #endregion
@@ -256,8 +261,21 @@
         public const string ParamAnalyzerTestCode = "@AnalyzerTestCode";
         public const string ParamCenterStatus = "@CenterStatus";
         public const string ParamSearchBy = "@SearchBy";
-
-
+        public const string ParamCenterCode = "@CenterCode";
+        public const string ParamCenterName = "@CenterName";
+        public const string ParamCenterInchargeName = "@CenterInchargeName";
+        public const string ParamSalesIncharge = "@SalesIncharge";
+        public const string ParamCenterAddress = "@CenterAddress";
+        public const string ParamPinCode = "@PinCode";
+        public const string ParamCenterMobileNumber = "@MobileNumber";
+        public const string ParamAlternateContactNo = "@AlternateContactNo";
+        public const string ParamEmailId = "@EmailId";
+        public const string ParamRateType = "@RateType";
+        public const string ParamIntroducedBy = "@IntroducedBy";
+        public const string ParamCreditLimit = "@CreditLimit";
+        public const string ParamIsAutoBarcode = "@IsAutoBarcode";
+        public const string ParamCreateBy = "@CreateBy";
+        public const string ParamUpdateBy = "@UpdateBy";
 
 
         #endregion
@@ -433,6 +451,9 @@
         public const string IsAutoBarcode = "IsAutoBarcode";
         public const string City = "City";
         public const string CreditLimit = "CreditLimit";
+        public const string EmployeeId = "EmployeeId";
+        public const string EmployeeName = "EmployeeName";
+
 
 
 
@@ -590,6 +611,13 @@
 
         #region Center master
         public const string UspGetAllCenters = "Usp_GetAllCenters";
+        public const string UspGetSalesInCharge = "Usp_GetSalesInCharge";
+        public const string UspGetCenterDetailsByCenterCode = "Usp_GetCenterDetailsBy_CenterCode";
+        public const string UspAddNewCenter = "Usp_AddNewCenter";
+        public const string UspUpdateCenter = "Usp_UpdateCenter";
+        public const string UspDeleteCenterByCenterCode = "Usp_DeleteCenterBy_CenterCode";
+
+
 
         #endregion
 
@@ -636,6 +664,7 @@
         public const string MappingIdEmpty = "Mapping Id should not be empty or blank.";
         public readonly static string InvaidMappingRequest = "Invaid Mapping Request";
         public readonly static string InvalidUsernamePassword = "Invalid username or password";
+        public const string CenterCodeEmpty = "Center code should not be empty or blank.";
 
 
         #endregion
