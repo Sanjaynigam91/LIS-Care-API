@@ -124,13 +124,13 @@ namespace LISCareLimited.Controllers
         [Route(ConstantResource.DeleteCenter)]
         public async Task<IActionResult> DeleteCenterByCenterCode(string? centerCode, string? partnerId)
         {
-            if (string.IsNullOrEmpty(centerCode))
+            if (!string.IsNullOrEmpty(centerCode))
             {
                 var result = await _center.DeleteCenter(centerCode, partnerId);
                 return StatusCode(result.StatusCode, result);
             }
 
-            return BadRequest(ConstantResource.ProfileCodeEmpty);
+            return BadRequest(ConstantResource.CenterCodeEmpty);
         }
     }
 }
