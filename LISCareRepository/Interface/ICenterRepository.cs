@@ -18,7 +18,7 @@ namespace LISCareRepository.Interface
         /// <param name="searchBy"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<CenterResponse>>> GetAllCenterDetails(string? partnerId,string? centerStatus = "",string? searchBy = "");
+        Task<APIResponseModel<List<CenterResponse>>> GetAllCenterDetails(string? partnerId, string? centerStatus = "", string? searchBy = "");
         /// <summary>
         /// used to get sales incharge details
         /// </summary>
@@ -50,7 +50,25 @@ namespace LISCareRepository.Interface
         /// <param name="centerCode"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<string>>DeleteCenter(string? centerCode, string? partnerId);
+        Task<APIResponseModel<string>> DeleteCenter(string? centerCode, string? partnerId);
+        /// <summary>
+        /// used to get center custom rates
+        /// </summary>
+        /// <param name="opType"></param>
+        /// <param name="centerCode"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<CentreCustomRateResponse>>> GetCentreCustomRates(string? opType, string? centerCode, string? partnerId, string? testCode);
+        /// <summary>
+        /// used to update centre's rates
+        /// </summary>
+        /// <param name="centerCode"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <param name="billRate"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateCentersRates(CenterRatesRequest centerRates);
 
     }
 }
