@@ -79,6 +79,18 @@ namespace LISCareBussiness.Implementation
             }
         }
 
+        public async Task<APIResponseModel<List<CentreCustomRateResponse>>> GetCentreCustomRates(string? opType, string? centerCode, string? partnerId, string? testCode)
+        {
+            try
+            {
+                return await _centerRepository.GetCentreCustomRates(opType,centerCode,partnerId,testCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to get sales incharge details
         /// </summary>
@@ -105,6 +117,18 @@ namespace LISCareBussiness.Implementation
             try
             {
                 return await _centerRepository.UpdateCenter(centerRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<string>> UpdateCentersRates(CenterRatesRequest centerRates)
+        {
+            try
+            {
+                return await _centerRepository.UpdateCentersRates(centerRates);
             }
             catch
             {

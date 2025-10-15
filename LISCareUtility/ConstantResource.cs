@@ -58,6 +58,10 @@
         public const string UpdateCenter = "UpdateCenter";
         public const string DeleteCenter = "DeleteCenter";
         public const string GetCenterByCenterCode = "GetCenterByCenterCode";
+        public const string GetCentreCustomRates = "GetCentreCustomRates";
+        public const string UpdateCenterRates = "UpdateCenterRates";
+
+
 
 
         #endregion
@@ -276,6 +280,9 @@
         public const string ParamIsAutoBarcode = "@IsAutoBarcode";
         public const string ParamCreateBy = "@CreateBy";
         public const string ParamUpdateBy = "@UpdateBy";
+        public const string ParamBillRate = "@BillRate";
+        public const string ParamModifiedBy = "@ModifiedBy";
+        public const string ParamRateCreatedBy = "@CreatedBy";
 
 
         #endregion
@@ -453,8 +460,10 @@
         public const string CreditLimit = "CreditLimit";
         public const string EmployeeId = "EmployeeId";
         public const string EmployeeName = "EmployeeName";
-
-
+        public const string CentreCode = "CentreCode";
+        public const string CentreName = "CentreName";
+        public const string AgreedRate = "AgreedRate";
+        public const string CentreTestName = "TestName";
 
 
 
@@ -616,8 +625,8 @@
         public const string UspAddNewCenter = "Usp_AddNewCenter";
         public const string UspUpdateCenter = "Usp_UpdateCenter";
         public const string UspDeleteCenterByCenterCode = "Usp_DeleteCenterBy_CenterCode";
-
-
+        public const string USPGetCentreCustomRates = "Get_CentreCustomRates";
+        public const string UspUpdateAllTestCenterRates = "Usp_UpdateAllTestCenterRates";
 
         #endregion
 

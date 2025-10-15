@@ -368,6 +368,76 @@ namespace LISCareRepository.Implementation
             return response;
         }
 
+        public async Task<APIResponseModel<List<CentreCustomRateResponse>>> GetCentreCustomRates(string? opType, string? centerCode, string? partnerId, string? testCode)
+        {
+            var response = new APIResponseModel<List<CentreCustomRateResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.USPGetCentreCustomRates;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType,
+                    string.IsNullOrEmpty(opType) ? (object)DBNull.Value : opType));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode,
+                    string.IsNullOrEmpty(centerCode) ? (object)DBNull.Value : centerCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId,
+                    string.IsNullOrEmpty(partnerId) ? (object)DBNull.Value : partnerId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode,
+                    string.IsNullOrEmpty(testCode) ? (object)DBNull.Value : testCode));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new CentreCustomRateResponse
+                        {
+                            MappingId = reader[ConstantResource.MappingId] != DBNull.Value
+                            ? Convert.ToInt32(reader[ConstantResource.MappingId]): 0,
+                            CenterCode = reader[ConstantResource.CentreCode] as string ?? string.Empty,
+                            CenterName = reader[ConstantResource.CentreName] as string ?? string.Empty,
+                            TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.CentreTestName] as string ?? string.Empty,
+                            CustomRate = reader[ConstantResource.AgreedRate] != DBNull.Value
+                            ? Convert.ToDecimal(reader[ConstantResource.AgreedRate]) : 0,
+                            Mrp= reader[ConstantResource.MRP] != DBNull.Value
+                            ? Convert.ToInt32(reader[ConstantResource.MRP]) : 0,
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Custom rates retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
+
         /// <summary>
         /// used to get sales incharge details
         /// </summary>
@@ -467,6 +537,91 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsAutoBarcode, centerRequest.IsAutoBarcode));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, centerRequest.PartnerId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamUpdateBy, centerRequest.ModifiedBy));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+
+        public async Task<APIResponseModel<string>> UpdateCentersRates(CenterRatesRequest centerRates)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(centerRates.CenterCode))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspUpdateAllTestCenterRates;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, centerRates.CenterCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, centerRates.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, centerRates.TestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBillRate, centerRates.BillRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRateCreatedBy, centerRates.CreatedBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamModifiedBy, centerRates.UpdatedBy));
 
                     // output parameters
                     SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)

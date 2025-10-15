@@ -5,6 +5,7 @@ using LISCareDTO.CenterMaster;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LISCareLimited.Controllers
 {
@@ -132,5 +133,47 @@ namespace LISCareLimited.Controllers
 
             return BadRequest(ConstantResource.CenterCodeEmpty);
         }
+
+        [HttpGet]
+        [Route(ConstantResource.GetCentreCustomRates)]
+        public async Task<IActionResult> GetAllCenterCustomRates([FromQuery] string? opType, string? centerCode, string? partnerId, string? testCode)
+        {
+            var response = new APIResponseModel<List<CentreCustomRateResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _center.GetCentreCustomRates(opType,centerCode,partnerId,testCode);
+                if (response.Data == null || response.Data.Count == 0)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No centers custom rates found for the given PartnerId.";
+                }
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        [HttpPut]
+        [Route(ConstantResource.UpdateCenterRates)]
+        public async Task<IActionResult> UpdateCentersRates(CenterRatesRequest centerRates)
+        {
+            if (!string.IsNullOrEmpty(centerRates.PartnerId) && !string.IsNullOrEmpty(centerRates.CenterCode))
+            {
+                var result = await _center.UpdateCentersRates(centerRates);
+
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid center request");
+        }
+
     }
 }
