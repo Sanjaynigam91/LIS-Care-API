@@ -175,5 +175,19 @@ namespace LISCareLimited.Controllers
             return BadRequest("Invalid center request");
         }
 
+        [HttpPost]
+        [Route(ConstantResource.ImportCenterRates)]
+        public async Task<IActionResult> ImportCenterRates(CenterRatesRequest centerRates)
+        {
+            if (!string.IsNullOrEmpty(centerRates.PartnerId) && !string.IsNullOrEmpty(centerRates.CenterCode))
+            {
+                var result = await _center.ImportCentreTestRates(centerRates);
+
+                return StatusCode(result.StatusCode, result);
+            }
+
+            return BadRequest("Invalid center request");
+        }
+
     }
 }

@@ -68,6 +68,12 @@ namespace LISCareBussiness.Interface
         /// <param name="billRate"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> UpdateCentersRates(CenterRatesRequest centerRates);
+        /// <summary>
+        /// used to import test center rates
+        /// </summary>
+        /// <param name="centerRates"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> ImportCentreTestRates(CenterRatesRequest centerRates);
 
     }
 }

@@ -498,6 +498,95 @@ namespace LISCareRepository.Implementation
             return response;
         }
         /// <summary>
+        /// used to import center rates
+        /// </summary>
+        /// <param name="centerRates"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> ImportCentreTestRates(CenterRatesRequest centerRates)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(centerRates.CenterCode))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspInsertCenterTestRates;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, centerRates.CenterCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, centerRates.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, centerRates.TestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBillRate, centerRates.BillRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRateCreatedBy, centerRates.CreatedBy));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            return response;
+        }
+
+        /// <summary>
         /// used to update center
         /// </summary>
         /// <param name="centerRequest"></param>
@@ -596,7 +685,11 @@ namespace LISCareRepository.Implementation
             response.Data = string.Empty;
             return response;
         }
-
+        /// <summary>
+        /// used to update all test rate for the center
+        /// </summary>
+        /// <param name="centerRates"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> UpdateCentersRates(CenterRatesRequest centerRates)
         {
             var response = new APIResponseModel<string>

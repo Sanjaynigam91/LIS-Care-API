@@ -108,6 +108,23 @@ namespace LISCareBussiness.Implementation
             }
         }
         /// <summary>
+        /// used to import center rates
+        /// </summary>
+        /// <param name="centerRates"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> ImportCentreTestRates(CenterRatesRequest centerRates)
+        {
+            try
+            {
+                return await _centerRepository.ImportCentreTestRates(centerRates);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// used to update center
         /// </summary>
         /// <param name="centerRequest"></param>
