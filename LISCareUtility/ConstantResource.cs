@@ -60,6 +60,8 @@
         public const string GetCenterByCenterCode = "GetCenterByCenterCode";
         public const string GetCentreCustomRates = "GetCentreCustomRates";
         public const string UpdateCenterRates = "UpdateCenterRates";
+        public const string ImportCenterRates = "ImportCenterRates";
+
 
 
 
@@ -528,6 +530,8 @@
         public const string UspGetPagesByPageId = "Usp_GetPagesByPageId";
         public const string Usp_DeletePageDetails = "Usp_DeletePageDetails";
         public const string UspUpdatePageDetails = "Usp_UpdatePageDetails";
+        public const string UspInsertCenterTestRates = "Usp_InsertCenterTestRates";
+
 
         #endregion
 
