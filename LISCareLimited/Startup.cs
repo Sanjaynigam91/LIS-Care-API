@@ -52,6 +52,8 @@ namespace LISCareLimited
             services.AddScoped<IAnalyzerRepository, AnalyzerRepository>();
             services.AddScoped<ICenter, CenterBAL>();
             services.AddScoped<ICenterRepository, CenterRepository>();
+            services.AddScoped<IClinc, ClinicBAL>();
+            services.AddScoped<IClinicRepository, ClinicRepository>();
 
             services.AddCors(options =>
             {
