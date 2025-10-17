@@ -60,11 +60,11 @@ jobs:
               ;;
             refs/heads/develop)
               echo "ENV=Development" >> $GITHUB_ENV
-              echo "AZ_SLOT=staging" >> $GITHUB_ENV
+              echo "AZ_SLOT=QA" >> $GITHUB_ENV   # deploying develop branch to QA slot
               ;;
             *)
               echo "ENV=Development" >> $GITHUB_ENV
-              echo "AZ_SLOT=staging" >> $GITHUB_ENV
+              echo "AZ_SLOT=QA" >> $GITHUB_ENV
               ;;
           esac
           echo "Branch: ${GITHUB_REF}, Environment: $ENV, Slot: $AZ_SLOT"
