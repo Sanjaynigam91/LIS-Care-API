@@ -24,16 +24,13 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
-        working-directory: ./LISCareLimited
+        run: dotnet restore ./LISCareLimited/LISCareLimited.csproj
 
       - name: Build
-        run: dotnet build --configuration Release
-        working-directory: ./LISCareLimited
+        run: dotnet build --configuration Release ./LISCareLimited/LISCareLimited.csproj
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal
-        working-directory: ./LISCareLimited
+        run: dotnet test --no-build --verbosity normal ./LISCareLimited/LISCareLimited.csproj
 
   deploy:
     runs-on: ubuntu-latest
@@ -84,7 +81,6 @@ jobs:
             --configuration Release \
             --output ./LISCareLimited/publish \
             --no-restore
-        working-directory: ./LISCareLimited
 
       - name: Deploy to Azure WebApp (Production)
         if: github.ref == 'refs/heads/main'
