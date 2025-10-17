@@ -16,8 +16,8 @@ namespace LISCareRepository.Implementation
 {
     public class TestMgmtRepository : ITestMgmtRepository
     {
-        private IConfiguration _configuration;
-        private LISCareDbContext _dbContext;
+        private readonly IConfiguration _configuration;
+        private readonly LISCareDbContext _dbContext;
 
         public TestMgmtRepository(IConfiguration configuration, LISCareDbContext dbContext)
         {
@@ -373,7 +373,12 @@ namespace LISCareRepository.Implementation
             }
             return specialValue;
         }
-
+        /// <summary>
+        /// used to get center rates
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
         public List<CenterRateResponse> GetCenterRates(string partnerId, string testCode)
         {
             List<CenterRateResponse> centerRatesResponse = new List<CenterRateResponse>();
@@ -493,7 +498,11 @@ namespace LISCareRepository.Implementation
 
             return response;
         }
-
+        /// <summary>
+        /// Update Test Details
+        /// </summary>
+        /// <param name="testMasterRequest"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<object>> UpdateTestDetails(TestMasterRequest testMasterRequest)
         {
             var response = new APIResponseModel<object>

@@ -1,5 +1,7 @@
 ﻿using LISCareDTO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,8 +15,13 @@ namespace LISCareUtility
     public class Common
     {
         private static readonly string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        public Common(IConfiguration configuration)
+        
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
+        public Common(IConfiguration configuration, IWebHostEnvironment environment)
         {
+            _configuration=configuration;
+            _environment=environment;
 
         }
         public static string Base64Encode(string plainText)
@@ -136,6 +143,29 @@ namespace LISCareUtility
 
             //    return stringBuilder.ToString();
             //}
+        }
+
+        public string GetFilePath(string fileName)
+        {
+            string basePath;
+
+            if (_environment.IsDevelopment())
+            {
+                // Local machine
+                basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "LabUserLogo");
+            }
+            else
+            {
+                // Azure App Service
+                basePath = Path.Combine(_environment.WebRootPath, "LabUserLogo");
+            }
+
+            if (!Directory.Exists(basePath))
+                Directory.CreateDirectory(basePath);
+
+            string filePath = Path.Combine(basePath, fileName);
+            // Save your file here...
+            return filePath;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace LISCareReposotiory.Interface
         LoginResponseModel GetUserDetails(LoginRequsetModel loginRequset);
         List<LoginResponseModel> GetAllUserInfo(string partnerId);
         LoginResponseModel GetUserDetailsByUserId(int userId);
-        LoginResponseModel UserLogin(LoginRequsetModel loginRequset);
+        Task<APIResponseModel<LoginResponseModel>> UserLogin(LoginRequsetModel loginRequset);
         /// <summary>
         /// This interface is used to get All LIS User information
         /// </summary>

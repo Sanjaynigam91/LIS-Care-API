@@ -186,7 +186,11 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
-
+        /// <summary>
+        /// used to Save Update Special Values
+        /// </summary>
+        /// <param name="specialValueRequest"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> SaveUpdateSepecialValue(SpecialValueRequest specialValueRequest)
         {
             try
@@ -198,7 +202,12 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
-
+        /// <summary>
+        /// used to delete special value
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> DeleteSpecialValue(int recordId, string partnerId)
         {
             try

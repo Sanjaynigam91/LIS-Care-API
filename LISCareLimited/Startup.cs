@@ -46,14 +46,26 @@ namespace LISCareLimited
             services.AddScoped<ISampleCollectionRepository, SampleCollectionRepository>();
             services.AddScoped<ITestMgmt, TestMgmtBAL>();
             services.AddScoped<ITestMgmtRepository, TestMgmtRepository>();
+            services.AddScoped<IProfile, ProfileBAL>();
+            services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IAnalyzer, AnalyzerBAL>();
+            services.AddScoped<IAnalyzerRepository, AnalyzerRepository>();
+            services.AddScoped<ICenter, CenterBAL>();
+            services.AddScoped<ICenterRepository, CenterRepository>();
+            services.AddScoped<IClinc, ClinicBAL>();
+            services.AddScoped<IClinicRepository, ClinicRepository>();
 
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder
-                    .WithOrigins("http://localhost:4200") // Allow requests from this origin
-                    .AllowAnyMethod() // Allow all HTTP methods
-                        .AllowAnyHeader() // Allow all headers
+                        .WithOrigins(
+                            "http://localhost:4200",
+                            "https://dev-lis-care-web-crb9euhzd7d0ezb8.centralindia-01.azurewebsites.net"
+                        )
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
                 );
             });
 

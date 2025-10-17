@@ -40,6 +40,29 @@
         public const string DeleteUserById = "DeleteUserById";
         public const string AddSampleCollectedPlace = "AddSampleCollectedPlace";
         public const string DeleteSamplePlace = "DeleteSamplePlace";
+        public const string GetAllProfileDetails = "GetAllProfileDetails";
+        public const string GetAllAnalyzers = "GetAllAnalyzers";
+        public const string GetAllSuppliers = "GetAllSuppliers";
+        public const string GetAnalyzerDetailById = "GetAnalyzerDetailById";
+        public const string GetAnalyzerTestMappings = "GetAnalyzerTestMappings";
+        public const string AddNewAnalyzer = "AddNewAnalyzer";
+        public const string UpdateAnalyzer = "UpdateAnalyzer";
+        public const string DeleteAnalyzer = "DeleteAnalyzer";
+        public const string GetMappingByMappingId = "GetMappingByMappingId";
+        public const string AddTestMapping = "AddTestMapping";
+        public const string UpdateTestMapping = "UpdateTestMapping";
+        public const string DeleteTestMapping = "DeleteTestMapping";
+        public const string GetAllCenters = "GetAllCenters";
+        public const string GetSalesIncharge = "GetSalesIncharge";
+        public const string AddNewCenter = "AddNewCenter";
+        public const string UpdateCenter = "UpdateCenter";
+        public const string DeleteCenter = "DeleteCenter";
+        public const string GetCenterByCenterCode = "GetCenterByCenterCode";
+        public const string GetCentreCustomRates = "GetCentreCustomRates";
+        public const string UpdateCenterRates = "UpdateCenterRates";
+        public const string ImportCenterRates = "ImportCenterRates";
+        public const string GetAllClinics = "GetAllClinics";
+
 
         #endregion
 
@@ -106,7 +129,14 @@
         public const string DeleteReferralRanges = "DeleteReferralRanges";
         public const string SaveUpdateSpecialValues = "SaveUpdateSpecialValues";
         public const string DeleteSpecialValue = "DeleteSpecialValue";
-
+        public const string DeleteProfileByProfileCode = "DeleteProfileByProfileCode";
+        public const string GetProfileByProfileCode = "GetProfileByProfileCode";
+        public const string GetAllMappedTests = "GetAllMappedTests";
+        public const string CreateProfile = "CreateProfile";
+        public const string UpdateTestProfile = "UpdateTestProfile";
+        public const string DeleteMappedTest = "DeleteMappedTest";
+        public const string SaveMappingTest = "SaveMappingTest";
+        public const string UpdateAllMappings = "UpdateAllMappings";
 
         #endregion
 
@@ -212,9 +242,50 @@
         public const string ParamReferelRangeComments= "@ReferelRangeComments";
         public const string ParamAllowedvalue = "@Allowedvalue";
         public const string ParamIsAbnormal = "@IsAbnormal";
+        public const string ParamProfileCode = "@ProfileCode";
+        public const string ParamProfileName = "@ProfileName";
+        public const string ParamProfileStatus = "@ProfileStatus";
+        public const string ParamSampleTypes = "@SampleTypes";
+        public const string ParamIsAvailableForAll = "@IsAvailableForAll";
+        public const string ParamIsProfileOutLab = "@IsProfileOutLab";
+        public const string ParamProfileFooter = "@ProfileFooter";
+        public const string ParamIsNABApplicable= "@IsNABApplicable";
+        public const string ParamMappingId= "@MappingId";
+        public const string ParamSectionName= "@SectionName";
+        public const string ParamPrintOrder= "@PrintOrder";
+        public const string ParamGroupHeader= "@GroupHeader";
+        public const string ParamAnalyzerNameOrShortCode = "@AnalyzerNameOrShortCode";
+        public const string ParamAnalyzerId = "@AnalyzerId";
+        public const string ParamAnalyzerShortCode = "@AnalyzerShortCode";
+        public const string ParamSupplierCode = "@SupplierCode";
+        public const string ParamPurchasedValue = "@PurchasedValue";
+        public const string ParamWarrantyEndDate = "@WarrantyEndDate";
+        public const string ParamEngineerContactNo = "@EngineerContactNo";
+        public const string ParamAssetCode = "@AssetCode";
+        public const string ParamAnalyzerTestCode = "@AnalyzerTestCode";
+        public const string ParamCenterStatus = "@CenterStatus";
+        public const string ParamSearchBy = "@SearchBy";
+        public const string ParamCenterCode = "@CenterCode";
+        public const string ParamCenterName = "@CenterName";
+        public const string ParamCenterInchargeName = "@CenterInchargeName";
+        public const string ParamSalesIncharge = "@SalesIncharge";
+        public const string ParamCenterAddress = "@CenterAddress";
+        public const string ParamPinCode = "@PinCode";
+        public const string ParamCenterMobileNumber = "@MobileNumber";
+        public const string ParamAlternateContactNo = "@AlternateContactNo";
+        public const string ParamEmailId = "@EmailId";
+        public const string ParamRateType = "@RateType";
+        public const string ParamIntroducedBy = "@IntroducedBy";
+        public const string ParamCreditLimit = "@CreditLimit";
+        public const string ParamIsAutoBarcode = "@IsAutoBarcode";
+        public const string ParamCreateBy = "@CreateBy";
+        public const string ParamUpdateBy = "@UpdateBy";
+        public const string ParamBillRate = "@BillRate";
+        public const string ParamModifiedBy = "@ModifiedBy";
+        public const string ParamRateCreatedBy = "@CreatedBy";
+        public const string ParamClinicStatus = "@ClinicStatus";
+        public const string ParamCentreCode = "@CentreCode";
 
-
-       
 
         #endregion
 
@@ -334,8 +405,76 @@
         public const string PartnerName = "PartnerName";
         public const string BillRate = "Bill_Rate";
         public const string RoletypeId = "RoletypeId";
-
-
+        public const string ProfileCode = "ProfileCode";
+        public const string ProfileStatus = "ProfileStatus";
+        public const string ProfileB2CRates = "B2CRates";
+        public const string SampleTypes = "SampleTypes";
+        public const string ProfileLabRates = "Labrates";
+        public const string TatHrs = "TatHrs";
+        public const string CptCodes = "CptCodes";
+        public const string PrintSequence = "PrintSequence";
+        public const string IsRestricted = "IsRestricted";
+        public const string SubProfilesCount = "SubProfilesCount";
+        public const string ProfileNormalRangeFooter = "NormalRangeFooter";
+        public const string ProfileProfitRate = "ProfileProfitRate";
+        public const string LabTestCodes = "LabTestCodes";
+        public const string IsProfileOutLab = "IsProfileOutLab";
+        public const string ProfileName = "ProfileName";
+        public const string ProfileLabTestCode = "LabTestCode";
+        public const string TestsMappingId = "testsmappingid";
+        public const string ProfileReportTemplateName = "reporttemplatename";
+        public const string PrintOrder = "ReportPrintOrder";
+        public const string SectionName = "ReportLogicalSection";
+        public const string GroupHeader = "groupheader";
+        public const string CanPrintSeparately = "CanPrintSeparately";
+        public const string MappedTestName = "TestName";
+        public const string IsAvailableForAll = "IsAvailableForAll";
+        public const string ProfileTemplateName = "reporttemplatename";
+        public const string AnalyzerId = "AnalyzerId";
+        public const string AnalyzerNames = "AnalyzerName";
+        public const string AnalyzerShortCode = "AnalyzerShortCode";
+        public const string Status = "Status";
+        public const string SupplierCode = "SupplierCode";
+        public const string PurchasedValue = "PurchasedValue";
+        public const string WarrantyEndDate = "WarrantyEndDate";
+        public const string EngineerContactNo = "EngineerContactNo";
+        public const string AssetCode = "AssetCode";
+        public const string SupplierName = "CompanyName";
+        public const string MappingId = "MappingId";
+        public const string AnalyzerTestCode = "Analyzer_TestCode";
+        public const string AnalyzerLabTestCode = "Lab_TestCode";
+        public const string IsProfileCode = "IsProfileCode";
+        public const string SampleType = "SampleType";
+        public const string CenterCode = "CenterCode";
+        public const string CenterName = "CenterrName";
+        public const string CenterInchargeName = "CenterInchargeName";
+        public const string SalesIncharge = "SalesIncharge";
+        public const string CenterAddress = "CenterAddress";
+        public const string PinCode = "PinCode";
+        public const string CenterMobileNumber = "MobileNumber";
+        public const string AlternateContactNo = "AlternateContactNo";
+        public const string EmailId = "EmailId";
+        public const string RateType = "RateType";
+        public const string CenterStatus = "CenterStatus";
+        public const string IntroducedBy = "IntroducedBy";
+        public const string IsAutoBarcode = "IsAutoBarcode";
+        public const string City = "City";
+        public const string CreditLimit = "CreditLimit";
+        public const string EmployeeId = "EmployeeId";
+        public const string EmployeeName = "EmployeeName";
+        public const string CentreCode = "CentreCode";
+        public const string CentreName = "CentreName";
+        public const string AgreedRate = "AgreedRate";
+        public const string CentreTestName = "TestName";
+        public const string ClinicId = "ClinicId";
+        public const string ClinicCode = "ClinicCode";
+        public const string ClinicName = "ClinicName";
+        public const string ClinicIncharge = "ClinicIncharge";
+        public const string ClinicDoctorCode = "ClinicDoctorCode";
+        public const string ClinicAddress = "ClinicAddress";
+        public const string ClinicStatus = "ClinicStatus";
+        public const string UpdatedOn = "UpdatedOn";
+        public const string UpdateBy = "UpdateBy";
 
         #endregion
 
@@ -398,6 +537,8 @@
         public const string UspGetPagesByPageId = "Usp_GetPagesByPageId";
         public const string Usp_DeletePageDetails = "Usp_DeletePageDetails";
         public const string UspUpdatePageDetails = "Usp_UpdatePageDetails";
+        public const string UspInsertCenterTestRates = "Usp_InsertCenterTestRates";
+
 
         #endregion
 
@@ -441,7 +582,7 @@
 
         #endregion
 
-        #region Test Master data
+        #region Test & Profile Master data
         public const string UspGetTestMasterData = "Usp_Get_TestMaster_Data";
         public const string UspRetrieveTestDepartments = "Usp_Retrieve_Test_Departments";
         public const string UspRetrieveTestByTestCode = "Usp_Retrieve_TestData_ByTestCode";
@@ -461,8 +602,50 @@
         public const string UspDeleteReferralRanges = "Usp_Delete_Referral_Ranges";
         public const string UspAllowedValuesSaveUpdateChanges = "Usp_AllowedValues_SaveUpdateChanges";
         public const string UspDeleteAllowedValue = "Usp_DeleteAllowedValue";
+        public const string UspRetrieveProfileDetails = "Usp_Retrieve_ProfileDetails";
+        public const string UspDeleteProfileDetails = "Usp_Delete_ProfileDetails";
+        public const string UspGetProfileDetailsByProfileCode = "Usp_GetProfileDetails_ByProfileCode";
+        public const string UspProfileMappingRetrieve = "usp_ProfileMapping_Retrieve";
+        public const string USPSaveProfileDetails = "USP_SaveProfileDetails";
+        public const string USPUpdateProfileDetails = "USP_UpdateProfileDetails";
+        public const string UspDeleteMappingDetails = "Usp_DeleteMappingDetails";
+        public const string UspTestMappingForProfile = "Usp_TestMappingForProfile";
+        public const string UspUpdateTestMapping = "Usp_UpdateTestMapping";
 
         #endregion
+
+        #region Analyzer Master 
+        public const string USPGetAllAnalyzers = "USP_GetAllAnalyzers";
+        public const string USPGetAllSuppliers = "USP_GetAllSuppliers";
+        public const string USPGetAnalyzerDetailsById = "USP_GetAnalyzerDetailsById";
+        public const string UspGetAnalyzerTestMapping = "Usp_GetAnalyzerTestMapping";
+        public const string UspAddNewLISAnalyzer = "Usp_AddNewLISAnalyzer";
+        public const string UspUpdateLISAnalyzerDetails = "Usp_UpdateLISAnalyzerDetails";
+        public const string UspDeleteAnalyzerById = "Usp_DeleteAnalyzerById";
+        public const string UspGetAnalyzerTestMappingById = "Usp_GetAnalyzerTestMappings";
+        public const string UspSaveAnalyzerTestMapping = "Usp_SaveAnalyzerTestMapping";
+        public const string UspUpdateAnalyzerTestMapping = "Usp_UpdateAnalyzerTestMapping";
+        public const string UspDeleteMappingById = "Usp_DeleteMappingById";
+
+        #endregion
+
+        #region Center master
+        public const string UspGetAllCenters = "Usp_GetAllCenters";
+        public const string UspGetSalesInCharge = "Usp_GetSalesInCharge";
+        public const string UspGetCenterDetailsByCenterCode = "Usp_GetCenterDetailsBy_CenterCode";
+        public const string UspAddNewCenter = "Usp_AddNewCenter";
+        public const string UspUpdateCenter = "Usp_UpdateCenter";
+        public const string UspDeleteCenterByCenterCode = "Usp_DeleteCenterBy_CenterCode";
+        public const string USPGetCentreCustomRates = "Get_CentreCustomRates";
+        public const string UspUpdateAllTestCenterRates = "Usp_UpdateAllTestCenterRates";
+
+        #endregion
+
+        #region Clinic Master
+        public const string UspGetClinicDetails = "Usp_GetClinicDetails";
+
+        #endregion
+
 
         #endregion
 
@@ -503,6 +686,13 @@
         public const string ParamLowCriticalValue = "@LowCriticalValue";
         public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
+        public const string ProfileCodeEmpty = "Profile code should not be empty or blank.";
+        public const string MappingIdEmpty = "Mapping Id should not be empty or blank.";
+        public readonly static string InvaidMappingRequest = "Invaid Mapping Request";
+        public readonly static string InvalidUsernamePassword = "Invalid username or password";
+        public const string CenterCodeEmpty = "Center code should not be empty or blank.";
+
+
         #endregion
     }
 }

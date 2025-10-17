@@ -1,5 +1,6 @@
 ﻿using LISCare.Interface;
 using LISCareDTO;
+using LISCareDTO.AnalyzerMaster;
 using LISCareDTO.MetaData;
 using LISCareReposotiory.Interface;
 using Microsoft.Extensions.Configuration;
@@ -75,18 +76,16 @@ namespace LISCare.Implementation
             return response;
         }
 
-        public LoginResponseModel UserLogin(LoginRequsetModel loginRequset)
+        public async Task<APIResponseModel<LoginResponseModel>> UserLogin(LoginRequsetModel loginRequset)
         {
-            var response = new LoginResponseModel();
             try
             {
-              response = UserRepository.UserLogin(loginRequset);
+                return await UserRepository.UserLogin(loginRequset);
             }
             catch
             {
                 throw;
             }
-            return response;
         }
         /// <summary>
         /// This method is used to get All LIS User information
