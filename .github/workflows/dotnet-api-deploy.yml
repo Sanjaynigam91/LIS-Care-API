@@ -12,7 +12,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: List files for debug
         run: ls -R ./LISCareLimited
@@ -39,7 +40,8 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main'   # Only deploy from main
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Azure Login
         uses: azure/login@v1
@@ -52,13 +54,13 @@ jobs:
               "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
             }
 
-      - name: Publish
+      - name: Publish .NET API
         run: dotnet publish -c Release -o ./publish
         working-directory: ./LISCareLimited
 
-      - name: Deploy to Azure WebApp
+      - name: Deploy to Azure WebApp (Production)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_PROD_NAME }}   # Only Production
+          app-name: ${{ secrets.AZURE_WEBAPP_PROD_NAME }}  # Must be set in GitHub Secrets
           package: ./LISCareLimited/publish
           slot-name: production
