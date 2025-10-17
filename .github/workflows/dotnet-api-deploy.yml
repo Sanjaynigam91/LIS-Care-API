@@ -24,10 +24,13 @@ jobs:
           dotnet-version: 8.0.x
 
       # ------------------------
-      # Restore dependencies explicitly
+      # Restore dependencies (fail if any package is missing)
       # ------------------------
       - name: Restore dependencies
-        run: dotnet restore ./LISCareLimited/LISCareLimited.csproj --no-cache
+        run: |
+          echo "Restoring NuGet packages..."
+          dotnet restore ./LISCareLimited/LISCareLimited.csproj --no-cache
+        shell: bash
 
       - name: Build
         run: dotnet build --configuration Release ./LISCareLimited/LISCareLimited.csproj
@@ -48,15 +51,12 @@ jobs:
       - name: Set environment
         id: set-env
         run: |
-          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            echo "ENV=Production" >> $GITHUB_ENV
-          elif [[ "${GITHUB_REF}" == "refs/heads/qa" ]]; then
-            echo "ENV=QA" >> $GITHUB_ENV
-          elif [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
-            echo "ENV=Development" >> $GITHUB_ENV
-          else
-            echo "ENV=Development" >> $GITHUB_ENV
-          fi
+          case "${GITHUB_REF}" in
+            refs/heads/main) echo "ENV=Production" >> $GITHUB_ENV ;;
+            refs/heads/qa) echo "ENV=QA" >> $GITHUB_ENV ;;
+            refs/heads/develop) echo "ENV=Development" >> $GITHUB_ENV ;;
+            *) echo "ENV=Development" >> $GITHUB_ENV ;;
+          esac
           echo "Branch: ${GITHUB_REF}, Environment: $ENV"
 
       # ------------------------
@@ -64,8 +64,12 @@ jobs:
       # ------------------------
       - name: Copy appsettings for environment
         run: |
-          echo "Using appsettings.$ENV.json as appsettings.json"
-          cp ./LISCareLimited/appsettings.$ENV.json ./LISCareLimited/appsettings.json
+          if [ -f ./LISCareLimited/appsettings.$ENV.json ]; then
+            echo "Using appsettings.$ENV.json"
+            cp ./LISCareLimited/appsettings.$ENV.json ./LISCareLimited/appsettings.json
+          else
+            echo "Warning: appsettings.$ENV.json not found, using default appsettings.json"
+          fi
 
       - name: Azure Login
         uses: azure/login@v1
@@ -78,13 +82,21 @@ jobs:
               "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
             }
 
+      # ------------------------
+      # Publish .NET API
+      # ------------------------
       - name: Publish .NET API
         run: |
+          echo "Publishing .NET project..."
           dotnet publish ./LISCareLimited/LISCareLimited.csproj \
             --configuration Release \
             --output ./LISCareLimited/publish \
             --no-restore
+        shell: bash
 
+      # ------------------------
+      # Deploy only from main branch
+      # ------------------------
       - name: Deploy to Azure WebApp (Production)
         if: github.ref == 'refs/heads/main'
         uses: azure/webapps-deploy@v2
