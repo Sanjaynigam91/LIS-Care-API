@@ -2725,28 +2725,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Sanjay Nigam\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\Sanjay\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareBussiness\\LISCareBussiness.csproj",
+      "projectUniqueName": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\LISCareBussiness.csproj",
       "projectName": "LISCareBussiness",
-      "projectPath": "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareBussiness\\LISCareBussiness.csproj",
-      "packagesPath": "C:\\Users\\Sanjay Nigam\\.nuget\\packages\\",
-      "outputPath": "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareBussiness\\obj\\",
+      "projectPath": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\LISCareBussiness.csproj",
+      "packagesPath": "C:\\Users\\Sanjay\\.nuget\\packages\\",
+      "outputPath": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Sanjay Nigam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Sanjay\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2760,11 +2757,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareDTO\\LISCareDTO.csproj": {
-              "projectPath": "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareDTO\\LISCareDTO.csproj"
+            "D:\\LISCare\\LIS-Care-API\\LISCareDTO\\LISCareDTO.csproj": {
+              "projectPath": "D:\\LISCare\\LIS-Care-API\\LISCareDTO\\LISCareDTO.csproj"
             },
-            "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareRepository\\LISCareRepository.csproj": {
-              "projectPath": "D:\\Sanjay\\LISCare\\LISCareCore\\LISCareRepository\\LISCareRepository.csproj"
+            "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\LISCareRepository.csproj": {
+              "projectPath": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\LISCareRepository.csproj"
             }
           }
         }
@@ -2773,7 +2770,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -2812,7 +2815,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
