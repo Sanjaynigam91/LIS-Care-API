@@ -51,17 +51,28 @@ jobs:
               "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
             }
 
+      - name: Set Azure App Name
+        id: appname
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
+            echo "APP_NAME=${{ secrets.AZURE_WEBAPP_DEV_NAME }}" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == "refs/heads/qa" ]]; then
+            echo "APP_NAME=${{ secrets.AZURE_WEBAPP_QA_NAME }}" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "APP_NAME=${{ secrets.AZURE_WEBAPP_PROD_NAME }}" >> $GITHUB_ENV
+          else
+            echo "APP_NAME=skip" >> $GITHUB_ENV
+          fi
+
       - name: Publish
+        if: env.APP_NAME != 'skip'
         run: dotnet publish -c Release -o ./publish
         working-directory: ./LISCareLimited
 
       - name: Deploy to Azure WebApp
+        if: env.APP_NAME != 'skip'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ 
-            github.ref == 'refs/heads/develop' && secrets.AZURE_WEBAPP_DEV_NAME || 
-            github.ref == 'refs/heads/qa' && secrets.AZURE_WEBAPP_QA_NAME || 
-            github.ref == 'refs/heads/main' && secrets.AZURE_WEBAPP_PROD_NAME 
-          }}
+          app-name: ${{ env.APP_NAME }}
           package: ./LISCareLimited/publish
           slot-name: production
