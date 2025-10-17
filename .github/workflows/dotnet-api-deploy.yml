@@ -28,8 +28,8 @@ jobs:
       # ------------------------
       - name: Restore dependencies
         run: |
-          echo "Restoring NuGet packages..."
-          dotnet restore ./LISCareLimited/LISCareLimited.csproj --no-cache
+          echo "Restoring NuGet packages using NuGet.Config..."
+          dotnet restore ./LISCareLimited/LISCareLimited.csproj --configfile ./NuGet.Config --no-cache
         shell: bash
 
       - name: Build
@@ -91,7 +91,8 @@ jobs:
           dotnet publish ./LISCareLimited/LISCareLimited.csproj \
             --configuration Release \
             --output ./LISCareLimited/publish \
-            --no-restore
+            --no-restore \
+            --configfile ./NuGet.Config
         shell: bash
 
       # ------------------------
