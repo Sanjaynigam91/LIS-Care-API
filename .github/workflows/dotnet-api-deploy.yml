@@ -24,7 +24,15 @@ jobs:
           dotnet-version: 8.0.x
 
       # ------------------------
-      # Restore dependencies (fail if any package is missing)
+      # Clean NuGet cache
+      # ------------------------
+      - name: Clean NuGet cache
+        run: |
+          echo "Clearing local NuGet cache..."
+          dotnet nuget locals all --clear
+
+      # ------------------------
+      # Restore dependencies using NuGet.Config
       # ------------------------
       - name: Restore dependencies
         run: |
@@ -32,9 +40,15 @@ jobs:
           dotnet restore ./LISCareLimited/LISCareLimited.csproj --configfile ./NuGet.Config --no-cache
         shell: bash
 
+      # ------------------------
+      # Build project
+      # ------------------------
       - name: Build
         run: dotnet build --configuration Release ./LISCareLimited/LISCareLimited.csproj
 
+      # ------------------------
+      # Run tests
+      # ------------------------
       - name: Test
         run: dotnet test --no-build --verbosity normal ./LISCareLimited/LISCareLimited.csproj
 
