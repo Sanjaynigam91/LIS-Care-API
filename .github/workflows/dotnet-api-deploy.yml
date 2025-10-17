@@ -8,6 +8,10 @@ on:
       - qa
       - main
 
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,34 +27,17 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      # ------------------------
-      # Clean NuGet cache
-      # ------------------------
       - name: Clean NuGet cache
-        run: |
-          echo "Clearing local NuGet cache..."
-          dotnet nuget locals all --clear
+        run: dotnet nuget locals all --clear
 
-      # ------------------------
-      # Restore dependencies using NuGet.Config
-      # ------------------------
       - name: Restore dependencies
-        run: |
-          echo "Restoring NuGet packages using NuGet.Config..."
-          dotnet restore ./LISCareLimited/LISCareLimited.csproj --configfile ./NuGet.Config --no-cache
-        shell: bash
+        run: dotnet restore ./LISCareLimited/LISCareLimited.csproj --configfile ./NuGet.Config --no-cache
 
-      # ------------------------
-      # Build project
-      # ------------------------
       - name: Build
-        run: dotnet build --configuration Release ./LISCareLimited/LISCareLimited.csproj
+        run: dotnet build ./LISCareLimited/LISCareLimited.csproj --configuration Release
 
-      # ------------------------
-      # Run tests
-      # ------------------------
       - name: Test
-        run: dotnet test --no-build --verbosity normal ./LISCareLimited/LISCareLimited.csproj
+        run: dotnet test ./LISCareLimited/LISCareLimited.csproj --no-build --verbosity normal
 
   deploy:
     runs-on: ubuntu-latest
@@ -59,9 +46,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # ------------------------
-      # Determine environment based on branch
-      # ------------------------
       - name: Set environment
         id: set-env
         run: |
@@ -73,13 +57,9 @@ jobs:
           esac
           echo "Branch: ${GITHUB_REF}, Environment: $ENV"
 
-      # ------------------------
-      # Copy correct appsettings.{env}.json
-      # ------------------------
       - name: Copy appsettings for environment
         run: |
           if [ -f ./LISCareLimited/appsettings.$ENV.json ]; then
-            echo "Using appsettings.$ENV.json"
             cp ./LISCareLimited/appsettings.$ENV.json ./LISCareLimited/appsettings.json
           else
             echo "Warning: appsettings.$ENV.json not found, using default appsettings.json"
@@ -96,26 +76,19 @@ jobs:
               "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
             }
 
-      # ------------------------
-      # Publish .NET API
-      # ------------------------
       - name: Publish .NET API
         run: |
           echo "Publishing .NET project..."
           dotnet publish ./LISCareLimited/LISCareLimited.csproj \
             --configuration Release \
             --output ./LISCareLimited/publish \
-            --no-restore \
-            --configfile ./NuGet.Config
+            --no-restore
         shell: bash
 
-      # ------------------------
-      # Deploy only from main branch
-      # ------------------------
       - name: Deploy to Azure WebApp (Production)
         if: github.ref == 'refs/heads/main'
         uses: azure/webapps-deploy@v2
         with:
           app-name: dev-lis-care-api
           package: ./LISCareLimited/publish
-          slot-name: production
+          slot-name: QA
