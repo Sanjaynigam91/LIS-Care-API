@@ -237,10 +237,10 @@ namespace LISCareReposotiory.Implementation
                     response.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty;
                     response.DepartmentId = Convert.ToInt32(reader[ConstantResource.DepartmentId]);
                     response.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty;
-
-                    if (Convert.ToString(reader[ConstantResource.UserLogoPrefix]) != "")
+                    var userLogoValue = Convert.ToString(reader[ConstantResource.UserLogo]);
+                    if (!string.IsNullOrEmpty(userLogoValue))
                     {
-                        var imgPath = _uploadImagePath.FolderPath + Convert.ToString(reader[ConstantResource.UserLogo]);
+                        var imgPath = _uploadImagePath.FolderPath + userLogoValue;
                         var profileImage = Common.ConvertImageToBase64(imgPath);
                         var finalUserImage = reader[ConstantResource.UserLogoPrefix] + profileImage;
                         response.UserLogo = finalUserImage;
