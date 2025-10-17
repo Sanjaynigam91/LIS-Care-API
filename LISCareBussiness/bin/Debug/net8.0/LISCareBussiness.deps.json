@@ -537,7 +537,10 @@
           "System.Data.SqlClient": "4.8.6"
         },
         "runtime": {
-          "LISCareDataAccess.dll": {}
+          "LISCareDataAccess.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "LISCareDTO/1.0.0": {
@@ -547,7 +550,10 @@
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
-          "LISCareDTO.dll": {}
+          "LISCareDTO.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "LISCareRepository/1.0.0": {
@@ -567,7 +573,10 @@
           "System.IdentityModel.Tokens.Jwt": "7.6.3"
         },
         "runtime": {
-          "LISCareRepository.dll": {}
+          "LISCareRepository.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "LISCareUtility/1.0.0": {
@@ -581,7 +590,10 @@
           "System.IdentityModel.Tokens.Jwt": "7.6.3"
         },
         "runtime": {
-          "LISCareUtility.dll": {}
+          "LISCareUtility.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
