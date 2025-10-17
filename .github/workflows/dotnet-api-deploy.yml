@@ -46,28 +46,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set environment and Azure slot
+      - name: Set environment
         id: set-env
         run: |
           case "${GITHUB_REF}" in
             refs/heads/main)
               echo "ENV=Production" >> $GITHUB_ENV
-              echo "AZ_SLOT=production" >> $GITHUB_ENV
               ;;
             refs/heads/qa)
               echo "ENV=QA" >> $GITHUB_ENV
-              echo "AZ_SLOT=QA" >> $GITHUB_ENV
               ;;
             refs/heads/develop)
               echo "ENV=Development" >> $GITHUB_ENV
-              echo "AZ_SLOT=QA" >> $GITHUB_ENV   # deploying develop branch to QA slot
               ;;
             *)
               echo "ENV=Development" >> $GITHUB_ENV
-              echo "AZ_SLOT=QA" >> $GITHUB_ENV
               ;;
           esac
-          echo "Branch: ${GITHUB_REF}, Environment: $ENV, Slot: $AZ_SLOT"
+          echo "Branch: ${GITHUB_REF}, Environment: $ENV"
 
       - name: Copy appsettings for environment
         run: |
@@ -96,9 +92,8 @@ jobs:
             --output ./LISCareLimited/publish
         shell: bash
 
-      - name: Deploy to Azure WebApp
+      - name: Deploy to Azure WebApp (Production)
         uses: azure/webapps-deploy@v2
         with:
           app-name: dev-lis-care-api
           package: ./LISCareLimited/publish
-          slot-name: ${{ env.AZ_SLOT }}
