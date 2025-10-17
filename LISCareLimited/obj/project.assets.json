@@ -3404,6 +3404,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.7",
       "Microsoft.Extensions.Configuration.Abstractions >= 8.0.0",
       "Microsoft.IdentityModel.Logging >= 7.6.3",
+      "Microsoft.IdentityModel.Protocols >= 7.1.2",
       "Microsoft.IdentityModel.Tokens >= 7.6.3",
       "NETStandard.Library >= 2.0.3",
       "Swashbuckle.AspNetCore >= 6.6.2",
@@ -3495,6 +3496,10 @@
           "Microsoft.IdentityModel.Logging": {
             "target": "Package",
             "version": "[7.6.3, )"
+          },
+          "Microsoft.IdentityModel.Protocols": {
+            "target": "Package",
+            "version": "[7.1.2, )"
           },
           "Microsoft.IdentityModel.Tokens": {
             "target": "Package",
