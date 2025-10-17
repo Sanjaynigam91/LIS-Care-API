@@ -361,6 +361,10 @@
               "target": "Package",
               "version": "[7.6.3, )"
             },
+            "Microsoft.IdentityModel.Protocols": {
+              "target": "Package",
+              "version": "[7.1.2, )"
+            },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[7.6.3, )"
