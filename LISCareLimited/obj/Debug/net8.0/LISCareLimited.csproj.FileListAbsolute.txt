@@ -91,6 +91,8 @@ D:\Sanjay\LISCare\LISCareCore\LISCareLimited\obj\Debug\net8.0\LISCareLimited.gen
 D:\Sanjay\LISCare\LISCareCore\LISCareLimited\obj\Debug\net8.0\ref\LISCareLimited.dll
 D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\appsettings.Development.json
 D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\appsettings.json
+D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\appsettings.Production.json
+D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\appsettings.Staging.json
 D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\LISCareLimited.staticwebassets.runtime.json
 D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\LISCareLimited.staticwebassets.endpoints.json
 D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\LISCareLimited.exe
@@ -184,5 +186,3 @@ D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\refint\LISCareLimited.dl
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.pdb
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.genruntimeconfig.cache
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\ref\LISCareLimited.dll
-D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\appsettings.Production.json
-D:\LISCare\LIS-Care-API\LISCareLimited\bin\Debug\net8.0\appsettings.Staging.json
