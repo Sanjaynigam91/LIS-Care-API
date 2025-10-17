@@ -25,7 +25,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Clean NuGet cache
         run: dotnet nuget locals all --clear
@@ -46,16 +46,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set environment
+      - name: Set environment and Azure slot
         id: set-env
         run: |
           case "${GITHUB_REF}" in
-            refs/heads/main) echo "ENV=Production" >> $GITHUB_ENV ;;
-            refs/heads/qa) echo "ENV=QA" >> $GITHUB_ENV ;;
-            refs/heads/develop) echo "ENV=Development" >> $GITHUB_ENV ;;
-            *) echo "ENV=Development" >> $GITHUB_ENV ;;
+            refs/heads/main)
+              echo "ENV=Production" >> $GITHUB_ENV
+              echo "AZ_SLOT=production" >> $GITHUB_ENV
+              ;;
+            refs/heads/qa)
+              echo "ENV=QA" >> $GITHUB_ENV
+              echo "AZ_SLOT=QA" >> $GITHUB_ENV
+              ;;
+            refs/heads/develop)
+              echo "ENV=Development" >> $GITHUB_ENV
+              echo "AZ_SLOT=staging" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "ENV=Development" >> $GITHUB_ENV
+              echo "AZ_SLOT=staging" >> $GITHUB_ENV
+              ;;
           esac
-          echo "Branch: ${GITHUB_REF}, Environment: $ENV"
+          echo "Branch: ${GITHUB_REF}, Environment: $ENV, Slot: $AZ_SLOT"
 
       - name: Copy appsettings for environment
         run: |
@@ -81,14 +93,12 @@ jobs:
           echo "Publishing .NET project..."
           dotnet publish ./LISCareLimited/LISCareLimited.csproj \
             --configuration Release \
-            --output ./LISCareLimited/publish \
-            --no-restore
+            --output ./LISCareLimited/publish
         shell: bash
 
-      - name: Deploy to Azure WebApp (Production)
-        if: github.ref == 'refs/heads/main'
+      - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
         with:
           app-name: dev-lis-care-api
           package: ./LISCareLimited/publish
-          slot-name: QA
+          slot-name: ${{ env.AZ_SLOT }}
