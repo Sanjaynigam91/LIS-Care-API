@@ -3,15 +3,8 @@
   "WorkspaceRootPath": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6163CA35-FC12-4563-BB22-0E6DF6C4510D}|..\\LISCareUtility\\LISCareUtility.csproj|d:\\liscare\\lis-care-api\\liscareutility\\liscareutility.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\liscarelimited.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:liscarelimited.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,40 +27,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "LISCareUtility",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareUtility\\LISCareUtility.csproj",
-              "RelativeDocumentMoniker": "..\\LISCareUtility\\LISCareUtility.csproj",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareUtility\\LISCareUtility.csproj",
-              "RelativeToolTip": "..\\LISCareUtility\\LISCareUtility.csproj",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAoAAABMAAAAAAAAAA==",
+              "Title": "LISCareLimited",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\LISCareLimited.csproj",
+              "RelativeDocumentMoniker": "LISCareLimited.csproj",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\LISCareLimited.csproj",
+              "RelativeToolTip": "LISCareLimited.csproj",
+              "ViewState": "AgIAABAAAAAAAAAAAADwvxoAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-17T14:49:28.782Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T14:14:34.705Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Startup.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Startup.cs",
-              "RelativeDocumentMoniker": "Startup.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Startup.cs",
-              "RelativeToolTip": "Startup.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAgwDkAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T14:09:02.295Z",
+              "WhenOpened": "2025-10-17T16:04:45.977Z",
               "EditorCaption": ""
             }
           ]
