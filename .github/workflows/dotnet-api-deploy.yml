@@ -61,6 +61,6 @@ jobs:
       - name: Deploy to Azure WebApp (Production)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_PROD_NAME }}  # Must be set in GitHub Secrets
+          app-name: ${{ secrets.AZURE_WEBAPP_PROD_NAME }}  # **Must be set and non-empty**
           package: ./LISCareLimited/publish
           slot-name: production
