@@ -1,0 +1,65 @@
+name: Build and Deploy .NET API
+
+on:
+  push:
+    branches:
+      - feature/*
+      - develop
+      - main
+      - qa
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: List files for debug
+        run: ls -R ./LISCareLimited
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./LISCareLimited
+
+      - name: Build
+        run: dotnet build --configuration Release
+        working-directory: ./LISCareLimited
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./LISCareLimited
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish
+        working-directory: ./LISCareLimited
+
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ 
+            github.ref == 'refs/heads/develop' && secrets.AZURE_WEBAPP_DEV_NAME || 
+            github.ref == 'refs/heads/qa' && secrets.AZURE_WEBAPP_QA_NAME || 
+            github.ref == 'refs/heads/main' && secrets.AZURE_WEBAPP_PROD_NAME 
+          }}
+          publish-profile: ${{ 
+            github.ref == 'refs/heads/develop' && secrets.AZURE_WEBAPP_DEV_PROFILE || 
+            github.ref == 'refs/heads/qa' && secrets.AZURE_WEBAPP_QA_PROFILE || 
+            github.ref == 'refs/heads/main' && secrets.AZURE_WEBAPP_PROD_PROFILE 
+          }}
+          package: ./LISCareLimited/publish
