@@ -80,7 +80,7 @@ jobs:
 
       - name: Publish .NET API (with all dependencies)
         run: |
-          dotnet publish ./LISCareLimited \
+          dotnet publish ./LISCareLimited/LISCareLimited.csproj \
             --configuration Release \
             --output ./LISCareLimited/publish \
             --no-restore
