@@ -1,66 +1,48 @@
-name: Build and Deploy .NET API to Azure
+name: Build and Deploy .NET API
 
 on:
   push:
     branches:
-      - main
+      - feature/*
       - develop
-      - staging
-
-env:
-  AZURE_WEBAPP_NAME: dev-lis-care-api           # Change per environment if needed
-  AZURE_RESOURCE_GROUP: rg-lis-care-api
-  DOTNET_VERSION: '8.0.x'
-  PROJECT_PATH: 'LISCare.API/LISCare.API.csproj'
+      - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./LISCare.API
+      - name: Build
+        run: dotnet build --configuration Release
+        working-directory: ./LISCare.API
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./LISCare.API
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    - name: Restore dependencies
-      run: dotnet restore ${{ env.PROJECT_PATH }}
-
-    # 🧠 Detect environment from branch
-    - name: Set environment based on branch
-      id: setenv
-      run: |
-        branch=${GITHUB_REF##*/}
-        if [[ "$branch" == "develop" ]]; then
-          echo "env_name=Development" >> $GITHUB_OUTPUT
-          echo "AZURE_WEBAPP_NAME=dev-lis-care-api" >> $GITHUB_ENV
-        elif [[ "$branch" == "staging" ]]; then
-          echo "env_name=Staging" >> $GITHUB_OUTPUT
-          echo "AZURE_WEBAPP_NAME=stg-lis-care-api" >> $GITHUB_ENV
-        else
-          echo "env_name=Production" >> $GITHUB_OUTPUT
-          echo "AZURE_WEBAPP_NAME=prod-lis-care-api" >> $GITHUB_ENV
-        fi
-
-    # 🧩 Copy correct appsettings file for the detected environment
-    - name: Copy environment appsettings
-      run: |
-        echo "Using environment: ${{ steps.setenv.outputs.env_name }}"
-        cp "LISCare.API/appsettings.${{ steps.setenv.outputs.env_name }}.json" "LISCare.API/appsettings.json"
-
-    - name: Build project
-      run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release
-
-    - name: Publish project
-      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ./publish
-
-    # 🚀 Deploy to Azure WebApp
-    - name: Deploy to Azure WebApp
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ./publish
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'   # Only deploy from main branch
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish
+        working-directory: ./LISCare.API
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: Production
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./LISCare.API/publish
