@@ -25,14 +25,12 @@ namespace LISCareReposotiory.Implementation
         private IConfiguration _configuration;
         private LISCareDbContext _dbContext;
         private readonly UploadImagePath _uploadImagePath;
-        private readonly Common _common;
 
-        public UserRepository(IConfiguration configuration, LISCareDbContext _DbContext, IOptions<UploadImagePath> upldImagePath,Common common)
+        public UserRepository(IConfiguration configuration, LISCareDbContext _DbContext, IOptions<UploadImagePath> upldImagePath)
         {
             _configuration = configuration;
             _dbContext = _DbContext;
             _uploadImagePath = upldImagePath.Value;
-            _common = common;
         }
         /// <summary>
         /// This method is used to User Sign Up
@@ -239,10 +237,10 @@ namespace LISCareReposotiory.Implementation
                     response.MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty;
                     response.DepartmentId = Convert.ToInt32(reader[ConstantResource.DepartmentId]);
                     response.UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty;
-
-                    if (Convert.ToString(reader[ConstantResource.UserLogoPrefix]) != "")
+                    var userLogoValue = Convert.ToString(reader[ConstantResource.UserLogo]);
+                    if (!string.IsNullOrEmpty(userLogoValue))
                     {
-                        var imgPath = _uploadImagePath.FolderPath + Convert.ToString(reader[ConstantResource.UserLogo]);
+                        var imgPath = _uploadImagePath.FolderPath + userLogoValue;
                         var profileImage = Common.ConvertImageToBase64(imgPath);
                         var finalUserImage = reader[ConstantResource.UserLogoPrefix] + profileImage;
                         response.UserLogo = finalUserImage;
@@ -1138,7 +1136,7 @@ namespace LISCareReposotiory.Implementation
                                 var userLogoValue = Convert.ToString(reader[ConstantResource.UserLogo]);
                                 if (!string.IsNullOrEmpty(userLogoValue))
                                 {
-                                    var imgPath = _common.GetFilePath(userLogoValue);
+                                    var imgPath = Path.Combine(_uploadImagePath.FolderPath, userLogoValue);
                                     var profileImage = Common.ConvertImageToBase64(imgPath);
                                     loginResponse.UserLogo = reader[ConstantResource.UserLogoPrefix] + profileImage;
                                 }
