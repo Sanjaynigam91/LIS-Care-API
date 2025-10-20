@@ -62,6 +62,10 @@
         public const string UpdateCenterRates = "UpdateCenterRates";
         public const string ImportCenterRates = "ImportCenterRates";
         public const string GetAllClinics = "GetAllClinics";
+        public const string AddNewClinic = "AddNewClinic";
+        public const string UpdateClinic = "UpdateClinic";
+        public const string DeleteClinic = "DeleteClinic";
+        public const string GetClinicById = "GetClinicById";
 
 
         #endregion
@@ -285,6 +289,12 @@
         public const string ParamRateCreatedBy = "@CreatedBy";
         public const string ParamClinicStatus = "@ClinicStatus";
         public const string ParamCentreCode = "@CentreCode";
+        public const string ParamClinicId = "@ClinicId";
+        public const string ParamClinicName ="@ClinicName";
+        public const string ParamClinicIncharge ="@ClinicIncharge";
+        public const string ParamClinicDoctorCode ="@ClinicDoctorCode";
+        public const string ParamClinicAddress = "@ClinicAddress";
+
 
 
         #endregion
@@ -643,6 +653,11 @@
 
         #region Clinic Master
         public const string UspGetClinicDetails = "Usp_GetClinicDetails";
+        public const string UspAddNewClinicDetail = "Usp_AddNewClinicDetail";
+        public const string UspUpdateClinicDetail = "Usp_UpdateClinicDetail";
+        public const string UspDeleteClinicById = "Usp_DeleteClinicById";
+        public const string UspGetClinicDetailsById = "Usp_GetClinicDetailsById";
+
 
         #endregion
 

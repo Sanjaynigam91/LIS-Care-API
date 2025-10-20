@@ -48,6 +48,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.ClinicController",
+    "Method": "CreateNewClinic",
+    "RelativePath": "api/AddNewClinic",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clinicRequest",
+        "Type": "LISCareDTO.ClinicMaster.ClinicRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCare.Controllers.SampleCollectionController",
     "Method": "AddSampleCollectedPlace",
     "RelativePath": "api/AddSampleCollectedPlace",
@@ -191,6 +207,27 @@
       {
         "Name": "centerCode",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ClinicController",
+    "Method": "DeleteClinicDetails",
+    "RelativePath": "api/DeleteClinic",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clinicId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
@@ -813,6 +850,27 @@
       },
       {
         "Name": "testCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ClinicController",
+    "Method": "GetAllClinicDetailsById",
+    "RelativePath": "api/GetClinicById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clinicId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -1566,6 +1624,22 @@
       {
         "Name": "centerRates",
         "Type": "LISCareDTO.CenterMaster.CenterRatesRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ClinicController",
+    "Method": "UpdateClinicDetails",
+    "RelativePath": "api/UpdateClinic",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clinicRequest",
+        "Type": "LISCareDTO.ClinicMaster.ClinicRequest",
         "IsRequired": true
       }
     ],
