@@ -66,7 +66,7 @@
         public const string UpdateClinic = "UpdateClinic";
         public const string DeleteClinic = "DeleteClinic";
         public const string GetClinicById = "GetClinicById";
-
+        public const string GetAllClients = "GetAllClients";
 
         #endregion
 
@@ -294,7 +294,7 @@
         public const string ParamClinicIncharge ="@ClinicIncharge";
         public const string ParamClinicDoctorCode ="@ClinicDoctorCode";
         public const string ParamClinicAddress = "@ClinicAddress";
-
+        public const string ParamClientStatus = "@ClientStatus";
 
 
         #endregion
@@ -485,6 +485,16 @@
         public const string ClinicStatus = "ClinicStatus";
         public const string UpdatedOn = "UpdatedOn";
         public const string UpdateBy = "UpdateBy";
+        public const string ClientId = "ClientId";
+        public const string ClientCode = "ClientCode";
+        public const string ClientName = "ClientName";
+        public const string IsAccessEnabled = "IsAccessEnabled";
+        public const string ClientStatus = "ClientStatus";
+        public const string LicenseNumber = "LicenseNumber";
+        public const string DiscountPercentage = "DiscountPercentage";
+        public const string AdditionalContact = "AdditionalContact";
+        public const string ClientType = "ClientType";
+        public const string BillingType = "BillingType";
 
         #endregion
 
@@ -657,8 +667,10 @@
         public const string UspUpdateClinicDetail = "Usp_UpdateClinicDetail";
         public const string UspDeleteClinicById = "Usp_DeleteClinicById";
         public const string UspGetClinicDetailsById = "Usp_GetClinicDetailsById";
+        #endregion
 
-
+        #region Client master
+        public const string UspGetAllClients = "Usp_GetAllClients";
         #endregion
 
 
