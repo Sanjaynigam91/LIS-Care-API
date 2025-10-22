@@ -30,7 +30,7 @@ namespace LISCareLimited.Controllers
                 {
                     response.Status = false;
                     response.StatusCode = StatusCodes.Status404NotFound;
-                    response.ResponseMessage = "No centers details found for the given PartnerId.";
+                    response.ResponseMessage = "No client details found for the given PartnerId.";
                 }
                _logger.LogInformation($"GetAllClients, API execution completed at:{DateTime.Now}");
                 return StatusCode(response.StatusCode, response);
