@@ -18,10 +18,10 @@ using System.Threading.Tasks;
 
 namespace LISCareRepository.Implementation
 {
-    public class ClientRepository(LISCareDbContext dbContext, ILogger<ClinicRepository> logger) :IClientRepository
+    public class ClientRepository(LISCareDbContext dbContext, ILogger<ClientRepository> logger) :IClientRepository
     {
         private readonly LISCareDbContext _dbContext = dbContext;
-        private readonly ILogger<ClinicRepository> _logger = logger;
+        private readonly ILogger<ClientRepository> _logger = logger;
         /// <summary>
         /// used to get all clients
         /// </summary>
