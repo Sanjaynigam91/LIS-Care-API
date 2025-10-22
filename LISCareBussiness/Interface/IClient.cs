@@ -19,5 +19,12 @@ namespace LISCareBussiness.Interface
         /// <param name="centerCode"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<ClientResponse>>> GetAllClients(bool clientStatus, string? searchBy, string partnerId, string? centerCode);
+        /// <summary>
+        /// Used to get client by Id
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<ClientResponse>>> GetClientById(string clientId, string partnerId);
     }
 }
