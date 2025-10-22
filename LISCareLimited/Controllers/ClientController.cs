@@ -44,5 +44,35 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetClientById)]
+        public async Task<IActionResult> GetClientById([FromQuery] string clientId, string partnerId)
+        {
+            _logger.LogInformation($"GetClientById, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<List<ClientResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _client.GetClientById(clientId, partnerId);
+                if (response.Data == null || response.Data.Count == 0)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No client details found for the given clientId.";
+                }
+                _logger.LogInformation($"GetClientById, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                _logger.LogInformation($"GetClientById, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
     }
 }

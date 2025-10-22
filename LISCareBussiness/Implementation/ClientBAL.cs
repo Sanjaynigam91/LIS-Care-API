@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace LISCareBussiness.Implementation
 {
-    public class ClientBAL(IClientRepository clientRepository):IClient
+    public class ClientBAL(IClientRepository clientRepository) : IClient
     {
-        public readonly IClientRepository _clientRepository= clientRepository;
+        public readonly IClientRepository _clientRepository = clientRepository;
         /// <summary>
         /// used to get all clients
         /// </summary>
@@ -26,7 +26,24 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await _clientRepository.GetAllClients(clientStatus,searchBy,partnerId,centerCode);
+                return await _clientRepository.GetAllClients(clientStatus, searchBy, partnerId, centerCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Used to get client by Id
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<ClientResponse>>> GetClientById(string clientId, string partnerId)
+        {
+            try
+            {
+                return await _clientRepository.GetClientById(clientId, partnerId);
             }
             catch
             {
