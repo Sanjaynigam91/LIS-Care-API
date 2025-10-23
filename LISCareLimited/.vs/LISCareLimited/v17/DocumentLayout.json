@@ -3,37 +3,26 @@
   "WorkspaceRootPath": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{8D367B25-85F5-4F56-B161-FBEFDFBDFA35}|..\\LISCareRepository\\LISCareRepository.csproj|d:\\liscare\\lis-care-api\\liscarerepository\\implementation\\clinicrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\controllers\\cliniccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:controllers\\cliniccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D367B25-85F5-4F56-B161-FBEFDFBDFA35}|..\\LISCareRepository\\LISCareRepository.csproj|d:\\liscare\\lis-care-api\\liscarerepository\\implementation\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6163CA35-FC12-4563-BB22-0E6DF6C4510D}|..\\LISCareUtility\\LISCareUtility.csproj|d:\\liscare\\lis-care-api\\liscareutility\\constantresource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\controllers\\signupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:controllers\\signupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1DC53925-1F7E-4849-8103-26ABB482F099}|..\\LISCareBussiness\\LISCareBussiness.csproj|d:\\liscare\\lis-care-api\\liscarebussiness\\implementation\\clinicbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{95451D52-DACD-492A-AB1E-404456F1CF55}|..\\LISCareDTO\\LISCareDTO.csproj|d:\\liscare\\lis-care-api\\liscaredto\\clinicmaster\\clinicrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{1DC53925-1F7E-4849-8103-26ABB482F099}|..\\LISCareBussiness\\LISCareBussiness.csproj|d:\\liscare\\lis-care-api\\liscarebussiness\\interface\\iclinc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6163CA35-FC12-4563-BB22-0E6DF6C4510D}|..\\LISCareUtility\\LISCareUtility.csproj|d:\\liscare\\lis-care-api\\liscareutility\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1DC53925-1F7E-4849-8103-26ABB482F099}|..\\LISCareBussiness\\LISCareBussiness.csproj|d:\\liscare\\lis-care-api\\liscarebussiness\\implementation\\userbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|d:\\liscare\\lis-care-api\\liscarelimited\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{854BF23D-940F-4E7F-9D3C-A6B992B1B8B0}|LISCareLimited.csproj|solutionrelative:startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D367B25-85F5-4F56-B161-FBEFDFBDFA35}|..\\LISCareRepository\\LISCareRepository.csproj|d:\\liscare\\lis-care-api\\liscarerepository\\interface\\iclinicrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,19 +32,103 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SignUpController.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Controllers\\SignUpController.cs",
-              "RelativeDocumentMoniker": "Controllers\\SignUpController.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Controllers\\SignUpController.cs",
-              "RelativeToolTip": "Controllers\\SignUpController.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAEwE0AAAAMAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "IClinicRepository.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\Interface\\IClinicRepository.cs",
+              "RelativeDocumentMoniker": "..\\LISCareRepository\\Interface\\IClinicRepository.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\Interface\\IClinicRepository.cs",
+              "RelativeToolTip": "..\\LISCareRepository\\Interface\\IClinicRepository.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAmwCkAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T09:28:08.596Z",
+              "WhenOpened": "2025-10-19T12:27:09.522Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClinicRepository.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\Implementation\\ClinicRepository.cs",
+              "RelativeDocumentMoniker": "..\\LISCareRepository\\Implementation\\ClinicRepository.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\Implementation\\ClinicRepository.cs",
+              "RelativeToolTip": "..\\LISCareRepository\\Implementation\\ClinicRepository.cs",
+              "ViewState": "AgIAAJsBAAAAAAAAAAASwKEBAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T03:02:29.424Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IClinc.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\Interface\\IClinc.cs",
+              "RelativeDocumentMoniker": "..\\LISCareBussiness\\Interface\\IClinc.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\Interface\\IClinc.cs",
+              "RelativeToolTip": "..\\LISCareBussiness\\Interface\\IClinc.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAA3wC4AAABoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T12:26:35.482Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ClinicBAL.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\Implementation\\ClinicBAL.cs",
+              "RelativeDocumentMoniker": "..\\LISCareBussiness\\Implementation\\ClinicBAL.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\Implementation\\ClinicBAL.cs",
+              "RelativeToolTip": "..\\LISCareBussiness\\Implementation\\ClinicBAL.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAEwEAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T03:02:29.431Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClinicController.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Controllers\\ClinicController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ClinicController.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Controllers\\ClinicController.cs",
+              "RelativeToolTip": "Controllers\\ClinicController.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAqwGMAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T03:02:29.436Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ConstantResource.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareUtility\\ConstantResource.cs",
+              "RelativeDocumentMoniker": "..\\LISCareUtility\\ConstantResource.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareUtility\\ConstantResource.cs",
+              "RelativeToolTip": "..\\LISCareUtility\\ConstantResource.cs",
+              "ViewState": "AgIAAIICAAAAAAAAAAASwJACAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T12:27:32.803Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ClinicRequest.cs",
+              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareDTO\\ClinicMaster\\ClinicRequest.cs",
+              "RelativeDocumentMoniker": "..\\LISCareDTO\\ClinicMaster\\ClinicRequest.cs",
+              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareDTO\\ClinicMaster\\ClinicRequest.cs",
+              "RelativeToolTip": "..\\LISCareDTO\\ClinicMaster\\ClinicRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T12:29:29.307Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
@@ -66,110 +139,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "appsettings.Development.json",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\appsettings.Development.json",
-              "RelativeToolTip": "appsettings.Development.json",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAuwBgAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-17T12:11:33.619Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAuwB0AAACRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-17T12:11:25.361Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\Implementation\\UserRepository.cs",
-              "RelativeDocumentMoniker": "..\\LISCareRepository\\Implementation\\UserRepository.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareRepository\\Implementation\\UserRepository.cs",
-              "RelativeToolTip": "..\\LISCareRepository\\Implementation\\UserRepository.cs",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAuwPcAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T12:06:51.491Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UserBAL.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\Implementation\\UserBAL.cs",
-              "RelativeDocumentMoniker": "..\\LISCareBussiness\\Implementation\\UserBAL.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareBussiness\\Implementation\\UserBAL.cs",
-              "RelativeToolTip": "..\\LISCareBussiness\\Implementation\\UserBAL.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAASwEUAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T12:06:51.671Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AgIAACgAAAAAAAAAAAAuwDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-17T12:05:47.473Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T11:54:30.948Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Common.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareUtility\\Common.cs",
-              "RelativeDocumentMoniker": "..\\LISCareUtility\\Common.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareUtility\\Common.cs",
-              "RelativeToolTip": "..\\LISCareUtility\\Common.cs",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAqwGAAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T09:28:21.775Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Startup.cs",
-              "DocumentMoniker": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Startup.cs",
-              "RelativeDocumentMoniker": "Startup.cs",
-              "ToolTip": "D:\\LISCare\\LIS-Care-API\\LISCareLimited\\Startup.cs",
-              "RelativeToolTip": "Startup.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAmwH4AAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T06:30:28.997Z",
-              "EditorCaption": ""
             }
           ]
         }

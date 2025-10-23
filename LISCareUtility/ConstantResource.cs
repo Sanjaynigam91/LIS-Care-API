@@ -62,6 +62,15 @@
         public const string UpdateCenterRates = "UpdateCenterRates";
         public const string ImportCenterRates = "ImportCenterRates";
         public const string GetAllClinics = "GetAllClinics";
+        public const string AddNewClinic = "AddNewClinic";
+        public const string UpdateClinic = "UpdateClinic";
+        public const string DeleteClinic = "DeleteClinic";
+        public const string GetClinicById = "GetClinicById";
+        public const string GetAllClients = "GetAllClients";
+        public const string GetClientById = "GetClientById";
+        public const string AddNewClient = "AddNewClient";
+        public const string UpdateClient = "UpdateClient";
+        public const string DeleteClient = "DeleteClient";
 
 
         #endregion
@@ -285,7 +294,19 @@
         public const string ParamRateCreatedBy = "@CreatedBy";
         public const string ParamClinicStatus = "@ClinicStatus";
         public const string ParamCentreCode = "@CentreCode";
-
+        public const string ParamClinicId = "@ClinicId";
+        public const string ParamClinicName ="@ClinicName";
+        public const string ParamClinicIncharge ="@ClinicIncharge";
+        public const string ParamClinicDoctorCode ="@ClinicDoctorCode";
+        public const string ParamClinicAddress = "@ClinicAddress";
+        public const string ParamClientStatus = "@ClientStatus";
+        public const string ParamClientId = "@ClientId";
+        public const string ParamClientCode = "@ClientCode";
+        public const string ParamClientName = "@ClientName";
+        public const string ParamSpeciality = "@Speciality";
+        public const string ParamLicenseNumber = "@LicenseNumber";
+        public const string ParamClientType = "@ClientType";
+        public const string ParamAddressInfo = "@AddressInfo";
 
         #endregion
 
@@ -475,6 +496,19 @@
         public const string ClinicStatus = "ClinicStatus";
         public const string UpdatedOn = "UpdatedOn";
         public const string UpdateBy = "UpdateBy";
+        public const string ClientId = "ClientId";
+        public const string ClientCode = "ClientCode";
+        public const string ClientName = "ClientName";
+        public const string IsAccessEnabled = "IsAccessEnabled";
+        public const string ClientStatus = "ClientStatus";
+        public const string LicenseNumber = "LicenseNumber";
+        public const string DiscountPercentage = "DiscountPercentage";
+        public const string Speciality = "Speciality";
+        public const string ClientType = "ClientType";
+        public const string BillingType = "BillingType";
+        public const string AddressInfo = "AddressInfo";
+
+
 
         #endregion
 
@@ -643,6 +677,18 @@
 
         #region Clinic Master
         public const string UspGetClinicDetails = "Usp_GetClinicDetails";
+        public const string UspAddNewClinicDetail = "Usp_AddNewClinicDetail";
+        public const string UspUpdateClinicDetail = "Usp_UpdateClinicDetail";
+        public const string UspDeleteClinicById = "Usp_DeleteClinicById";
+        public const string UspGetClinicDetailsById = "Usp_GetClinicDetailsById";
+        #endregion
+
+        #region Client master
+        public const string UspGetAllClients = "Usp_GetAllClients";
+        public const string UspGetClientById = "Usp_GetClientById";
+        public const string UspAddNewClient = "Usp_AddNewClient";
+        public const string UspUpdateClient = "Usp_UpdateClient";
+        public const string UspDeleteClientById = "Usp_DeleteClientById";
 
         #endregion
 

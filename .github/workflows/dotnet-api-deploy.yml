@@ -8,6 +8,10 @@ on:
       - qa
       - main
 
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,19 +25,19 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
+
+      - name: Clean NuGet cache
+        run: dotnet nuget locals all --clear
 
       - name: Restore dependencies
-        run: dotnet restore
-        working-directory: ./LISCareLimited
+        run: dotnet restore ./LISCareLimited/LISCareLimited.csproj --configfile ./NuGet.Config --no-cache
 
       - name: Build
-        run: dotnet build --configuration Release
-        working-directory: ./LISCareLimited
+        run: dotnet build ./LISCareLimited/LISCareLimited.csproj --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal
-        working-directory: ./LISCareLimited
+        run: dotnet test ./LISCareLimited/LISCareLimited.csproj --no-build --verbosity normal
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,30 +46,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # ------------------------
-      # Determine environment based on branch
-      # ------------------------
       - name: Set environment
         id: set-env
         run: |
-          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            echo "ENV=Production" >> $GITHUB_ENV
-          elif [[ "${GITHUB_REF}" == "refs/heads/qa" ]]; then
-            echo "ENV=QA" >> $GITHUB_ENV
-          elif [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
-            echo "ENV=Development" >> $GITHUB_ENV
-          else
-            echo "ENV=Development" >> $GITHUB_ENV
-          fi
+          case "${GITHUB_REF}" in
+            refs/heads/main)
+              echo "ENV=Production" >> $GITHUB_ENV
+              ;;
+            refs/heads/qa)
+              echo "ENV=QA" >> $GITHUB_ENV
+              ;;
+            refs/heads/develop)
+              echo "ENV=Development" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "ENV=Development" >> $GITHUB_ENV
+              ;;
+          esac
           echo "Branch: ${GITHUB_REF}, Environment: $ENV"
 
-      # ------------------------
-      # Copy correct appsettings.{env}.json
-      # ------------------------
       - name: Copy appsettings for environment
         run: |
-          echo "Using appsettings.$ENV.json as appsettings.json"
-          cp ./LISCareLimited/appsettings.$ENV.json ./LISCareLimited/appsettings.json
+          if [ -f ./LISCareLimited/appsettings.$ENV.json ]; then
+            cp ./LISCareLimited/appsettings.$ENV.json ./LISCareLimited/appsettings.json
+          else
+            echo "Warning: appsettings.$ENV.json not found, using default appsettings.json"
+          fi
 
       - name: Azure Login
         uses: azure/login@v1
@@ -79,13 +85,15 @@ jobs:
             }
 
       - name: Publish .NET API
-        run: dotnet publish -c Release -o ./publish
-        working-directory: ./LISCareLimited
+        run: |
+          echo "Publishing .NET project..."
+          dotnet publish ./LISCareLimited/LISCareLimited.csproj \
+            --configuration Release \
+            --output ./LISCareLimited/publish
+        shell: bash
 
-      - name: Deploy to Azure WebApp
-        if: github.ref == 'refs/heads/main'   # Only deploy Production from main
+      - name: Deploy to Azure WebApp (Production)
         uses: azure/webapps-deploy@v2
         with:
           app-name: dev-lis-care-api
           package: ./LISCareLimited/publish
-          slot-name: production
