@@ -8,7 +8,7 @@ namespace LISCareDTO.ClientMaster
 {
     public class ClientRequest
     {
-        public Guid ClientId { get; set; }
+        public Guid? ClientId { get; set; }
         public string PartnerId { get; set; } = string.Empty;
         public string ClientCode { get; set; } = string.Empty;
         public string ClientName { get; set; } = string.Empty;  

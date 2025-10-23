@@ -14,6 +14,19 @@ namespace LISCareBussiness.Implementation
     public class ClientBAL(IClientRepository clientRepository) : IClient
     {
         public readonly IClientRepository _clientRepository = clientRepository;
+
+        public async Task<APIResponseModel<string>> DeleteClient(string clientId, string partnerId)
+        {
+            try
+            {
+                return await _clientRepository.DeleteClient(clientId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to get all clients
         /// </summary>
@@ -44,6 +57,34 @@ namespace LISCareBussiness.Implementation
             try
             {
                 return await _clientRepository.GetClientById(clientId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to save client details
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> SaveClient(ClientRequest clientRequest)
+        {
+            try
+            {
+                return await _clientRepository.SaveClient(clientRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<string>> UpdateClient(ClientRequest clientRequest)
+        {
+            try
+            {
+                return await _clientRepository.UpdateClient(clientRequest);
             }
             catch
             {
