@@ -30,7 +30,7 @@ namespace LISCareRepository.Implementation
         /// <param name="partnerId"></param>
         /// <param name="centerCode"></param>
         /// <returns></returns>
-        public async Task<APIResponseModel<List<ClientResponse>>> GetAllClients(bool clientStatus, string? searchBy, string partnerId, string? centerCode)
+        public async Task<APIResponseModel<List<ClientResponse>>> GetAllClients(string? clientStatus, string? searchBy, string partnerId, string? centerCode)
         {
             _logger.LogInformation($"Get All Clients Details method execution started at :{DateTime.Now}");
             var response = new APIResponseModel<List<ClientResponse>>
@@ -55,7 +55,7 @@ namespace LISCareRepository.Implementation
                     _logger.LogInformation($"UspGetAllClients, execution started at :{DateTime.Now}");
                     cmd.CommandText = ConstantResource.UspGetAllClients;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamClientStatus, clientStatus));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamClientStatus, Convert.ToBoolean(clientStatus)));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSearchBy, searchBy));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, centerCode));

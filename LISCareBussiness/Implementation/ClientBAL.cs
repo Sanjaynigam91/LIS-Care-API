@@ -22,7 +22,7 @@ namespace LISCareBussiness.Implementation
         /// <param name="partnerId"></param>
         /// <param name="centerCode"></param>
         /// <returns></returns>
-        public async Task<APIResponseModel<List<ClientResponse>>> GetAllClients(bool clientStatus, string? searchBy, string partnerId, string? centerCode)
+        public async Task<APIResponseModel<List<ClientResponse>>> GetAllClients(string? clientStatus, string? searchBy, string partnerId, string? centerCode)
         {
             try
             {
