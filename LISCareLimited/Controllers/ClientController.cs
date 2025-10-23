@@ -16,7 +16,7 @@ namespace LISCareLimited.Controllers
         private readonly ILogger<ClientController> _logger=logger;
         [HttpGet]
         [Route(ConstantResource.GetAllClients)]
-        public async Task<IActionResult> GetAllClientDetails([FromQuery] bool clientStatus, string partnerId, string? searchBy = "", string? centerCode = "")
+        public async Task<IActionResult> GetAllClientDetails([FromQuery] string? clientStatus, string partnerId, string? searchBy = "", string? centerCode = "")
         {
            _logger.LogInformation($"GetAllClients, API execution started at:{DateTime.Now}");
             var response = new APIResponseModel<List<ClientResponse>>
