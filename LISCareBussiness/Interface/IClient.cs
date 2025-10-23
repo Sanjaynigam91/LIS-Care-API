@@ -26,5 +26,24 @@ namespace LISCareBussiness.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<ClientResponse>>> GetClientById(string clientId, string partnerId);
+        /// <summary>
+        /// used to save client details
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> SaveClient(ClientRequest clientRequest);
+        /// <summary>
+        /// used to update Client details
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateClient(ClientRequest clientRequest);
+        /// <summary>
+        /// used to delete client by client Id
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> DeleteClient(string clientId, string partnerId);
     }
 }
