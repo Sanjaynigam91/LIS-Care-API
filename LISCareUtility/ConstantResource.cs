@@ -71,6 +71,8 @@
         public const string AddNewClient = "AddNewClient";
         public const string UpdateClient = "UpdateClient";
         public const string DeleteClient = "DeleteClient";
+        public const string GetClientCustomRates = "GetClientCustomRates";
+
 
 
         #endregion
@@ -681,6 +683,8 @@
         public const string UspUpdateClinicDetail = "Usp_UpdateClinicDetail";
         public const string UspDeleteClinicById = "Usp_DeleteClinicById";
         public const string UspGetClinicDetailsById = "Usp_GetClinicDetailsById";
+        public const string UspGetClientCustomRates = "Usp_GetClient_CustomRates";
+
         #endregion
 
         #region Client master
