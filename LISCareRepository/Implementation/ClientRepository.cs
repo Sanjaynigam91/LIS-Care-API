@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using LISCareDataAccess.LISCareDbContext;
 using LISCareDTO;
+using LISCareDTO.CenterMaster;
 using LISCareDTO.ClientMaster;
 using LISCareDTO.ClinicMaster;
 using LISCareRepository.Interface;
@@ -278,6 +279,88 @@ namespace LISCareRepository.Implementation
             _logger.LogInformation($"Get Client Details by Id method execution completed at :{DateTime.Now}");
             return response;
         }
+        /// <summary>
+        /// used to get all clients rates
+        /// </summary>
+        /// <param name="opType"></param>
+        /// <param name="clientCode"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<ClientCustomResponse>>> GetClientCustomRates(string? opType, string? clientCode, string? partnerId, string? testCode)
+        {
+            _logger.LogInformation($"GetClientCustomRates, method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<List<ClientCustomResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    _logger.LogInformation($"UspGetClientCustomRates, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetClientCustomRates;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType,
+                    string.IsNullOrEmpty(opType) ? (object)DBNull.Value : opType));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamClientCode,
+                    string.IsNullOrEmpty(clientCode) ? (object)DBNull.Value : clientCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId,
+                    string.IsNullOrEmpty(partnerId) ? (object)DBNull.Value : partnerId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode,
+                    string.IsNullOrEmpty(testCode) ? (object)DBNull.Value : testCode));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    _logger.LogInformation($"UspGetClientCustomRates, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new ClientCustomResponse
+                        {
+                            MappingId = reader[ConstantResource.MappingId] != DBNull.Value
+                            ? Convert.ToInt32(reader[ConstantResource.MappingId]) : 0,
+                            ClientCode = reader[ConstantResource.ClientCode] as string ?? string.Empty,
+                            ClientName = reader[ConstantResource.ClientName] as string ?? string.Empty,
+                            TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.CentreTestName] as string ?? string.Empty,
+                            CustomRate = reader[ConstantResource.AgreedRate] != DBNull.Value
+                            ? Convert.ToDecimal(reader[ConstantResource.AgreedRate]) : 0,
+                            Mrp = reader[ConstantResource.MRP] != DBNull.Value
+                            ? Convert.ToInt32(reader[ConstantResource.MRP]) : 0,
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Custom rates retrieved successfully.";
+                        _logger.LogInformation($"Custom rates retrieved successfully at :{DateTime.Now}");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                _logger.LogInformation($"UspGetClientCustomRates, execution falied at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+            _logger.LogInformation($"GetClientCustomRates, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
         /// <summary>
         /// used to save client details
         /// </summary>

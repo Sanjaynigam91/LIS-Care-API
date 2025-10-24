@@ -63,6 +63,19 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+
+        public async Task<APIResponseModel<List<ClientCustomResponse>>> GetClientCustomRates(string? opType, string? clientCode, string? partnerId, string? testCode)
+        {
+            try
+            {
+                return await _clientRepository.GetClientCustomRates(opType,clientCode, partnerId,testCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to save client details
         /// </summary>
