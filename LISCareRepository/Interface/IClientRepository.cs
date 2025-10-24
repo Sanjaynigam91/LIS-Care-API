@@ -55,6 +55,18 @@ namespace LISCareRepository.Interface
         /// <param name="testCode"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<ClientCustomResponse>>> GetClientCustomRates(string? opType, string? clientCode, string? partnerId, string? testCode);
+        /// <summary>
+        /// used to update all rates of client
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>>UpdateClientsRate(ClientRatesRequest clientRates);
+        /// <summary>
+        /// used to import all rates of a client
+        /// </summary>
+        /// <param name="clientRates"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>>ImportClientsRate(ClientRatesRequest clientRates);
 
     }
 }
