@@ -25,6 +25,12 @@ namespace LISCareRepository.Implementation
         private readonly LISCareDbContext _dbContext = dbContext;
         private readonly ILogger<ClientRepository> _logger = logger;
 
+        /// <summary>
+        /// used to delete client
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> DeleteClient(string clientId, string partnerId)
         {
             _logger.LogInformation($"DeleteClient method execution started at :{DateTime.Now}");
@@ -113,7 +119,6 @@ namespace LISCareRepository.Implementation
             _logger.LogInformation($"DeleteClient method execution completed at :{DateTime.Now}");
             return response;
         }
-
         /// <summary>
         /// used to get all clients
         /// </summary>
@@ -360,6 +365,99 @@ namespace LISCareRepository.Implementation
             _logger.LogInformation($"GetClientCustomRates, method execution completed at :{DateTime.Now}");
             return response;
         }
+        /// <summary>
+        /// used to import all test rates of a client
+        /// </summary>
+        /// <param name="clientRates"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> ImportClientsRate(ClientRatesRequest clientRates)
+        {
+            _logger.LogInformation($"ImportClientsRate, method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(clientRates.ClientCode))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    _logger.LogInformation($"UspInsertClientTestRates, execution started at :{DateTime.Now}");
+                    command.CommandText = ConstantResource.UspInsertClientTestRates;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamClientCode, clientRates.ClientCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, clientRates.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, clientRates.TestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBillRate, clientRates.BillRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRateCreatedBy, clientRates.CreatedBy));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    _logger.LogInformation($"UspInsertClientTestRates, execution completed at :{DateTime.Now}");
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+                _logger.LogInformation($"UspInsertClientTestRates, execution falied at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            _logger.LogInformation($"ImportClientsRate, method execution completed at :{DateTime.Now}");
+            return response;
+        }
 
         /// <summary>
         /// used to save client details
@@ -562,6 +660,100 @@ namespace LISCareRepository.Implementation
             }
             response.Data = string.Empty;
             _logger.LogInformation($"UpdateClient method execution completed at :{DateTime.Now}");
+            return response;
+        }
+        /// <summary>
+        /// used to update all clients
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateClientsRate(ClientRatesRequest clientRates)
+        {
+            _logger.LogInformation($"UpdateClientsRate, method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(clientRates.ClientCode))
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    _logger.LogInformation($"UspUpdateAllTestClientRates, execution started at :{DateTime.Now}");
+                    command.CommandText = ConstantResource.UspUpdateAllTestClientRates;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamClientCode, clientRates.ClientCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, clientRates.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, clientRates.TestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBillRate, clientRates.BillRate));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamRateCreatedBy, clientRates.CreatedBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamModifiedBy, clientRates.UpdatedBy));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    _logger.LogInformation($"UspUpdateAllTestClientRates, execution completed at :{DateTime.Now}");
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+                _logger.LogInformation($"UspUpdateAllTestClientRates, execution falied at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            _logger.LogInformation($"UpdateClientsRate, method execution completed at :{DateTime.Now}");
             return response;
         }
     }
