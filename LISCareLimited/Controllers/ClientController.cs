@@ -1,5 +1,6 @@
 ﻿using LISCareBussiness.Interface;
 using LISCareDTO;
+using LISCareDTO.CenterMaster;
 using LISCareDTO.ClientMaster;
 using LISCareDTO.ClinicMaster;
 using LISCareUtility;
@@ -119,6 +120,37 @@ namespace LISCareLimited.Controllers
             _logger.LogInformation($"UpdateClient, API execution failed at:{DateTime.Now}");
             return BadRequest("Invalid center request");
         }
+
+        [HttpGet]
+        [Route(ConstantResource.GetClientCustomRates)]
+        public async Task<IActionResult> GetAllClientCustomRates([FromQuery] string? opType, string? clientCode, string? partnerId, string? testCode)
+        {
+            _logger.LogInformation($"GetClientCustomRates, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<List<ClientCustomResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _client.GetClientCustomRates(opType, clientCode, partnerId, testCode);
+                if (response.Data == null || response.Data.Count == 0)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No centers custom rates found for the given PartnerId.";
+                }
+                _logger.LogInformation($"GetClientCustomRates, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                _logger.LogInformation($"GetClientCustomRates, API execution falied at:{DateTime.Now} due to {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
 
 
     }

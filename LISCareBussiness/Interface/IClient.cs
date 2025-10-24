@@ -45,5 +45,14 @@ namespace LISCareBussiness.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> DeleteClient(string clientId, string partnerId);
+        /// <summary>
+        /// used to get all clients custom rates
+        /// </summary>
+        /// <param name="opType"></param>
+        /// <param name="clientCode"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<ClientCustomResponse>>> GetClientCustomRates(string? opType, string? clientCode, string? partnerId, string? testCode);
     }
 }
