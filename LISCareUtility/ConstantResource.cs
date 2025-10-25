@@ -74,6 +74,8 @@
         public const string GetClientCustomRates = "GetClientCustomRates";
         public const string UpdateClientTestRates = "UpdateClientTestRates";
         public const string ImportClientRates = "ImportClientRates";
+        public const string GetAllOutLabs = "GetAllOutLabs";
+
 
         #endregion
 
@@ -309,6 +311,10 @@
         public const string ParamLicenseNumber = "@LicenseNumber";
         public const string ParamClientType = "@ClientType";
         public const string ParamAddressInfo = "@AddressInfo";
+        public const string ParamLabStatus = "@LabStatus";
+        public const string ParamLabName = "@LabName";
+        public const string ParamLabCode = "@LabCode";
+
 
         #endregion
 
@@ -509,8 +515,11 @@
         public const string ClientType = "ClientType";
         public const string BillingType = "BillingType";
         public const string AddressInfo = "AddressInfo";
-
-
+        public const string LabCode = "LabCode";
+        public const string LabName = "LabName";
+        public const string OutLabEmail = "Email";
+        public const string ContactPerson = "ContactPerson";
+        public const string LabStatus = "LabStatus";
 
         #endregion
 
@@ -694,6 +703,10 @@
         public const string UspGetClientCustomRates = "Usp_GetClient_CustomRates";
         public const string UspUpdateAllTestClientRates = "Usp_UpdateAllTestClientRates";
         public const string UspInsertClientTestRates = "Usp_InsertClient_TestRates";
+        #endregion
+
+        #region OutLab Master
+        public const string USPGetOutLabDetails = "USP_GetOutLabDetails";
         #endregion
 
 
