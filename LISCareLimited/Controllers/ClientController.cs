@@ -16,6 +16,14 @@ namespace LISCareLimited.Controllers
         private readonly IClient _client= client;
         private readonly ILogger<ClientController> _logger=logger;
 
+        /// <summary>
+        /// used to get all clients
+        /// </summary>
+        /// <param name="clientStatus"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="searchBy"></param>
+        /// <param name="centerCode"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route(ConstantResource.GetAllClients)]
         public async Task<IActionResult> GetAllClientDetails([FromQuery] string? clientStatus, string partnerId, string? searchBy = "", string? centerCode = "")
@@ -46,6 +54,12 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        /// <summary>
+        /// used to get client by Id
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route(ConstantResource.GetClientById)]
         public async Task<IActionResult> GetClientById([FromQuery] string clientId, string partnerId)
@@ -76,6 +90,11 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        /// <summary>
+        /// used to add new client
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route(ConstantResource.AddNewClient)]
         public async Task<IActionResult> CreateNewClinic(ClientRequest clientRequest)
@@ -91,6 +110,11 @@ namespace LISCareLimited.Controllers
             return BadRequest("Invalid center request");
         }
 
+        /// <summary>
+        /// used to update client
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route(ConstantResource.UpdateClient)]
         public async Task<IActionResult> UpdateClientDeatils(ClientRequest clientRequest)
@@ -103,9 +127,15 @@ namespace LISCareLimited.Controllers
                 return StatusCode(result.StatusCode, result);
             }
             _logger.LogInformation($"UpdateClient, API execution failed at:{DateTime.Now}");
-            return BadRequest("Invalid center request");
+            return BadRequest("Invalid client request");
         }
 
+        /// <summary>
+        /// used to delete client
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route(ConstantResource.DeleteClient)]
         public async Task<IActionResult> DeleteClientById([FromQuery] string clientId, string partnerId)
@@ -121,6 +151,14 @@ namespace LISCareLimited.Controllers
             return BadRequest("Invalid center request");
         }
 
+        /// <summary>
+        /// used to get client custom rates
+        /// </summary>
+        /// <param name="opType"></param>
+        /// <param name="clientCode"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route(ConstantResource.GetClientCustomRates)]
         public async Task<IActionResult> GetAllClientCustomRates([FromQuery] string? opType, string? clientCode, string? partnerId, string? testCode)
@@ -151,7 +189,45 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        /// <summary>
+        /// used to update all test rates of a client
+        /// </summary>
+        /// <param name="clientRates"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route(ConstantResource.UpdateClientTestRates)]
+        public async Task<IActionResult> UpdateClientsAllTestRates(ClientRatesRequest clientRates)
+        {
+            _logger.LogInformation($"UpdateClientTestRates, API execution started at:{DateTime.Now}");
+            if (!string.IsNullOrEmpty(clientRates.PartnerId) && !string.IsNullOrEmpty(clientRates.ClientCode))
+            {
+                var result = await _client.UpdateClientsRate(clientRates);
+                _logger.LogInformation($"UpdateClientTestRates, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            _logger.LogInformation($"UpdateClientTestRates, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid client request");
+        }
 
+        /// <summary>
+        /// used to import all test rates of a client
+        /// </summary>
+        /// <param name="clientRates"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(ConstantResource.ImportClientRates)]
+        public async Task<IActionResult> ImportClientTestRates(ClientRatesRequest clientRates)
+        {
+            _logger.LogInformation($"ImportClientRates, API execution started at:{DateTime.Now}");
+            if (!string.IsNullOrEmpty(clientRates.PartnerId) && !string.IsNullOrEmpty(clientRates.ClientCode))
+            {
+                var result = await _client.ImportClientsRate(clientRates);
+                _logger.LogInformation($"ImportClientRates, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            _logger.LogInformation($"ImportClientRates, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid client request");
+        }
 
     }
 }

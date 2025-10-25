@@ -15,6 +15,12 @@ namespace LISCareBussiness.Implementation
     {
         public readonly IClientRepository _clientRepository = clientRepository;
 
+        /// <summary>
+        /// used to delete client
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> DeleteClient(string clientId, string partnerId)
         {
             try
@@ -26,7 +32,6 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
-
         /// <summary>
         /// used to get all clients
         /// </summary>
@@ -63,12 +68,35 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
-
+        /// <summary>
+        /// used to get client custom rates
+        /// </summary>
+        /// <param name="opType"></param>
+        /// <param name="clientCode"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<List<ClientCustomResponse>>> GetClientCustomRates(string? opType, string? clientCode, string? partnerId, string? testCode)
         {
             try
             {
                 return await _clientRepository.GetClientCustomRates(opType,clientCode, partnerId,testCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to import all test rates of a client
+        /// </summary>
+        /// <param name="clientRates"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> ImportClientsRate(ClientRatesRequest clientRates)
+        {
+            try
+            {
+                return await _clientRepository.ImportClientsRate(clientRates);
             }
             catch
             {
@@ -92,12 +120,32 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
-
+        /// <summary>
+        /// used to update client
+        /// </summary>
+        /// <param name="clientRequest"></param>
+        /// <returns></returns>
         public async Task<APIResponseModel<string>> UpdateClient(ClientRequest clientRequest)
         {
             try
             {
                 return await _clientRepository.UpdateClient(clientRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to update client test rates
+        /// </summary>
+        /// <param name="clientRates"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateClientsRate(ClientRatesRequest clientRates)
+        {
+            try
+            {
+                return await _clientRepository.UpdateClientsRate(clientRates);
             }
             catch
             {

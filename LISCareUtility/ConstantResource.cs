@@ -72,7 +72,9 @@
         public const string UpdateClient = "UpdateClient";
         public const string DeleteClient = "DeleteClient";
         public const string GetClientCustomRates = "GetClientCustomRates";
-
+        public const string UpdateClientTestRates = "UpdateClientTestRates";
+        public const string ImportClientRates = "ImportClientRates";
+        public const string GetAllOutLabs = "GetAllOutLabs";
 
 
         #endregion
@@ -309,6 +311,10 @@
         public const string ParamLicenseNumber = "@LicenseNumber";
         public const string ParamClientType = "@ClientType";
         public const string ParamAddressInfo = "@AddressInfo";
+        public const string ParamLabStatus = "@LabStatus";
+        public const string ParamLabName = "@LabName";
+        public const string ParamLabCode = "@LabCode";
+
 
         #endregion
 
@@ -509,8 +515,11 @@
         public const string ClientType = "ClientType";
         public const string BillingType = "BillingType";
         public const string AddressInfo = "AddressInfo";
-
-
+        public const string LabCode = "LabCode";
+        public const string LabName = "LabName";
+        public const string OutLabEmail = "Email";
+        public const string ContactPerson = "ContactPerson";
+        public const string LabStatus = "LabStatus";
 
         #endregion
 
@@ -573,7 +582,7 @@
         public const string UspGetPagesByPageId = "Usp_GetPagesByPageId";
         public const string Usp_DeletePageDetails = "Usp_DeletePageDetails";
         public const string UspUpdatePageDetails = "Usp_UpdatePageDetails";
-        public const string UspInsertCenterTestRates = "Usp_InsertCenterTestRates";
+        
 
 
         #endregion
@@ -674,7 +683,7 @@
         public const string UspDeleteCenterByCenterCode = "Usp_DeleteCenterBy_CenterCode";
         public const string USPGetCentreCustomRates = "Get_CentreCustomRates";
         public const string UspUpdateAllTestCenterRates = "Usp_UpdateAllTestCenterRates";
-
+        public const string UspInsertCenterTestRates = "Usp_InsertCenterTestRates";
         #endregion
 
         #region Clinic Master
@@ -683,8 +692,6 @@
         public const string UspUpdateClinicDetail = "Usp_UpdateClinicDetail";
         public const string UspDeleteClinicById = "Usp_DeleteClinicById";
         public const string UspGetClinicDetailsById = "Usp_GetClinicDetailsById";
-        public const string UspGetClientCustomRates = "Usp_GetClient_CustomRates";
-
         #endregion
 
         #region Client master
@@ -693,7 +700,13 @@
         public const string UspAddNewClient = "Usp_AddNewClient";
         public const string UspUpdateClient = "Usp_UpdateClient";
         public const string UspDeleteClientById = "Usp_DeleteClientById";
+        public const string UspGetClientCustomRates = "Usp_GetClient_CustomRates";
+        public const string UspUpdateAllTestClientRates = "Usp_UpdateAllTestClientRates";
+        public const string UspInsertClientTestRates = "Usp_InsertClient_TestRates";
+        #endregion
 
+        #region OutLab Master
+        public const string USPGetOutLabDetails = "USP_GetOutLabDetails";
         #endregion
 
 
