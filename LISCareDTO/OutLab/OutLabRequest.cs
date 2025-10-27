@@ -10,7 +10,7 @@ namespace LISCareDTO.OutLab
     {
         public string LabCode {  get; set; }=string.Empty;
         public string LabName { get; set; } = string.Empty;
-        public string ConatctPerson {  get; set; } = string.Empty;
+        public string ContactPerson {  get; set; } = string.Empty;
         public string MobileNumber {  get; set; } = string.Empty;
         public string Email {  get; set; } = string.Empty;
         public string IntroducedBy {  get; set; } = string.Empty;
