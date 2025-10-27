@@ -51,7 +51,7 @@ namespace LISCareRepository.Implementation
 
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, outLabRequest.PartnerId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabName, outLabRequest.LabName));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamContactPerson, outLabRequest.ConatctPerson));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamContactPerson, outLabRequest.ContactPerson));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterMobileNumber, outLabRequest.MobileNumber));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamEmailId, outLabRequest.Email));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIntroducedBy, outLabRequest.IntroducedBy));
@@ -394,7 +394,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabCode, outLabRequest.LabCode));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, outLabRequest.PartnerId));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabName, outLabRequest.LabName));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamContactPerson, outLabRequest.ConatctPerson));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamContactPerson, outLabRequest.ContactPerson));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterMobileNumber, outLabRequest.MobileNumber));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamEmailId, outLabRequest.Email));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIntroducedBy, outLabRequest.IntroducedBy));
