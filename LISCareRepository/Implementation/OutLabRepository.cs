@@ -341,7 +341,8 @@ namespace LISCareRepository.Implementation
                             ContactPerson = reader[ConstantResource.ContactPerson] as string ?? string.Empty,
                             LabStatus = reader[ConstantResource.LabStatus] != DBNull.Value
                             ? Convert.ToBoolean(reader[ConstantResource.LabStatus]) : false,
-                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty
+                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
+                            IntroducedBy= reader[ConstantResource.IntroducedBy] as string ?? string.Empty
                         });
                         response.Status = true;
                         response.StatusCode = (int)HttpStatusCode.OK;
