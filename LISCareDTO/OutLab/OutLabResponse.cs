@@ -16,5 +16,6 @@ namespace LISCareDTO.OutLab
         public string ContactPerson {  get; set; } = string.Empty;
         public bool LabStatus { get; set; } = false;
         public string PartnerId { get; set; } = string.Empty;
+        public string IntroducedBy {  get; set; } = string.Empty;
     }
 }
