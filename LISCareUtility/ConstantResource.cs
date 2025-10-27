@@ -75,6 +75,13 @@
         public const string UpdateClientTestRates = "UpdateClientTestRates";
         public const string ImportClientRates = "ImportClientRates";
         public const string GetAllOutLabs = "GetAllOutLabs";
+        public const string GetOutLabByLabCode = "GetOutLabByLabCode";
+        public const string DeleteOutLab = "DeleteOutLab";
+        public const string AddOutLab = "AddOutLab";
+        public const string UpdateOutLab = "UpdateOutLab";
+
+
+
 
 
         #endregion
@@ -314,7 +321,7 @@
         public const string ParamLabStatus = "@LabStatus";
         public const string ParamLabName = "@LabName";
         public const string ParamLabCode = "@LabCode";
-
+        public const string ParamContactPerson = "@ContactPerson";
 
         #endregion
 
@@ -707,6 +714,10 @@
 
         #region OutLab Master
         public const string USPGetOutLabDetails = "USP_GetOutLabDetails";
+        public const string USPGetOutLabByLabCode ="USP_GetOutLab_ByLabCode";
+        public const string UspDeleteOutLab = "Usp_DeleteOutLab";
+        public const string UspUpdateOutLabDetails ="Usp_Update_OutLabDetails";
+        public const string UspAddNewOutLab = "Usp_AddNew_OutLab";
         #endregion
 
 
