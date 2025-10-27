@@ -88,7 +88,13 @@ namespace LISCareLimited.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
         }
-
+       
+        /// <summary>
+        /// used to delete Outlab
+        /// </summary>
+        /// <param name="labCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route(ConstantResource.DeleteOutLab)]
         public async Task<IActionResult> DeleteOutLabDetails([FromQuery] string labCode, string partnerId)
@@ -104,6 +110,11 @@ namespace LISCareLimited.Controllers
             return BadRequest("Invalid lab code");
         }
 
+        /// <summary>
+        /// used to add new out lab
+        /// </summary>
+        /// <param name="outLabRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route(ConstantResource.AddOutLab)]
         public async Task<IActionResult> AddNewOutLabDetails(OutLabRequest outLabRequest)
@@ -112,6 +123,27 @@ namespace LISCareLimited.Controllers
             if (!string.IsNullOrEmpty(outLabRequest.LabName) && !string.IsNullOrEmpty(outLabRequest.PartnerId))
             {
                 var result = await _outLab.AddNewOutLab(outLabRequest);
+                _logger.LogInformation($"AddOutLab, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            _logger.LogInformation($"AddOutLab, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid out lab request");
+        }
+
+
+        /// <summary>
+        /// used to update out lab
+        /// </summary>
+        /// <param name="outLabRequest"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route(ConstantResource.UpdateOutLab)]
+        public async Task<IActionResult> UpdateOutLabDetails(OutLabRequest outLabRequest)
+        {
+            _logger.LogInformation($"AddOutLab, API execution started at:{DateTime.Now}");
+            if (!string.IsNullOrEmpty(outLabRequest.LabName) && !string.IsNullOrEmpty(outLabRequest.PartnerId))
+            {
+                var result = await _outLab.UpdateOutLabDetails(outLabRequest);
                 _logger.LogInformation($"AddOutLab, API execution comleted at:{DateTime.Now} with response:{result}");
                 return StatusCode(result.StatusCode, result);
             }
