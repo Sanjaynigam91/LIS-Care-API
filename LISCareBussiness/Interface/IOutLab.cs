@@ -45,5 +45,14 @@ namespace LISCareBussiness.Interface
         /// <param name="outLabRequest"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> UpdateOutLabDetails(OutLabRequest outLabRequest);
+        /// <summary>
+        /// used to get all out lab rates
+        /// </summary>
+        /// <param name="optype"></param>
+        /// <param name="labCode"></param>
+        /// <param name="testCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<OutlabRatesRespons>>> GetOutLabRates(string optype, string? labCode, string? testCode, string partnerId);
     }
 }

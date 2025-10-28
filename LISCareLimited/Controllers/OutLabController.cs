@@ -52,7 +52,7 @@ namespace LISCareLimited.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
         }
-       
+
         /// <summary>
         /// used to get out lab by lab code
         /// </summary>
@@ -88,7 +88,7 @@ namespace LISCareLimited.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
         }
-       
+
         /// <summary>
         /// used to delete Outlab
         /// </summary>
@@ -150,6 +150,45 @@ namespace LISCareLimited.Controllers
             _logger.LogInformation($"AddOutLab, API execution failed at:{DateTime.Now}");
             return BadRequest("Invalid out lab request");
         }
+
+        /// <summary>
+        /// used to get all out labs 
+        /// </summary>
+        /// <param name="labStatus"></param>
+        /// <param name="labname"></param>
+        /// <param name="labCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(ConstantResource.GetAllOutLabRates)]
+        public async Task<IActionResult> GetAllOutLabRates([FromQuery] string optype, string? labCode, string? testCode, string partnerId)
+        {
+            _logger.LogInformation($"GetAllOutLabRates, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<List<OutlabRatesRespons>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await _outLab.GetOutLabRates(optype, labCode, testCode, partnerId);
+                if (response.Data == null || response.Data.Count == 0)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status404NotFound;
+                    response.ResponseMessage = "No out lab rates found for the given lab code.";
+                }
+                _logger.LogInformation($"GetAllOutLabRates, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                _logger.LogInformation($"GetAllOutLabRates, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
 
     }
 }
