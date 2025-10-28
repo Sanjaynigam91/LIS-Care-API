@@ -80,6 +80,8 @@
         public const string AddOutLab = "AddOutLab";
         public const string UpdateOutLab = "UpdateOutLab";
         public const string GetAllOutLabRates = "GetAllOutLabRates";
+        public const string GetEmployeeDepartment = "GetEmployeeDepartment";
+
 
 
 
@@ -725,6 +727,10 @@
         public const string UspUpdateOutLabDetails ="Usp_Update_OutLabDetails";
         public const string UspAddNewOutLab = "Usp_AddNew_OutLab";
         public const string UspOutLabRates = "Usp_OutLabRates";
+        #endregion
+
+        #region Employee Master
+        public const string UspGetEmployeeDepartments = "Usp_GetEmployee_Departments";
 
         #endregion
 
