@@ -62,6 +62,30 @@
         public const string UpdateCenterRates = "UpdateCenterRates";
         public const string ImportCenterRates = "ImportCenterRates";
         public const string GetAllClinics = "GetAllClinics";
+        public const string AddNewClinic = "AddNewClinic";
+        public const string UpdateClinic = "UpdateClinic";
+        public const string DeleteClinic = "DeleteClinic";
+        public const string GetClinicById = "GetClinicById";
+        public const string GetAllClients = "GetAllClients";
+        public const string GetClientById = "GetClientById";
+        public const string AddNewClient = "AddNewClient";
+        public const string UpdateClient = "UpdateClient";
+        public const string DeleteClient = "DeleteClient";
+        public const string GetClientCustomRates = "GetClientCustomRates";
+        public const string UpdateClientTestRates = "UpdateClientTestRates";
+        public const string ImportClientRates = "ImportClientRates";
+        public const string GetAllOutLabs = "GetAllOutLabs";
+        public const string GetOutLabByLabCode = "GetOutLabByLabCode";
+        public const string DeleteOutLab = "DeleteOutLab";
+        public const string AddOutLab = "AddOutLab";
+        public const string UpdateOutLab = "UpdateOutLab";
+        public const string GetAllOutLabRates = "GetAllOutLabRates";
+        public const string GetEmployeeDepartment = "GetEmployeeDepartment";
+
+
+
+
+
 
 
         #endregion
@@ -285,7 +309,23 @@
         public const string ParamRateCreatedBy = "@CreatedBy";
         public const string ParamClinicStatus = "@ClinicStatus";
         public const string ParamCentreCode = "@CentreCode";
-
+        public const string ParamClinicId = "@ClinicId";
+        public const string ParamClinicName ="@ClinicName";
+        public const string ParamClinicIncharge ="@ClinicIncharge";
+        public const string ParamClinicDoctorCode ="@ClinicDoctorCode";
+        public const string ParamClinicAddress = "@ClinicAddress";
+        public const string ParamClientStatus = "@ClientStatus";
+        public const string ParamClientId = "@ClientId";
+        public const string ParamClientCode = "@ClientCode";
+        public const string ParamClientName = "@ClientName";
+        public const string ParamSpeciality = "@Speciality";
+        public const string ParamLicenseNumber = "@LicenseNumber";
+        public const string ParamClientType = "@ClientType";
+        public const string ParamAddressInfo = "@AddressInfo";
+        public const string ParamLabStatus = "@LabStatus";
+        public const string ParamLabName = "@LabName";
+        public const string ParamLabCode = "@LabCode";
+        public const string ParamContactPerson = "@ContactPerson";
 
         #endregion
 
@@ -475,6 +515,26 @@
         public const string ClinicStatus = "ClinicStatus";
         public const string UpdatedOn = "UpdatedOn";
         public const string UpdateBy = "UpdateBy";
+        public const string ClientId = "ClientId";
+        public const string ClientCode = "ClientCode";
+        public const string ClientName = "ClientName";
+        public const string IsAccessEnabled = "IsAccessEnabled";
+        public const string ClientStatus = "ClientStatus";
+        public const string LicenseNumber = "LicenseNumber";
+        public const string DiscountPercentage = "DiscountPercentage";
+        public const string Speciality = "Speciality";
+        public const string ClientType = "ClientType";
+        public const string BillingType = "BillingType";
+        public const string AddressInfo = "AddressInfo";
+        public const string LabCode = "LabCode";
+        public const string LabName = "LabName";
+        public const string OutLabEmail = "Email";
+        public const string ContactPerson = "ContactPerson";
+        public const string LabStatus = "LabStatus";
+        public const string IsProfile = "IsProfile";
+        public const string IsOutsource = "IsOutsource";
+
+
 
         #endregion
 
@@ -537,7 +597,7 @@
         public const string UspGetPagesByPageId = "Usp_GetPagesByPageId";
         public const string Usp_DeletePageDetails = "Usp_DeletePageDetails";
         public const string UspUpdatePageDetails = "Usp_UpdatePageDetails";
-        public const string UspInsertCenterTestRates = "Usp_InsertCenterTestRates";
+        
 
 
         #endregion
@@ -638,11 +698,39 @@
         public const string UspDeleteCenterByCenterCode = "Usp_DeleteCenterBy_CenterCode";
         public const string USPGetCentreCustomRates = "Get_CentreCustomRates";
         public const string UspUpdateAllTestCenterRates = "Usp_UpdateAllTestCenterRates";
-
+        public const string UspInsertCenterTestRates = "Usp_InsertCenterTestRates";
         #endregion
 
         #region Clinic Master
         public const string UspGetClinicDetails = "Usp_GetClinicDetails";
+        public const string UspAddNewClinicDetail = "Usp_AddNewClinicDetail";
+        public const string UspUpdateClinicDetail = "Usp_UpdateClinicDetail";
+        public const string UspDeleteClinicById = "Usp_DeleteClinicById";
+        public const string UspGetClinicDetailsById = "Usp_GetClinicDetailsById";
+        #endregion
+
+        #region Client master
+        public const string UspGetAllClients = "Usp_GetAllClients";
+        public const string UspGetClientById = "Usp_GetClientById";
+        public const string UspAddNewClient = "Usp_AddNewClient";
+        public const string UspUpdateClient = "Usp_UpdateClient";
+        public const string UspDeleteClientById = "Usp_DeleteClientById";
+        public const string UspGetClientCustomRates = "Usp_GetClient_CustomRates";
+        public const string UspUpdateAllTestClientRates = "Usp_UpdateAllTestClientRates";
+        public const string UspInsertClientTestRates = "Usp_InsertClient_TestRates";
+        #endregion
+
+        #region OutLab Master
+        public const string USPGetOutLabDetails = "USP_GetOutLabDetails";
+        public const string USPGetOutLabByLabCode ="USP_GetOutLab_ByLabCode";
+        public const string UspDeleteOutLab = "Usp_DeleteOutLab";
+        public const string UspUpdateOutLabDetails ="Usp_Update_OutLabDetails";
+        public const string UspAddNewOutLab = "Usp_AddNew_OutLab";
+        public const string UspOutLabRates = "Usp_OutLabRates";
+        #endregion
+
+        #region Employee Master
+        public const string UspGetEmployeeDepartments = "Usp_GetEmployee_Departments";
 
         #endregion
 

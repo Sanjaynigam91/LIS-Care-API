@@ -1,0 +1,99 @@
+name: Build and Deploy .NET API
+
+on:
+  push:
+    branches:
+      - feature/*
+      - develop
+      - qa
+      - main
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: List files for debug
+        run: ls -R ./LISCareLimited
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Clean NuGet cache
+        run: dotnet nuget locals all --clear
+
+      - name: Restore dependencies
+        run: dotnet restore ./LISCareLimited/LISCareLimited.csproj --configfile ./NuGet.Config --no-cache
+
+      - name: Build
+        run: dotnet build ./LISCareLimited/LISCareLimited.csproj --configuration Release
+
+      - name: Test
+        run: dotnet test ./LISCareLimited/LISCareLimited.csproj --no-build --verbosity normal
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set environment
+        id: set-env
+        run: |
+          case "${GITHUB_REF}" in
+            refs/heads/main)
+              echo "ENV=Production" >> $GITHUB_ENV
+              ;;
+            refs/heads/qa)
+              echo "ENV=QA" >> $GITHUB_ENV
+              ;;
+            refs/heads/develop)
+              echo "ENV=Development" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "ENV=Development" >> $GITHUB_ENV
+              ;;
+          esac
+          echo "Branch: ${GITHUB_REF}, Environment: $ENV"
+
+      - name: Copy appsettings for environment
+        run: |
+          if [ -f ./LISCareLimited/appsettings.$ENV.json ]; then
+            cp ./LISCareLimited/appsettings.$ENV.json ./LISCareLimited/appsettings.json
+          else
+            echo "Warning: appsettings.$ENV.json not found, using default appsettings.json"
+          fi
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: >
+            {
+              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "tenantId": "${{ secrets.AZURE_TENANT_ID }}",
+              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+            }
+
+      - name: Publish .NET API
+        run: |
+          echo "Publishing .NET project..."
+          dotnet publish ./LISCareLimited/LISCareLimited.csproj \
+            --configuration Release \
+            --output ./LISCareLimited/publish
+        shell: bash
+
+      - name: Deploy to Azure WebApp (Production)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: dev-lis-care-api
+          package: ./LISCareLimited/publish
