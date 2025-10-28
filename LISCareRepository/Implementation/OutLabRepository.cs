@@ -367,6 +367,90 @@ namespace LISCareRepository.Implementation
             return response;
         }
         /// <summary>
+        /// used to get all out lab rates
+        /// </summary>
+        /// <param name="optype"></param>
+        /// <param name="labCode"></param>
+        /// <param name="testCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<OutlabRatesRespons>>> GetOutLabRates(string optype, string? labCode, string? testCode, string partnerId)
+        {
+            _logger.LogInformation($"GetOutLabRates, method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<List<OutlabRatesRespons>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    _logger.LogInformation($"UspOutLabRates, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspOutLabRates;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType, optype));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamLabCode, labCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    _logger.LogInformation($"UspOutLabRates, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new OutlabRatesRespons
+                        {
+                            MappingId = reader[ConstantResource.MappingId] != DBNull.Value
+                            ? Convert.ToInt32(reader[ConstantResource.MappingId]) : 0,
+                            LabCode = reader[ConstantResource.LabCode] as string ?? string.Empty,
+                            LabName = reader[ConstantResource.LabName] as string ?? string.Empty,
+                            TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.TestName] as string ?? string.Empty,
+                            Mrp = reader[ConstantResource.MRP] != DBNull.Value
+                            ? Convert.ToDecimal(reader[ConstantResource.MRP]) : 0,
+                            IsProfile = reader[ConstantResource.IsProfile] != DBNull.Value
+                            ? Convert.ToBoolean(reader[ConstantResource.IsProfile]) : false,
+                            AgreedRate = reader[ConstantResource.AgreedRate] != DBNull.Value
+                            ? Convert.ToDecimal(reader[ConstantResource.AgreedRate]) : 0,
+                            CptCodes = reader[ConstantResource.CptCodes] as string ?? string.Empty,
+                            IsOutsource = reader[ConstantResource.IsOutsource] != DBNull.Value
+                            ? Convert.ToBoolean(reader[ConstantResource.IsOutsource]) : false,
+                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All out lab rates retrieved successfully.";
+                        _logger.LogInformation($"All out lab rates retrieved successfully at :{DateTime.Now}");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                _logger.LogInformation($"GetOutLabRates method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+            _logger.LogInformation($"GetOutLabRates method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
+        /// <summary>
         /// used to update out lab details
         /// </summary>
         /// <param name="outLabRequest"></param>

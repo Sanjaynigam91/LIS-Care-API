@@ -19,20 +19,20 @@ namespace LISCareRepository.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<OutLabResponse>>> GetAllOutLabs(bool? labStatus, string? labname, string? labCode, string partnerId);
-       /// <summary>
-       /// used to get out lab by lab code
-       /// </summary>
-       /// <param name="labCode"></param>
-       /// <param name="partnerId"></param>
-       /// <returns></returns>
-        Task<APIResponseModel<List<OutLabResponse>>>GetOutLabByLabCode(string labCode, string partnerId);
-       /// <summary>
-       /// used to delete out lab Details
-       /// </summary>
-       /// <param name="labCode"></param>
-       /// <param name="partnerId"></param>
-       /// <returns></returns>
-        Task<APIResponseModel<string>>DeleteOutLabDetails(string labCode, string partnerId);
+        /// <summary>
+        /// used to get out lab by lab code
+        /// </summary>
+        /// <param name="labCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<OutLabResponse>>> GetOutLabByLabCode(string labCode, string partnerId);
+        /// <summary>
+        /// used to delete out lab Details
+        /// </summary>
+        /// <param name="labCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> DeleteOutLabDetails(string labCode, string partnerId);
         /// <summary>
         /// used to add or create new out lab details
         /// </summary>
@@ -44,6 +44,15 @@ namespace LISCareRepository.Interface
         /// </summary>
         /// <param name="outLabRequest"></param>
         /// <returns></returns>
-        Task<APIResponseModel<string>>UpdateOutLabDetails(OutLabRequest outLabRequest);
+        Task<APIResponseModel<string>> UpdateOutLabDetails(OutLabRequest outLabRequest);
+        /// <summary>
+        /// used to get all out lab rates
+        /// </summary>
+        /// <param name="optype"></param>
+        /// <param name="labCode"></param>
+        /// <param name="testCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<OutlabRatesRespons>>> GetOutLabRates(string optype, string? labCode, string? testCode, string partnerId);
     }
 }
