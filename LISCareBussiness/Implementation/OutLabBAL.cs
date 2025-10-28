@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace LISCareBussiness.Implementation
 {
-    public class OutLabBAL(IOutLabRepository outLabRepository):IOutLab
+    public class OutLabBAL(IOutLabRepository outLabRepository) : IOutLab
     {
-        private readonly IOutLabRepository _outLabRepository= outLabRepository;
+        private readonly IOutLabRepository _outLabRepository = outLabRepository;
 
         /// <summary>
         /// used to create or add new out lab
@@ -78,6 +78,25 @@ namespace LISCareBussiness.Implementation
             try
             {
                 return await _outLabRepository.GetOutLabByLabCode(labCode, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to get all out lab rates
+        /// </summary>
+        /// <param name="optype"></param>
+        /// <param name="labCode"></param>
+        /// <param name="testCode"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<OutlabRatesRespons>>> GetOutLabRates(string optype, string? labCode, string? testCode, string partnerId)
+        {
+            try
+            {
+                return await _outLabRepository.GetOutLabRates(optype, labCode, testCode, partnerId);
             }
             catch
             {

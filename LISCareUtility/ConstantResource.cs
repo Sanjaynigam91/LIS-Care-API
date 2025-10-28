@@ -79,6 +79,8 @@
         public const string DeleteOutLab = "DeleteOutLab";
         public const string AddOutLab = "AddOutLab";
         public const string UpdateOutLab = "UpdateOutLab";
+        public const string GetAllOutLabRates = "GetAllOutLabRates";
+
 
 
 
@@ -527,6 +529,10 @@
         public const string OutLabEmail = "Email";
         public const string ContactPerson = "ContactPerson";
         public const string LabStatus = "LabStatus";
+        public const string IsProfile = "IsProfile";
+        public const string IsOutsource = "IsOutsource";
+
+
 
         #endregion
 
@@ -718,6 +724,8 @@
         public const string UspDeleteOutLab = "Usp_DeleteOutLab";
         public const string UspUpdateOutLabDetails ="Usp_Update_OutLabDetails";
         public const string UspAddNewOutLab = "Usp_AddNew_OutLab";
+        public const string UspOutLabRates = "Usp_OutLabRates";
+
         #endregion
 
 
