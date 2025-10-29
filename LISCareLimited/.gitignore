@@ -1,43 +1,24 @@
-# Build results
+# Ignore build results
 bin/
 obj/
-Debug/
-Release/
 
-# Visual Studio
+# Ignore Visual Studio folders
 .vs/
 .vscode/
 
-# User-specific files
+# Ignore user-specific files
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# Logs
+# Ignore logs and temporary files
 *.log
-
-# Backup and temporary files
 *.tmp
 *.temp
 *.bak
 *.backup
 *.swp
 
-# NuGet
-*.nupkg
-*.snupkg
-packages/
-*.nuget.props
-*.nuget.targets
-
-# Others
-TestResult*/
-*.dbmdl
-*.jfm
-*.pdb
-*.dll
-*.exe
-
-# Publish output
+# Ignore publish output
 publish/
