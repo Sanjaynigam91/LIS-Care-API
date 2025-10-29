@@ -3,9 +3,9 @@
     public class ConstantResource
     {
 
-        public ConstantResource() 
+        public ConstantResource()
         {
-        }   
+        }
         #region Route Files
         public const string APIRoute = "api";
         #endregion
@@ -15,7 +15,7 @@
         #endregion
 
         #region Web Controller Action Parameter
-        public const string SignUpAction= "/SignUpAction";
+        public const string SignUpAction = "/SignUpAction";
         #endregion
 
         #region API Parameters
@@ -81,12 +81,11 @@
         public const string UpdateOutLab = "UpdateOutLab";
         public const string GetAllOutLabRates = "GetAllOutLabRates";
         public const string GetEmployeeDepartment = "GetEmployeeDepartment";
-
-
-
-
-
-
+        public const string GetAllEmployees = "GetAllEmployees";
+        public const string GetEmployeeById = "GetEmployeeById";
+        public const string AddNewEmployee = "AddNewEmployee";
+        public const string UpdateEmployee = "UpdateEmployee";
+        public const string DeleteEmployee = "DeleteEmployee";
 
         #endregion
 
@@ -193,7 +192,7 @@
         public const string ParamUserName = "@userName";
         public const string ParamUsertype = "@usertype";
         public const string ParamAccountstatus = "@accountstatus";
-        public const string ParamRolesAssigned= "@RolesAssigned";
+        public const string ParamRolesAssigned = "@RolesAssigned";
         public const string ParamUserClassificationId = "@user_classification_id";
         public const string ParamAuthenticationMode = "@authenticationMode";
         public const string ParamAccountId = "@AccountId";
@@ -254,16 +253,16 @@
         public const string ParamTestShortName = "@TestShortName";
         public const string ParamPatientRate = "@PatientRate";
         public const string ParamClientRate = "@ClientRate";
-        public const string ParamLabRate= "@LabRate";
-        public const string ParamStatus= "@Status";
-        public const string ParamAnalyzerName= "@AnalyzerName";
-        public const string ParamIsAutomated= "@IsAutomated";
-        public const string ParamIsCalculated= "@IsCalculated";
-        public const string ParamLabTestCode= "@LabTestCode";
-        public const string ParamTestApplicable= "@TestApplicable";
-        public const string ParamIsLMP= "@IsLMP";
-        public const string ParamIsNABLApplicable= "@IsNABLApplicable";
-        public const string ParamReferelRangeComments= "@ReferelRangeComments";
+        public const string ParamLabRate = "@LabRate";
+        public const string ParamStatus = "@Status";
+        public const string ParamAnalyzerName = "@AnalyzerName";
+        public const string ParamIsAutomated = "@IsAutomated";
+        public const string ParamIsCalculated = "@IsCalculated";
+        public const string ParamLabTestCode = "@LabTestCode";
+        public const string ParamTestApplicable = "@TestApplicable";
+        public const string ParamIsLMP = "@IsLMP";
+        public const string ParamIsNABLApplicable = "@IsNABLApplicable";
+        public const string ParamReferelRangeComments = "@ReferelRangeComments";
         public const string ParamAllowedvalue = "@Allowedvalue";
         public const string ParamIsAbnormal = "@IsAbnormal";
         public const string ParamProfileCode = "@ProfileCode";
@@ -273,11 +272,11 @@
         public const string ParamIsAvailableForAll = "@IsAvailableForAll";
         public const string ParamIsProfileOutLab = "@IsProfileOutLab";
         public const string ParamProfileFooter = "@ProfileFooter";
-        public const string ParamIsNABApplicable= "@IsNABApplicable";
-        public const string ParamMappingId= "@MappingId";
-        public const string ParamSectionName= "@SectionName";
-        public const string ParamPrintOrder= "@PrintOrder";
-        public const string ParamGroupHeader= "@GroupHeader";
+        public const string ParamIsNABApplicable = "@IsNABApplicable";
+        public const string ParamMappingId = "@MappingId";
+        public const string ParamSectionName = "@SectionName";
+        public const string ParamPrintOrder = "@PrintOrder";
+        public const string ParamGroupHeader = "@GroupHeader";
         public const string ParamAnalyzerNameOrShortCode = "@AnalyzerNameOrShortCode";
         public const string ParamAnalyzerId = "@AnalyzerId";
         public const string ParamAnalyzerShortCode = "@AnalyzerShortCode";
@@ -310,9 +309,9 @@
         public const string ParamClinicStatus = "@ClinicStatus";
         public const string ParamCentreCode = "@CentreCode";
         public const string ParamClinicId = "@ClinicId";
-        public const string ParamClinicName ="@ClinicName";
-        public const string ParamClinicIncharge ="@ClinicIncharge";
-        public const string ParamClinicDoctorCode ="@ClinicDoctorCode";
+        public const string ParamClinicName = "@ClinicName";
+        public const string ParamClinicIncharge = "@ClinicIncharge";
+        public const string ParamClinicDoctorCode = "@ClinicDoctorCode";
         public const string ParamClinicAddress = "@ClinicAddress";
         public const string ParamClientStatus = "@ClientStatus";
         public const string ParamClientId = "@ClientId";
@@ -326,7 +325,18 @@
         public const string ParamLabName = "@LabName";
         public const string ParamLabCode = "@LabCode";
         public const string ParamContactPerson = "@ContactPerson";
-
+        public const string ParamEmployeeStatus = "@EmployeeStatus";
+        public const string ParamDepartmentName = "@DepartmentName";
+        public const string ParamEmployeeName = "@EmployeeName";
+        public const string ParamDateOfJoining = "@DateOfJoining";
+        public const string ParamContactNumber = "@ContactNumber";
+        public const string ParamDesignation = "@Designation";
+        public const string ParamQualification = "@Qualification";
+        public const string ParamRecordStatus = "@RecordStatus";
+        public const string ParamAddress = "@Address";
+        public const string ParamIsPathology = "@IsPathology";
+        public const string ParamSignatureImage = "@SignatureImage";
+        public const string ParamEmployeeId = "@EmployeeId";
         #endregion
 
         #region ConstantValuse
@@ -533,6 +543,18 @@
         public const string LabStatus = "LabStatus";
         public const string IsProfile = "IsProfile";
         public const string IsOutsource = "IsOutsource";
+        public const string DateOfJoining = "DateOfJoining";
+        public const string ContactNumber = "ContactNumber";
+        public const string Designation = "Designation";
+        public const string Qualification = "Qualification";
+        public const string RecordStatus = "RecordStatus";
+        public const string Address = "Address";
+        public const string IsPathology = "IsPathology";
+        public const string SignatureImage = "SignatureImage";
+
+
+        
+
 
 
 
@@ -545,7 +567,7 @@
         public const string TagDescription = "TagDescription";
         public const string TagStatus = "TagStatus";
         public const string RecordId = "RecordId";
-       
+
         #endregion
 
         #region Global Role Access
@@ -561,7 +583,7 @@
         public const string LISOwnerId = "OwnerId";
         public const string LisPageId = "PageId";
         public const string CriteriaId = "CriteriaId";
-  
+
 
 
         #endregion
@@ -597,7 +619,7 @@
         public const string UspGetPagesByPageId = "Usp_GetPagesByPageId";
         public const string Usp_DeletePageDetails = "Usp_DeletePageDetails";
         public const string UspUpdatePageDetails = "Usp_UpdatePageDetails";
-        
+
 
 
         #endregion
@@ -638,7 +660,7 @@
         #region Sample CollectedAt Module
         public const string UspGetAllSampleCollectedPlaces = "Usp_GetAllSampleCollectedPlaces";
         public const string UspAddSampleCollectedPlaces = "Usp_AddSampleCollectedPlaces";
-        public const string UspRemoveSamplePlace = "Usp_RemoveSamplePlace"; 
+        public const string UspRemoveSamplePlace = "Usp_RemoveSamplePlace";
 
         #endregion
 
@@ -722,15 +744,20 @@
 
         #region OutLab Master
         public const string USPGetOutLabDetails = "USP_GetOutLabDetails";
-        public const string USPGetOutLabByLabCode ="USP_GetOutLab_ByLabCode";
+        public const string USPGetOutLabByLabCode = "USP_GetOutLab_ByLabCode";
         public const string UspDeleteOutLab = "Usp_DeleteOutLab";
-        public const string UspUpdateOutLabDetails ="Usp_Update_OutLabDetails";
+        public const string UspUpdateOutLabDetails = "Usp_Update_OutLabDetails";
         public const string UspAddNewOutLab = "Usp_AddNew_OutLab";
         public const string UspOutLabRates = "Usp_OutLabRates";
         #endregion
 
         #region Employee Master
         public const string UspGetEmployeeDepartments = "Usp_GetEmployee_Departments";
+        public const string UspGetEmployees = "Usp_GetEmployees";
+        public const string UspGetEmployeeByEmpId = "Usp_GetEmployee_ByEmpId";
+        public const string UspAddNewEmployee = "Usp_AddNewEmployee";
+        public const string UspUpdateEmployee = "Usp_UpdateEmployee";
+        public const string UspDeleteEmployee = "Usp_DeleteEmployee";
 
         #endregion
 
