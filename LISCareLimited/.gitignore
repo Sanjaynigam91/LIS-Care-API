@@ -1,6 +1,3 @@
-# Ignore build results
-bin/
-obj/
 
 # Ignore Visual Studio folders
 .vs/
@@ -20,9 +17,6 @@ obj/
 *.backup
 *.swp
 
-# Ignore build output for all projects
-**/bin/
-**/obj/
 
 # Ignore publish output
 publish/
