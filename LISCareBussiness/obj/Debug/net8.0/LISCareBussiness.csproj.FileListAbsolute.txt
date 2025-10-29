@@ -1,3 +1,9 @@
+D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.csproj.AssemblyReference.cache
+D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.GeneratedMSBuildEditorConfig.editorconfig
+D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.AssemblyInfoInputs.cache
+D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.AssemblyInfo.cs
+D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.csproj.CoreCompileInputs.cache
+D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.sourcelink.json
 D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareBussiness.deps.json
 D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareBussiness.dll
 D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareBussiness.pdb
@@ -9,12 +15,6 @@ D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareDTO.pdb
 D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareRepository.pdb
 D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareDataAccess.pdb
 D:\LISCare\LIS-Care-API\LISCareBussiness\bin\Debug\net8.0\LISCareUtility.pdb
-D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.csproj.AssemblyReference.cache
-D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.GeneratedMSBuildEditorConfig.editorconfig
-D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.AssemblyInfoInputs.cache
-D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.AssemblyInfo.cs
-D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.csproj.CoreCompileInputs.cache
-D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.sourcelink.json
 D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareB.CAF51803.Up2Date
 D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\LISCareBussiness.dll
 D:\LISCare\LIS-Care-API\LISCareBussiness\obj\Debug\net8.0\refint\LISCareBussiness.dll
