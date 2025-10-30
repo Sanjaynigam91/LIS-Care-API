@@ -64,7 +64,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsPathology, employeeRequest.IsPathology));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamSignatureImage, employeeRequest.SignatureImage));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, employeeRequest.PartnerId));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCreatedBy, employeeRequest.CreatedBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCreateBy, employeeRequest.CreatedBy));
 
                     _logger.LogInformation($"UspAddNewEmployee execution completed at :{DateTime.Now}");
                     // output parameters
@@ -278,10 +278,10 @@ namespace LISCareRepository.Implementation
                             EmployeeId = reader[ConstantResource.EmployeeId] as string ?? string.Empty,
                             EmployeeName = reader[ConstantResource.EmployeeName] as string ?? string.Empty,
                             EmailId = reader[ConstantResource.EmailId] as string ?? string.Empty,
-
                             DateOfJoining = reader[ConstantResource.DateOfJoining] != DBNull.Value
                             ? Convert.ToDateTime(reader[ConstantResource.DateOfJoining])
                             : DateTime.Now,
+
 
                             ContactNumber = reader[ConstantResource.ContactNumber] as string ?? string.Empty,
                             MobileNumber = reader[ConstantResource.PhoneNumber] as string ?? string.Empty,
@@ -377,8 +377,9 @@ namespace LISCareRepository.Implementation
                             EmailId = reader[ConstantResource.EmailId] as string ?? string.Empty,
 
                             DateOfJoining = reader[ConstantResource.DateOfJoining] != DBNull.Value
-                           ? Convert.ToDateTime(reader[ConstantResource.DateOfJoining])
-                           : DateTime.Now,
+                            ? Convert.ToDateTime(reader[ConstantResource.DateOfJoining])
+                            : DateTime.Now,
+
 
                             ContactNumber = reader[ConstantResource.ContactNumber] as string ?? string.Empty,
                             MobileNumber = reader[ConstantResource.PhoneNumber] as string ?? string.Empty,
@@ -529,7 +530,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsPathology, employeeRequest.IsPathology));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParamSignatureImage, employeeRequest.SignatureImage));
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, employeeRequest.PartnerId));
-                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCreatedBy, employeeRequest.CreatedBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCreateBy, employeeRequest.CreatedBy));
 
                     _logger.LogInformation($"UspUpdateEmployee execution completed at :{DateTime.Now}");
                     // output parameters

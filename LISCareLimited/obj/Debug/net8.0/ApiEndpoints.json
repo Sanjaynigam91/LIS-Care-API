@@ -80,6 +80,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.EmployeeController",
+    "Method": "AddNewEmployeeDetail",
+    "RelativePath": "api/AddNewEmployee",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeRequest",
+        "Type": "LISCareDTO.Employee.EmployeeRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.OutLabController",
     "Method": "AddNewOutLabDetails",
     "RelativePath": "api/AddOutLab",
@@ -281,6 +297,27 @@
       {
         "Name": "clinicId",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.EmployeeController",
+    "Method": "DeleteEmployeeDetail",
+    "RelativePath": "api/DeleteEmployee",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -655,6 +692,37 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.EmployeeController",
+    "Method": "GetAllEmployeeDetails",
+    "RelativePath": "api/GetAllEmployees",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empStatus",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "department",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "employeeName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1104,6 +1172,27 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.EmployeeController",
+    "Method": "GetEmployeeDetailsById",
+    "RelativePath": "api/GetEmployeeById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
       {
         "Name": "partnerId",
         "Type": "System.String",
@@ -1949,6 +2038,22 @@
       {
         "Name": "clinicRequest",
         "Type": "LISCareDTO.ClinicMaster.ClinicRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.EmployeeController",
+    "Method": "UpdateEmployeeDetail",
+    "RelativePath": "api/UpdateEmployee",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeRequest",
+        "Type": "LISCareDTO.Employee.EmployeeRequest",
         "IsRequired": true
       }
     ],

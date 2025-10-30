@@ -149,7 +149,7 @@ namespace LISCareLimited.Controllers
             return BadRequest("Invalid employee request");
         }
 
-        [HttpPut]
+        [HttpDelete]
         [Route(ConstantResource.DeleteEmployee)]
         public async Task<IActionResult> DeleteEmployeeDetail([FromQuery] string employeeId, string partnerId)
         {

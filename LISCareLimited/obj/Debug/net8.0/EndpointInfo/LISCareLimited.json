@@ -1041,6 +1041,37 @@
         }
       }
     },
+    "/api/AddNewEmployee": {
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetEmployeeDepartment": {
       "get": {
         "tags": [
@@ -1049,6 +1080,135 @@
         "parameters": [
           {
             "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetAllEmployees": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "parameters": [
+          {
+            "name": "empStatus",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "department",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "employeeName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetEmployeeById": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UpdateEmployee": {
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeleteEmployee": {
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -3632,6 +3792,70 @@
             "nullable": true
           },
           "partnerId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmployeeRequest": {
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfJoining": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contactNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "nullable": true
+          },
+          "designation": {
+            "type": "string",
+            "nullable": true
+          },
+          "qualification": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordStatus": {
+            "type": "boolean"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "isPathology": {
+            "type": "boolean"
+          },
+          "signatureImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
             "type": "string",
             "nullable": true
           }

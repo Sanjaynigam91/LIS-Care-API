@@ -1,3 +1,5 @@
+using LISCareDTO.Helper;
+
 namespace LISCareLimited
 {
     public class Program
@@ -14,7 +16,10 @@ namespace LISCareLimited
             .AddEnvironmentVariables();
 
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter());
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
