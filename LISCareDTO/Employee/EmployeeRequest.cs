@@ -17,9 +17,9 @@ namespace LISCareDTO.Employee
         public string Department {  get; set; }=string.Empty;
         public string Designation {  get; set; }=string.Empty;
         public string Qualification {  get; set; }=string.Empty;
-        public string RecordStatus {  get; set; }=string.Empty;
+        public Boolean RecordStatus {  get; set; }=false;
         public string Address {  get; set; }=string.Empty;
-        public string IsPathology {  get; set; }=string.Empty;
+        public Boolean IsPathology {  get; set; }=false;
         public string SignatureImage {  get; set; }=string.Empty;
         public string PartnerId {  get; set; }=string.Empty;
         public string CreatedBy {  get; set; }=string.Empty;

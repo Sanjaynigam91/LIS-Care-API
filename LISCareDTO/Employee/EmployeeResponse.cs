@@ -1,8 +1,11 @@
-﻿using System;
+﻿using LISCareDTO.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+
 
 namespace LISCareDTO.Employee
 {
@@ -12,6 +15,7 @@ namespace LISCareDTO.Employee
         public string EmployeeId { get; set; } = string.Empty;
         public string EmployeeName { get; set; } = string.Empty;
         public string EmailId { get; set; } = string.Empty;
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public DateTime DateOfJoining { get; set; } = DateTime.Now;
         public string ContactNumber { get; set; } = string.Empty;
         public string MobileNumber { get; set; } = string.Empty;
