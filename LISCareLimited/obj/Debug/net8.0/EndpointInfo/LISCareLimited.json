@@ -332,6 +332,27 @@
         }
       }
     },
+    "/api/GetAllBarcodes": {
+      "get": {
+        "tags": [
+          "Barcode"
+        ],
+        "parameters": [
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetAllCenters": {
       "get": {
         "tags": [
