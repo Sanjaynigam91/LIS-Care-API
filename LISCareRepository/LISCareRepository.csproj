@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LISCareDataAccess\LISCareDataAccess.csproj" />
     <ProjectReference Include="..\LISCareDTO\LISCareDTO.csproj" />
+    <ProjectReference Include="..\LISCareReporting\LISCareReporting.csproj" />
     <ProjectReference Include="..\LISCareUtility\LISCareUtility.csproj" />
   </ItemGroup>
 

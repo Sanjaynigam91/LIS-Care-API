@@ -1,4 +1,5 @@
 using LISCareDTO.Helper;
+using QuestPDF.Infrastructure;
 
 namespace LISCareLimited
 {
@@ -6,10 +7,14 @@ namespace LISCareLimited
     {
         public static void Main(string[] args)
         {
+            // Add this line before building the app
+            QuestPDF.Settings.License = LicenseType.Community;
+
             CreateHostBuilder(args).Build().Run();
             var builder = WebApplication.CreateBuilder(args);
 
-             builder.Configuration
+            
+            builder.Configuration
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)

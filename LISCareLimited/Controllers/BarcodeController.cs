@@ -1,4 +1,5 @@
-﻿using LISCareBussiness.Interface;
+﻿using Autofac.Core;
+using LISCareBussiness.Interface;
 using LISCareDTO;
 using LISCareDTO.Barcode;
 using LISCareDTO.Employee;
@@ -47,6 +48,13 @@ namespace LISCareLimited.Controllers
             }
         }
 
+
+        [HttpGet(ConstantResource.GenerateBulkBarcode)]
+        public async Task<IActionResult> GenerateBarcodes(int SequenceStart, int SequenceEnd)
+        {
+            var pdfBytes = await _barcode.GenerateBarcodes(SequenceStart, SequenceEnd);
+            return File(pdfBytes, "application/pdf", "Barcodes.pdf");
+        }
 
     }
 }

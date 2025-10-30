@@ -4,6 +4,7 @@ using LISCareBussiness.Implementation;
 using LISCareBussiness.Interface;
 using LISCareDataAccess.LISCareDbContext;
 using LISCareDTO;
+using LISCareReporting.LISBarcode;
 using LISCareRepository.Implementation;
 using LISCareRepository.Interface;
 using LISCareReposotiory.Implementation;
@@ -62,6 +63,7 @@ namespace LISCareLimited
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IBarcode, BarcodeBAL>();
             services.AddScoped<IBarcodeRepository, BarCodeRepository>();
+            services.AddScoped<BulkBarcodeGenerator>();
 
             services.AddCors(options =>
             {

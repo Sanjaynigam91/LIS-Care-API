@@ -87,7 +87,7 @@
         public const string UpdateEmployee = "UpdateEmployee";
         public const string DeleteEmployee = "DeleteEmployee";
         public const string GetAllBarcodes = "GetAllBarcodes";
-
+        public const string GenerateBulkBarcode = "GenerateBulkBarcode";
 
         #endregion
 
