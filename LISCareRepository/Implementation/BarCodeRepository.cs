@@ -2,6 +2,7 @@
 using LISCareDTO;
 using LISCareDTO.Barcode;
 using LISCareDTO.Employee;
+using LISCareReporting.LISBarcode;
 using LISCareRepository.Interface;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -19,10 +21,29 @@ using System.Threading.Tasks;
 
 namespace LISCareRepository.Implementation
 {
-    public class BarCodeRepository(LISCareDbContext dbContext, ILogger<BarCodeRepository> logger): IBarcodeRepository
+    public class BarCodeRepository : IBarcodeRepository
     {
-        private readonly LISCareDbContext _dbContext=dbContext;
-        private readonly ILogger<BarCodeRepository> _logger = logger;
+        private readonly LISCareDbContext _dbContext;
+        private readonly ILogger<BarCodeRepository> _logger;
+        private readonly BulkBarcodeGenerator _bulkBarcode;
+
+        public BarCodeRepository(LISCareDbContext dbContext, ILogger<BarCodeRepository> logger, BulkBarcodeGenerator bulkBarcodeGenerator)
+        {
+            _dbContext = dbContext;
+            _logger = logger;
+            _bulkBarcode = bulkBarcodeGenerator;
+        }
+
+        /// <summary>
+        /// used to generate barcodes in bulk
+        /// </summary>
+        /// <param name="SequenceStart"></param>
+        /// <param name="SequenceEnd"></param>
+        /// <returns></returns>
+        public Task<byte[]> GenerateBarcodes(int SequenceStart, int SequenceEnd)
+        {
+            return Task.FromResult(BulkBarcodeGenerator.GenerateBulkBarcodes(SequenceStart, SequenceEnd));
+        }
 
         /// <summary>
         /// used to get all barcode details
@@ -63,7 +84,7 @@ namespace LISCareRepository.Implementation
                     {
                         response.Data.Add(new BarcodeResponse
                         {
-                           
+
                             GeneratedOn = reader[ConstantResource.GeneratedOn] as string ?? string.Empty,
                             SequenceStart = reader[ConstantResource.SequenceStart] != DBNull.Value
                             ? Convert.ToInt32(reader[ConstantResource.SequenceStart])

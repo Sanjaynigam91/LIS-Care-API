@@ -11,9 +11,33 @@ using System.Threading.Tasks;
 
 namespace LISCareBussiness.Implementation
 {
-    public class BarcodeBAL(IBarcodeRepository barcodeRepository):IBarcode
+    public class BarcodeBAL:IBarcode
     {
-        private readonly IBarcodeRepository _barcodeRepository=barcodeRepository;
+        private readonly IBarcodeRepository _barcodeRepository;
+
+        public BarcodeBAL(IBarcodeRepository barcodeRepository)
+        {
+            _barcodeRepository= barcodeRepository;
+        }   
+
+
+        /// <summary>
+        /// used to generate barcodes in bulk
+        /// </summary>
+        /// <param name="SequenceStart"></param>
+        /// <param name="SequenceEnd"></param>
+        /// <returns></returns>
+        public async Task<byte[]> GenerateBarcodes(int SequenceStart, int SequenceEnd)
+        {
+            try
+            {
+                return await _barcodeRepository.GenerateBarcodes(SequenceStart, SequenceEnd);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// used to get all barcode details

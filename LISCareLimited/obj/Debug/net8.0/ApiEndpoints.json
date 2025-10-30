@@ -561,6 +561,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.BarcodeController",
+    "Method": "GenerateBarcodes",
+    "RelativePath": "api/GenerateBulkBarcode",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SequenceStart",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SequenceEnd",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.AnalyzerController",
     "Method": "GetAllAnalyzersDetails",
     "RelativePath": "api/GetAllAnalyzers",
