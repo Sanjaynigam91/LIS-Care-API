@@ -587,6 +587,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.BarcodeController",
+    "Method": "GetAllBarcodeDetails",
+    "RelativePath": "api/GetAllBarcodes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.CenterController",
     "Method": "GetAllCenterDetails",
     "RelativePath": "api/GetAllCenters",

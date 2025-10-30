@@ -60,6 +60,8 @@ namespace LISCareLimited
             services.AddScoped<IOutLabRepository, OutLabRepository>();
             services.AddScoped<IEmployee, EmployeeBAL>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IBarcode, BarcodeBAL>();
+            services.AddScoped<IBarcodeRepository, BarCodeRepository>();
 
             services.AddCors(options =>
             {

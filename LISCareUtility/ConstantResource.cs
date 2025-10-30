@@ -86,6 +86,8 @@
         public const string AddNewEmployee = "AddNewEmployee";
         public const string UpdateEmployee = "UpdateEmployee";
         public const string DeleteEmployee = "DeleteEmployee";
+        public const string GetAllBarcodes = "GetAllBarcodes";
+
 
         #endregion
 
@@ -551,12 +553,10 @@
         public const string Address = "Address";
         public const string IsPathology = "IsPathology";
         public const string SignatureImage = "SignatureImage";
-
-
-        
-
-
-
+        public const string GeneratedOn = "GeneratedOn";
+        public const string SequenceStart = "SequenceStart";
+        public const string SequenceEnd = "SequenceEnd";
+        public const string GenerateId = "GenerateId";
 
         #endregion
 
@@ -758,6 +758,10 @@
         public const string UspAddNewEmployee = "Usp_AddNewEmployee";
         public const string UspUpdateEmployee = "Usp_UpdateEmployee";
         public const string UspDeleteEmployee = "Usp_DeleteEmployee";
+
+        #endregion
+        #region Barcode Manager
+        public const string UspGetBarcodeDetailsByPartnerId = "Usp_GetBarcodeDetailsByPartnerId";
 
         #endregion
 
