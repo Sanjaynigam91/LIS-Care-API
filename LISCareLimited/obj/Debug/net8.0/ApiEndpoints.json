@@ -569,12 +569,12 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "SequenceStart",
+        "Name": "sequenceStart",
         "Type": "System.Int32",
         "IsRequired": false
       },
       {
-        "Name": "SequenceEnd",
+        "Name": "sequenceEnd",
         "Type": "System.Int32",
         "IsRequired": false
       }

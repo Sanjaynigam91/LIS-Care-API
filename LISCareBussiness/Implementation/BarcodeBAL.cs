@@ -27,11 +27,11 @@ namespace LISCareBussiness.Implementation
         /// <param name="SequenceStart"></param>
         /// <param name="SequenceEnd"></param>
         /// <returns></returns>
-        public async Task<byte[]> GenerateBarcodes(int SequenceStart, int SequenceEnd)
+        public async Task<byte[]> GenerateBarcodes(int sequenceStart, int sequenceEnd)
         {
             try
             {
-                return await _barcodeRepository.GenerateBarcodes(SequenceStart, SequenceEnd);
+                return await _barcodeRepository.GenerateBarcodes(sequenceStart, sequenceStart);
             }
             catch
             {

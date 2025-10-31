@@ -40,9 +40,9 @@ namespace LISCareRepository.Implementation
         /// <param name="SequenceStart"></param>
         /// <param name="SequenceEnd"></param>
         /// <returns></returns>
-        public Task<byte[]> GenerateBarcodes(int SequenceStart, int SequenceEnd)
+        public Task<byte[]> GenerateBarcodes(int sequenceStart, int sequenceEnd)
         {
-            return Task.FromResult(BulkBarcodeGenerator.GenerateBulkBarcodes(SequenceStart, SequenceEnd));
+            return Task.FromResult(BulkBarcodeGenerator.GenerateBulkBarcodes(sequenceStart, sequenceEnd));
         }
 
         /// <summary>
