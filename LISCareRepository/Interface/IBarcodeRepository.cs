@@ -22,6 +22,6 @@ namespace LISCareRepository.Interface
         /// <param name="SequenceStart"></param>
         /// <param name="SequenceEnd"></param>
         /// <returns></returns>
-        Task<byte[]> GenerateBarcodes(int SequenceStart, int SequenceEnd);
+        Task<byte[]> GenerateBarcodes(int sequenceStart, int sequenceEnd);
     }
 }

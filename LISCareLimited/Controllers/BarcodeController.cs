@@ -50,10 +50,22 @@ namespace LISCareLimited.Controllers
 
 
         [HttpGet(ConstantResource.GenerateBulkBarcode)]
-        public async Task<IActionResult> GenerateBarcodes(int SequenceStart, int SequenceEnd)
+        public async Task<IActionResult> GenerateBarcodes(int sequenceStart, int sequenceEnd)
         {
-            var pdfBytes = await _barcode.GenerateBarcodes(SequenceStart, SequenceEnd);
-            return File(pdfBytes, "application/pdf", "Barcodes.pdf");
+            try
+            {
+                if (sequenceStart <= 0)
+                {
+                    return BadRequest("Invalid sequence range provided.");
+                }
+                var pdfBytes = await _barcode.GenerateBarcodes(sequenceStart, sequenceEnd);
+                return File(pdfBytes, "application/pdf", "Barcodes.pdf");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error generating barcodes: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
     }

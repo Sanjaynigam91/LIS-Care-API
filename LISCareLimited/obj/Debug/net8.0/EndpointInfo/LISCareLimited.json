@@ -360,7 +360,7 @@
         ],
         "parameters": [
           {
-            "name": "SequenceStart",
+            "name": "sequenceStart",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -368,7 +368,7 @@
             }
           },
           {
-            "name": "SequenceEnd",
+            "name": "sequenceEnd",
             "in": "query",
             "schema": {
               "type": "integer",
