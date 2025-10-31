@@ -55,7 +55,7 @@ namespace LISCareReporting.LISBarcode
                             renderer.Render(barcode, ms);
                             var bytes = ms.ToArray();
 
-                            col.Item().Border(0.5f).Padding(4).AlignCenter().Column(inner =>
+                            col.Item().Border(0.0f).Padding(4).AlignCenter().Column(inner =>
                             {
                                 inner.Spacing(2);
                                 inner.Item().AlignCenter().Text(code).Bold();
