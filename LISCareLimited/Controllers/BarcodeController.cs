@@ -55,6 +55,12 @@ namespace LISCareLimited.Controllers
             try
             {
                 if (sequenceStart <= 0)
+                    sequenceStart = 1;
+
+                if (sequenceEnd < sequenceStart)
+                    sequenceEnd = sequenceStart;
+
+                if (sequenceStart <= 0)
                 {
                     return BadRequest("Invalid sequence range provided.");
                 }
