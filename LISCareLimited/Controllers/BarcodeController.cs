@@ -50,7 +50,7 @@ namespace LISCareLimited.Controllers
 
 
         [HttpGet(ConstantResource.GenerateBulkBarcode)]
-        public async Task<IActionResult> GenerateBarcodes(int sequenceStart, int sequenceEnd)
+        public async Task<IActionResult> GenerateBarcodes([FromQuery] int sequenceStart, int sequenceEnd)
         {
             try
             {

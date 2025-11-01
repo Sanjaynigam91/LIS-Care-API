@@ -31,7 +31,7 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await _barcodeRepository.GenerateBarcodes(sequenceStart, sequenceStart);
+                return await _barcodeRepository.GenerateBarcodes(sequenceStart, sequenceEnd);
             }
             catch
             {
