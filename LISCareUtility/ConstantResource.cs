@@ -88,6 +88,12 @@
         public const string DeleteEmployee = "DeleteEmployee";
         public const string GetAllBarcodes = "GetAllBarcodes";
         public const string GenerateBulkBarcode = "GenerateBulkBarcode";
+        public const string GetLastPrintedBarcode = "GetLastPrintedBarcode";
+        public const string SavePrintedBarcode = "SavePrintedBarcode";
+
+        
+
+
 
         #endregion
 
@@ -339,6 +345,10 @@
         public const string ParamIsPathology = "@IsPathology";
         public const string ParamSignatureImage = "@SignatureImage";
         public const string ParamEmployeeId = "@EmployeeId";
+        public const string ParamSequenceStart = "@SequenceStart";
+        public const string ParamSequenceEnd = "@SequenceEnd";
+
+
         #endregion
 
         #region ConstantValuse
@@ -762,6 +772,9 @@
         #endregion
         #region Barcode Manager
         public const string UspGetBarcodeDetailsByPartnerId = "Usp_GetBarcodeDetailsByPartnerId";
+        public const string UspGetLastPrintedBarcode = "Usp_GetLastPrintedBarcode";
+        public const string UspSaveBarcodePrintDetails = "Usp_SaveBarcode_PrintDetails";
+
 
         #endregion
 
