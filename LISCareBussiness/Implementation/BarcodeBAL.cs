@@ -55,5 +55,29 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+
+        public async Task<APIResponseModel<int>> GetLastPrintedBarcode(string partnerId)
+        {
+            try
+            {
+                return await _barcodeRepository.GetLastPrintedBarcode(partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<string>> SavePrintedBarcodes(BarcodeRequest barcodeRequest)
+        {
+            try
+            {
+                return await _barcodeRepository.SavePrintedBarcodes(barcodeRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

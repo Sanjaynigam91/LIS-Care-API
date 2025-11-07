@@ -1286,6 +1286,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.BarcodeController",
+    "Method": "GetLastProintedBarcode",
+    "RelativePath": "api/GetLastPrintedBarcode",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.LISRoleController",
     "Method": "GetLISRoleByRoleId",
     "RelativePath": "api/GetLISRoleByRoleId",
@@ -1836,6 +1852,22 @@
       {
         "Name": "mappingRequest",
         "Type": "LISCareDTO.ProfileMaster.TestMappingRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.BarcodeController",
+    "Method": "SavePrintedBarcode",
+    "RelativePath": "api/SavePrintedBarcode",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "barcodeRequest",
+        "Type": "LISCareDTO.Barcode.BarcodeRequest",
         "IsRequired": true
       }
     ],

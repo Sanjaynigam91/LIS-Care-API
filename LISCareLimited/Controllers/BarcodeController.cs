@@ -74,5 +74,43 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        [HttpGet(ConstantResource.GetLastPrintedBarcode)]
+        public async Task<IActionResult> GetLastProintedBarcode([FromQuery] string partnerId)
+        {
+            _logger.LogInformation($"GetLastPrintedBarcode, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<int>
+            {
+                Data = 0
+            };
+            try
+            {
+                response = await _barcode.GetLastPrintedBarcode(partnerId);
+                _logger.LogInformation($"GetLastPrintedBarcode, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                _logger.LogInformation($"GetLastPrintedBarcode, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        [HttpPost]
+        [Route(ConstantResource.SavePrintedBarcode)]
+        public async Task<IActionResult> SavePrintedBarcode(BarcodeRequest barcodeRequest)
+        {
+            _logger.LogInformation($"SavePrintedBarcode, API execution started at:{DateTime.Now}");
+            if (barcodeRequest.SequenceStart > 0 && barcodeRequest.SequenceEnd > 0)
+            {
+                var result = await _barcode.SavePrintedBarcodes(barcodeRequest);
+                _logger.LogInformation($"SavePrintedBarcode, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            _logger.LogInformation($"SavePrintedBarcode, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid employee request");
+        }
+
     }
 }

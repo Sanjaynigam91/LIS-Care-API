@@ -383,6 +383,58 @@
         }
       }
     },
+    "/api/GetLastPrintedBarcode": {
+      "get": {
+        "tags": [
+          "Barcode"
+        ],
+        "parameters": [
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SavePrintedBarcode": {
+      "post": {
+        "tags": [
+          "Barcode"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarcodeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarcodeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarcodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetAllCenters": {
       "get": {
         "tags": [
@@ -3562,6 +3614,28 @@
             "nullable": true
           },
           "partnerId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BarcodeRequest": {
+        "type": "object",
+        "properties": {
+          "sequenceStart": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sequenceEnd": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
             "type": "string",
             "nullable": true
           }

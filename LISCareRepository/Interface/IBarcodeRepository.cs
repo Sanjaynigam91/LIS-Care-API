@@ -23,5 +23,18 @@ namespace LISCareRepository.Interface
         /// <param name="SequenceEnd"></param>
         /// <returns></returns>
         Task<byte[]> GenerateBarcodes(int sequenceStart, int sequenceEnd);
+        /// <summary>
+        /// used to get last printed barcode
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<int>> GetLastPrintedBarcode(string partnerId);
+        /// <summary>
+        /// used to save printed barcodes
+        /// </summary>
+        /// <param name="barcodeRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>>SavePrintedBarcodes(BarcodeRequest barcodeRequest);
+
     }
 }
