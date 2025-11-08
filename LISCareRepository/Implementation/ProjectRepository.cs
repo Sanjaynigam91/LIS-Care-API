@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -372,7 +373,11 @@ namespace LISCareRepository.Implementation
                         && Convert.ToBoolean(reader[ConstantResource.ProjectStatus]);
                         projectResponse.RateType = reader[ConstantResource.RateType] as string ?? string.Empty;
                         projectResponse.ReceiptPrefix = reader[ConstantResource.ReceiptPrefix] as string ?? string.Empty;
-                       
+                        projectResponse.ValidFrom = reader[ConstantResource.ValidFrom] == DBNull.Value ? DateTime.MinValue
+                            : Convert.ToDateTime(reader[ConstantResource.ValidFrom]);
+                        projectResponse.ValidTo = reader[ConstantResource.ValidTo] == DBNull.Value ? DateTime.MinValue
+                            : Convert.ToDateTime(reader[ConstantResource.ValidTo]);
+                        projectResponse.PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty;
                         response.Data = projectResponse;
                         response.Status = true;
                         response.StatusCode = (int)HttpStatusCode.OK;
