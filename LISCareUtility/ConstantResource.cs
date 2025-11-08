@@ -1,4 +1,6 @@
-﻿namespace LISCareUtility
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+
+namespace LISCareUtility
 {
     public class ConstantResource
     {
@@ -90,6 +92,11 @@
         public const string GenerateBulkBarcode = "GenerateBulkBarcode";
         public const string GetLastPrintedBarcode = "GetLastPrintedBarcode";
         public const string SavePrintedBarcode = "SavePrintedBarcode";
+        public const string AddNewProject = "AddNewProject";
+        public const string UpdateProject = "UpdateProject";
+        public const string DeleteProject = "DeleteProject";
+        public const string GetAllProjects = "GetAllProjects";
+        public const string GetProjectById = "GetProjectById";
 
         
 
@@ -347,6 +354,17 @@
         public const string ParamEmployeeId = "@EmployeeId";
         public const string ParamSequenceStart = "@SequenceStart";
         public const string ParamSequenceEnd = "@SequenceEnd";
+        public const string ParamProjectStatus = "@ProjectStatus";
+        public const string ParamProjectName = "@ProjectName";
+        public const string ParamContactNo = "@ContactNo";
+        public const string ParamEmail = "@Email";
+        public const string ParamAlternateEmail = "@AlternateEmail";
+        public const string ParamProjectAddress = "@ProjectAddress";
+        public const string ParamReferedBy = "@ReferedBy";
+        public const string ParamValidFrom = "@ValidFrom";
+        public const string ParamValidTo = "@ValidTo";
+        public const string ParamReceiptPrefix = "@ReceiptPrefix";
+        public const string ParamProjectId = "@ProjectId";
 
 
         #endregion
@@ -567,6 +585,20 @@
         public const string SequenceStart = "SequenceStart";
         public const string SequenceEnd = "SequenceEnd";
         public const string GenerateId = "GenerateId";
+        public const string ProjectId = "ProjectId";
+        public const string ProjectName = "ProjectName";
+        public const string ContactNo = "ContactNo";
+        public const string ProjectEmail = "Email";
+        public const string AlternateEmail = "AlternateEmail";
+        public const string ProjectAddress = "ProjectAddress";
+        public const string ReferedBy = "ReferedBy";
+        public const string ProjectStatus = "ProjectStatus";
+        public const string ValidFrom = "ValidFrom";
+        public const string ValidTo = "ValidTo";
+        public const string ReceiptPrefix = "ReceiptPrefix";
+        public const string PatientCount = "PatientCount";
+        public const string PatientCountLastUpdatedOn = "PatientCountLastUpdatedOn";
+
 
         #endregion
 
@@ -770,6 +802,7 @@
         public const string UspDeleteEmployee = "Usp_DeleteEmployee";
 
         #endregion
+
         #region Barcode Manager
         public const string UspGetBarcodeDetailsByPartnerId = "Usp_GetBarcodeDetailsByPartnerId";
         public const string UspGetLastPrintedBarcode = "Usp_GetLastPrintedBarcode";
@@ -778,6 +811,14 @@
 
         #endregion
 
+        #region Project Master
+        public const string UspGetAllProjects = "Usp_GetAllProjects";
+        public const string UspGetProjectsById = "Usp_GetProjectsById";
+        public const string UspAddNewProject = "Usp_AddNewProject";
+        public const string UspUpdateProject = "Usp_UpdateProject";
+        public const string UspDeleteProjectById = "Usp_DeleteProjectById";
+
+        #endregion
 
         #endregion
 

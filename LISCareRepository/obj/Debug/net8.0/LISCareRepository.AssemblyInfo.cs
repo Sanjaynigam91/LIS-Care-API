@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LISCareRepository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a49f2bd3e3c07720fa07d57f83dadd63499d8d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f94be4c3799c2cf19edb0e631463351fab79f13f")]
 [assembly: System.Reflection.AssemblyProductAttribute("LISCareRepository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LISCareRepository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
