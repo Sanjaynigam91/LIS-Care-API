@@ -73,9 +73,9 @@ namespace LISCareLimited.Controllers
         public async Task<IActionResult> DeleteExistingProject([FromQuery] int projectId, string partnerId)
         {
             logger.LogInformation($"DeleteProject, API execution started at:{DateTime.Now}");
-            if (projectId>0)
+            if (projectId > 0)
             {
-                var result = await project.DeleteProject(projectId,partnerId);
+                var result = await project.DeleteProject(projectId, partnerId);
                 logger.LogInformation($"DeleteProject, API execution comleted at:{DateTime.Now} with response:{result}");
                 return StatusCode(result.StatusCode, result);
             }
@@ -101,7 +101,7 @@ namespace LISCareLimited.Controllers
             };
             try
             {
-                response = await project.GetAllProjects(partnerId,projectStatus,projectName);
+                response = await project.GetAllProjects(partnerId, projectStatus, projectName);
                 logger.LogInformation($"GetAllProjects, API execution completed at:{DateTime.Now}");
                 return StatusCode(response.StatusCode, response);
             }

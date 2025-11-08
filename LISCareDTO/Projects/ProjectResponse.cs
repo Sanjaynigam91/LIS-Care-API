@@ -25,6 +25,6 @@ namespace LISCareDTO.Projects
         public string ReceiptPrefix { get; set; } = string.Empty;
         public int PatientCount { get; set; } = 0;
         public DateTime PatientCountLastUpdatedOn { get; set; } = DateTime.Now;
-
+        public string ExpiryPeriods {  get; set; } = string.Empty;
     }
 }
