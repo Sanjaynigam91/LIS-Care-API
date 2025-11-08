@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LISCareDTO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b71aefaedd964d7ad268c5a52326b07d4bd663f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a49f2bd3e3c07720fa07d57f83dadd63499d8d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("LISCareDTO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LISCareDTO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
