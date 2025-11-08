@@ -598,7 +598,7 @@ namespace LISCareUtility
         public const string ReceiptPrefix = "ReceiptPrefix";
         public const string PatientCount = "PatientCount";
         public const string PatientCountLastUpdatedOn = "PatientCountLastUpdatedOn";
-
+        public const string ExpiryPeriods = "ExpiryPeriods";
 
         #endregion
 

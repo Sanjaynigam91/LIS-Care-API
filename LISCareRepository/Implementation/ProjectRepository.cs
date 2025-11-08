@@ -333,7 +333,7 @@ namespace LISCareRepository.Implementation
 
             try
             {
-                if (projectId>0)
+                if (projectId<=0)
                 {
                     response.Status = false;
                     response.StatusCode = StatusCodes.Status400BadRequest;
@@ -367,22 +367,12 @@ namespace LISCareRepository.Implementation
                         projectResponse.AlternateEmail = reader[ConstantResource.AlternateEmail] as string ?? string.Empty;
                         projectResponse.ProjectAddress = reader[ConstantResource.ProjectAddress] as string ?? string.Empty;
                         projectResponse.ReferedBy = reader[ConstantResource.ReferedBy] as string ?? string.Empty;
-                        projectResponse.CreatedOn = reader[ConstantResource.CreatedOn] == DBNull.Value ? DateTime.MinValue
-                        : Convert.ToDateTime(reader[ConstantResource.CreatedOn]);
+                        projectResponse.ExpiryPeriods = reader[ConstantResource.ExpiryPeriods] as string ?? string.Empty;
                         projectResponse.ProjectStatus = reader[ConstantResource.ProjectStatus] != DBNull.Value
                         && Convert.ToBoolean(reader[ConstantResource.ProjectStatus]);
-                        projectResponse.PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty;
-                        projectResponse.ValidFrom = reader[ConstantResource.ValidFrom] == DBNull.Value ? DateTime.MinValue
-                        : Convert.ToDateTime(reader[ConstantResource.ValidFrom]);
-                        projectResponse.ValidTo = reader[ConstantResource.ValidTo] == DBNull.Value ? DateTime.MinValue
-                        : Convert.ToDateTime(reader[ConstantResource.ValidTo]);
                         projectResponse.RateType = reader[ConstantResource.RateType] as string ?? string.Empty;
                         projectResponse.ReceiptPrefix = reader[ConstantResource.ReceiptPrefix] as string ?? string.Empty;
-                        projectResponse.PatientCount = reader[ConstantResource.PatientCount] == DBNull.Value ? 0 :
-                        Convert.ToInt32(reader[ConstantResource.PatientCount]);
-                        projectResponse.PatientCountLastUpdatedOn = reader[ConstantResource.PatientCountLastUpdatedOn] == DBNull.Value ? DateTime.MinValue
-                        : Convert.ToDateTime(reader[ConstantResource.PatientCountLastUpdatedOn]);
-
+                       
                         response.Data = projectResponse;
                         response.Status = true;
                         response.StatusCode = (int)HttpStatusCode.OK;
