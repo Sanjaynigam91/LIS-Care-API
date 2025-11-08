@@ -96,6 +96,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "AddProject",
+    "RelativePath": "api/AddNewProject",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectRequest",
+        "Type": "LISCareDTO.Projects.ProjectRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.OutLabController",
     "Method": "AddNewOutLabDetails",
     "RelativePath": "api/AddOutLab",
@@ -417,6 +433,27 @@
       },
       {
         "Name": "profileCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "DeleteExistingProject",
+    "RelativePath": "api/DeleteProject",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -933,6 +970,32 @@
     "Parameters": [
       {
         "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "GetAllProjectDetails",
+    "RelativePath": "api/GetAllProjects",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectStatus",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectName",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -1459,6 +1522,27 @@
       {
         "Name": "profileCode",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "GetProjectDetails",
+    "RelativePath": "api/GetProjectById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -2203,6 +2287,22 @@
       {
         "Name": "outLabRequest",
         "Type": "LISCareDTO.OutLab.OutLabRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "UpdateExistingProject",
+    "RelativePath": "api/UpdateProject",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectRequest",
+        "Type": "LISCareDTO.Projects.ProjectRequest",
         "IsRequired": true
       }
     ],

@@ -64,6 +64,8 @@ namespace LISCareLimited
             services.AddScoped<IBarcode, BarcodeBAL>();
             services.AddScoped<IBarcodeRepository, BarCodeRepository>();
             services.AddScoped<BulkBarcodeGenerator>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProject, ProjectBAL>();
 
             services.AddCors(options =>
             {

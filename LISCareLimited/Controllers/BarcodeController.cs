@@ -109,7 +109,7 @@ namespace LISCareLimited.Controllers
                 return StatusCode(result.StatusCode, result);
             }
             _logger.LogInformation($"SavePrintedBarcode, API execution failed at:{DateTime.Now}");
-            return BadRequest("Invalid employee request");
+            return BadRequest("Invalid barcode request");
         }
 
     }
