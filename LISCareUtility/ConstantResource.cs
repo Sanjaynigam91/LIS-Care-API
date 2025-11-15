@@ -97,10 +97,8 @@ namespace LISCareUtility
         public const string DeleteProject = "DeleteProject";
         public const string GetAllProjects = "GetAllProjects";
         public const string GetProjectById = "GetProjectById";
-
-        
-
-
+        public const string GetProjectSpecialRates = "GetProjectSpecialRates";
+        public const string UpdateProjectSpecialRates = "UpdateProjectSpecialRates";
 
         #endregion
 
@@ -599,6 +597,9 @@ namespace LISCareUtility
         public const string PatientCount = "PatientCount";
         public const string PatientCountLastUpdatedOn = "PatientCountLastUpdatedOn";
         public const string ExpiryPeriods = "ExpiryPeriods";
+        public const string IsCovered = "IsCovered";
+        public const string IsApprovalMandatory = "IsApprovalMandatory";
+
 
         #endregion
 
@@ -817,6 +818,9 @@ namespace LISCareUtility
         public const string UspAddNewProject = "Usp_AddNewProject";
         public const string UspUpdateProject = "Usp_UpdateProject";
         public const string UspDeleteProjectById = "Usp_DeleteProjectById";
+        public const string UspGetProjectRateMapping = "Usp_GetProject_RateMapping";
+        public const string UspUpdateAllProjectTestRates = "Usp_UpdateAllProjectTestRates";
+
 
         #endregion
 

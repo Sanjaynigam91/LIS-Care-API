@@ -271,7 +271,7 @@ namespace LISCareRepository.Implementation
                     {
                         response.Data.Add(new ProjectResponse
                         {
-                            ProjectId = reader[ConstantResource.ProjectId] == DBNull.Value ? 0 
+                            ProjectId = reader[ConstantResource.ProjectId] == DBNull.Value ? 0
                             : Convert.ToInt32(reader[ConstantResource.ProjectId]),
                             ProjectName = reader[ConstantResource.ProjectName] as string ?? string.Empty,
                             ContactNumber = reader[ConstantResource.ContactNo] as string ?? string.Empty,
@@ -280,7 +280,7 @@ namespace LISCareRepository.Implementation
                             AlternateEmail = reader[ConstantResource.AlternateEmail] as string ?? string.Empty,
                             ProjectAddress = reader[ConstantResource.ProjectAddress] as string ?? string.Empty,
                             ReferedBy = reader[ConstantResource.ReferedBy] as string ?? string.Empty,
-                            CreatedOn = reader[ConstantResource.CreatedOn] == DBNull.Value? DateTime.MinValue
+                            CreatedOn = reader[ConstantResource.CreatedOn] == DBNull.Value ? DateTime.MinValue
                             : Convert.ToDateTime(reader[ConstantResource.CreatedOn]),
                             ProjectStatus = reader[ConstantResource.ProjectStatus] != DBNull.Value
                             && Convert.ToBoolean(reader[ConstantResource.ProjectStatus]),
@@ -291,7 +291,7 @@ namespace LISCareRepository.Implementation
                             : Convert.ToDateTime(reader[ConstantResource.ValidTo]),
                             RateType = reader[ConstantResource.RateType] as string ?? string.Empty,
                             ReceiptPrefix = reader[ConstantResource.ReceiptPrefix] as string ?? string.Empty,
-                            PatientCount = reader[ConstantResource.PatientCount] == DBNull.Value ? 0 : 
+                            PatientCount = reader[ConstantResource.PatientCount] == DBNull.Value ? 0 :
                             Convert.ToInt32(reader[ConstantResource.PatientCount]),
                             PatientCountLastUpdatedOn = reader[ConstantResource.PatientCountLastUpdatedOn] == DBNull.Value ? DateTime.MinValue
                             : Convert.ToDateTime(reader[ConstantResource.PatientCountLastUpdatedOn]),
@@ -334,7 +334,7 @@ namespace LISCareRepository.Implementation
 
             try
             {
-                if (projectId<=0)
+                if (projectId <= 0)
                 {
                     response.Status = false;
                     response.StatusCode = StatusCodes.Status400BadRequest;
@@ -352,7 +352,7 @@ namespace LISCareRepository.Implementation
 
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamProjectId, projectId));
-   
+
 
                     using var reader = await cmd.ExecuteReaderAsync();
                     _logger.LogInformation($"UspGetProjectsById, execution completed at :{DateTime.Now}");
@@ -401,6 +401,97 @@ namespace LISCareRepository.Implementation
             _logger.LogInformation($"GetProjectById, method execution completed at :{DateTime.Now}");
             return response;
         }
+
+        /// <summary>
+        /// used to get project special rates
+        /// </summary>
+        /// <param name="optype"></param>
+        /// <param name="projectId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<ProjectSpecialRateResponse>>> GetProjectSecialRates(string optype, int projectId, string partnerId, string? testCode)
+        {
+            _logger.LogInformation($"GetProjectSecialRates, method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<List<ProjectSpecialRateResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await _dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                    _logger.LogInformation($"UspGetProjectRateMapping, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetProjectRateMapping;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType, optype));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamProjectId, projectId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    _logger.LogInformation($"UspGetProjectRateMapping, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new ProjectSpecialRateResponse
+                        {
+                            MappingId = reader[ConstantResource.MappingId] == DBNull.Value ? 0
+                            : Convert.ToInt32(reader[ConstantResource.MappingId]),
+                            ProjectId = reader[ConstantResource.ProjectId] == DBNull.Value ? 0
+                            : Convert.ToInt32(reader[ConstantResource.ProjectId]),
+                            ProjectName = reader[ConstantResource.ProjectName] as string ?? string.Empty,
+                            Testcode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty,
+                            MRP = reader[ConstantResource.MRP] == DBNull.Value ? 0 :
+                            Convert.ToDecimal(reader[ConstantResource.MRP]),
+                            IsProfile = reader[ConstantResource.IsProfile] == DBNull.Value ? false :
+                            Convert.ToBoolean(reader[ConstantResource.IsProfile]),
+                            SpecialRate = reader[ConstantResource.AgreedRate] == DBNull.Value ? 0 :
+                            Convert.ToDecimal(reader[ConstantResource.AgreedRate]),
+                            ValidFrom = reader[ConstantResource.ValidFrom] == DBNull.Value ? DateTime.MinValue
+                            : Convert.ToDateTime(reader[ConstantResource.ValidFrom]),
+                            ValidTo = reader[ConstantResource.ValidTo] == DBNull.Value ? DateTime.MinValue
+                            : Convert.ToDateTime(reader[ConstantResource.ValidTo]),
+                            IsCovered = reader[ConstantResource.IsCovered] == DBNull.Value ? false
+                            : Convert.ToBoolean(reader[ConstantResource.IsCovered]),
+                            IsApprovalMandatory = reader[ConstantResource.IsApprovalMandatory] == DBNull.Value ? false
+                            : Convert.ToBoolean(reader[ConstantResource.IsApprovalMandatory]),
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All project special rate details retrieved successfully.";
+                        _logger.LogInformation($"All project special rate details retrieved successfully at :{DateTime.Now}");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                _logger.LogInformation($"GetProjectSecialRates, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await _dbContext.Database.CloseConnectionAsync();
+            }
+            _logger.LogInformation($"GetProjectSecialRates, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
         /// <summary>
         /// used to update existing project
         /// </summary>
@@ -504,6 +595,105 @@ namespace LISCareRepository.Implementation
             }
             response.Data = string.Empty;
             _logger.LogInformation($"UpdateProject method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
+        /// <summary>
+        /// used to update project special rates
+        /// </summary>
+        /// <param name="projectTestMapping"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateProjectSpecialRates(ProjectTestMappingRequest projectTestMapping)
+        {
+            _logger.LogInformation($"UpdateProjectSpecialRates method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (projectTestMapping.ProjectId > 0)
+                {
+                    if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        _dbContext.Database.OpenConnection();
+                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    _logger.LogInformation($"UspUpdateAllProjectTestRates execution started at :{DateTime.Now}");
+                    command.CommandText = ConstantResource.UspUpdateAllProjectTestRates;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMappingId, projectTestMapping.MappingId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProjectId, projectTestMapping.ProjectId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, projectTestMapping.PartnerId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, projectTestMapping.TestCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBillRate, projectTestMapping.BillRate));
+
+
+
+                    _logger.LogInformation($"UspUpdateAllProjectTestRates execution completed at :{DateTime.Now}");
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        _logger.LogInformation($"UspUpdateAllProjectTestRates execution successfully completed with response: {response} at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        _logger.LogInformation($"UspUpdateAllProjectTestRates execution failed with response: {response} at :{DateTime.Now}");
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                    _logger.LogInformation($"UspUpdateAllProjectTestRates execution failed with response: {response} at :{DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+                _logger.LogInformation($"UspUpdateAllProjectTestRates execution failed with response {ex.Message} at :{DateTime.Now}");
+            }
+            finally
+            {
+                _dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            _logger.LogInformation($"UpdateProjectSpecialRates method execution completed at :{DateTime.Now}");
             return response;
         }
     }
