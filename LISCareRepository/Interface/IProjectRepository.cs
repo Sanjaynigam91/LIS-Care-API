@@ -44,5 +44,20 @@ namespace LISCareRepository.Interface
         /// <param name="projectName"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<ProjectResponse>>> GetAllProjects(string partnerId, bool? projectStatus, string? projectName);
+        /// <summary>
+        /// used to get project special rates
+        /// </summary>
+        /// <param name="optype"></param>
+        /// <param name="projectId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<ProjectSpecialRateResponse>>> GetProjectSecialRates(string optype, int projectId, string partnerId, string? testCode);
+        /// <summary>
+        /// used to update project special rates
+        /// </summary>
+        /// <param name="projectTestMapping"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>>UpdateProjectSpecialRates(ProjectTestMappingRequest projectTestMapping);
     }
 }

@@ -6,6 +6,7 @@ using LISCareDTO.Projects;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LISCareLimited.Controllers
 {
@@ -43,7 +44,7 @@ namespace LISCareLimited.Controllers
         }
 
         /// <summary>
-        /// usedd to update existing project
+        /// used to update existing project
         /// </summary>
         /// <param name="projectRequest"></param>
         /// <returns></returns>
@@ -136,6 +137,64 @@ namespace LISCareLimited.Controllers
                 logger.LogInformation($"GetProjectById, API execution failed at:{DateTime.Now} with response {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
+        }
+
+        [HttpGet]
+        [Route(ConstantResource.GetProjectSpecialRates)]
+        public async Task<IActionResult> GetAllProjectSpecialRates([FromQuery] string optype, int projectId, string partnerId, string? testCode)
+        {
+            logger.LogInformation($"GetProjectSpecialRates, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<List<ProjectSpecialRateResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await project.GetProjectSecialRates(optype, projectId, partnerId, testCode);
+                if (response.Data.Count > 0)
+                {
+                    response.Status = true;
+                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.ResponseMessage = "All project special rate details retrieved successfully.";
+                    logger.LogInformation($"All project special rate details retrieved successfully at :{DateTime.Now}");
+                }
+                else
+                {
+                    response.Status = false;
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.ResponseMessage = "No project special rate details found.";
+                    logger.LogInformation($"No project special rate details found at :{DateTime.Now}");
+                }
+                logger.LogInformation($"GetProjectSpecialRates, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                logger.LogInformation($"GetProjectSpecialRates, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        /// <summary>
+        /// used to update project special rates
+        /// </summary>
+        /// <param name="projectRequest"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route(ConstantResource.UpdateProjectSpecialRates)]
+        public async Task<IActionResult> UpdateProjectTestRates(ProjectTestMappingRequest projectTestMapping)
+        {
+            logger.LogInformation($"UpdateProjectSpecialRates, API execution started at:{DateTime.Now}");
+            if (projectTestMapping.ProjectId>0)
+            {
+                var result = await project.UpdateProjectSpecialRates(projectTestMapping);
+                logger.LogInformation($"UpdateProjectSpecialRates, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            logger.LogInformation($"UpdateProjectSpecialRates, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid project request");
         }
 
     }

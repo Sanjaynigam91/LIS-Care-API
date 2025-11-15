@@ -44,7 +44,7 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await projectRepository.DeleteProject(projectId,partnerId);
+                return await projectRepository.DeleteProject(projectId, partnerId);
             }
             catch
             {
@@ -62,7 +62,7 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await projectRepository.GetAllProjects(partnerId,projectStatus,projectName);
+                return await projectRepository.GetAllProjects(partnerId, projectStatus, projectName);
             }
             catch
             {
@@ -79,13 +79,26 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await projectRepository.GetProjectById(partnerId,projectId);
+                return await projectRepository.GetProjectById(partnerId, projectId);
             }
             catch
             {
                 throw;
             }
         }
+
+        public async Task<APIResponseModel<List<ProjectSpecialRateResponse>>> GetProjectSecialRates(string optype, int projectId, string partnerId, string? testCode)
+        {
+            try
+            {
+                return await projectRepository.GetProjectSecialRates(optype, projectId, partnerId, testCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to update existing project
         /// </summary>
@@ -96,6 +109,22 @@ namespace LISCareBussiness.Implementation
             try
             {
                 return await projectRepository.UpdateProject(projectRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// used to update project special rates
+        /// </summary>
+        /// <param name="projectTestMapping"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateProjectSpecialRates(ProjectTestMappingRequest projectTestMapping)
+        {
+            try
+            {
+                return await projectRepository.UpdateProjectSpecialRates(projectTestMapping);
             }
             catch
             {
