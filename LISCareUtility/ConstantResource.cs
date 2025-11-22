@@ -99,6 +99,7 @@ namespace LISCareUtility
         public const string GetProjectById = "GetProjectById";
         public const string GetProjectSpecialRates = "GetProjectSpecialRates";
         public const string UpdateProjectSpecialRates = "UpdateProjectSpecialRates";
+        public const string GetAllTestSamples = "GetAllTestSamples";
 
         #endregion
 
@@ -363,6 +364,10 @@ namespace LISCareUtility
         public const string ParamValidTo = "@ValidTo";
         public const string ParamReceiptPrefix = "@ReceiptPrefix";
         public const string ParamProjectId = "@ProjectId";
+        public const string ParamProjectCode = "@ProjectCode";
+        public const string ParamSampleCode = "@testCode";
+
+
 
 
         #endregion
@@ -599,6 +604,16 @@ namespace LISCareUtility
         public const string ExpiryPeriods = "ExpiryPeriods";
         public const string IsCovered = "IsCovered";
         public const string IsApprovalMandatory = "IsApprovalMandatory";
+        public const string SampleBillRate = "BillRate";
+        public const string SampleCptCodes = "CptCodes";
+        public const string SampleName = "TestName";
+        public const string ProjectCode = "ProjectCode";
+        public const string IsProject = "IsProject";
+        public const string IsCustomRate = "IsCustomRate";
+
+
+
+
 
 
         #endregion
@@ -820,7 +835,10 @@ namespace LISCareUtility
         public const string UspDeleteProjectById = "Usp_DeleteProjectById";
         public const string UspGetProjectRateMapping = "Usp_GetProject_RateMapping";
         public const string UspUpdateAllProjectTestRates = "Usp_UpdateAllProjectTestRates";
+        #endregion
 
+        #region Front Desk Module
+        public const string UspGetAllApprovedTests = "Usp_GetAll_ApprovedTests";
 
         #endregion
 
