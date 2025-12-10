@@ -100,6 +100,8 @@ namespace LISCareUtility
         public const string GetProjectSpecialRates = "GetProjectSpecialRates";
         public const string UpdateProjectSpecialRates = "UpdateProjectSpecialRates";
         public const string GetAllTestSamples = "GetAllTestSamples";
+        public const string PatientRegistration = "PatientRegistration";
+
 
         #endregion
 
@@ -366,9 +368,49 @@ namespace LISCareUtility
         public const string ParamProjectId = "@ProjectId";
         public const string ParamProjectCode = "@ProjectCode";
         public const string ParamSampleCode = "@testCode";
-
-
-
+        public const string ParamOpType = "@OpType";
+        public const string ParamReferralId = "@ReferralId";
+        public const string ParamRefTestCode = "@RefTestCode";
+        public const string ParamLowRange = "@LowRange";
+        public const string ParamHighRange = "@HighRange";
+        public const string ParamNormalRange = "@NormalRange";
+        public const string ParamAgeFrom = "@AgeFrom";
+        public const string ParamAgeTo = "@AgeTo";
+        public const string ParamGender = "@Gender";
+        public const string ParamIsPregnant = "@IsPregnant";
+        public const string ParamLowCriticalValue = "@LowCriticalValue";
+        public const string ParamHighCriticalValue = "@HighCriticalValue";
+        public const string ParamPatientId = "@PatientId";
+        public const string ParamPatientCode = "@PatientCode";
+        public const string ParamTittle = "@Tittle";
+        public const string ParamPatientName = "@PatientName";
+        public const string ParamAge = "@Age";
+        public const string ParamAgeType = "@AgeType";
+        public const string ParamMobileNumber = "@MobileNumber";
+        public const string ParamReferredDoctor = "@ReferredDoctor";
+        public const string ParamReferredLab = "@ReferredLab";
+        public const string ParamIsProject = "@IsProject";
+        public const string ParamLabInstruction = "@LabInstruction";
+        public const string ParamReferalNumber = "@ReferalNumber";
+        public const string ParamSampleCollectedAt = "@SampleCollectedAt";
+        public const string ParamPregnancyWeek = "@PregnancyWeek";
+        public const string ParamPaymentType = "@PaymentType";
+        public const string ParamTotalOriginalAmount = "@TotalOriginalAmount";
+        public const string ParamBillAmount = "@BillAmount";
+        public const string ParamReceivedAmount = "@ReceivedAmount";
+        public const string ParamBalanceAmount = "@BalanceAmount";
+        public const string ParamDiscountAmount = "@DiscountAmount";
+        public const string ParamAgreedRatesBilling = "@AgreedRatesBilling";
+        public const string ParamDiscountStatus = "@DiscountStatus";
+        public const string ParamDiscountRemarks = "@DiscountRemarks";
+        public const string ParamPatientType = "@PatientType";
+        public const string ParamEnteredBy = "@EnteredBy";
+        public const string ParamNationality = "@Nationality";
+        public const string ParamClinicalHistory = "@ClinicalHistory";
+        public const string ParamClinicalRemarks = "@ClinicalRemarks";
+        public const string ParamIsPercentage = "@IsPercentage";
+        public const string ParamInvoiceReceiptNo = "@InvoiceReceiptNo";
+        public const string ParamIsReportUploaded = "@IsReportUploaded";
 
         #endregion
 
@@ -839,6 +881,8 @@ namespace LISCareUtility
 
         #region Front Desk Module
         public const string UspGetAllApprovedTests = "Usp_GetAll_ApprovedTests";
+        public const string UspPatientRegistration = "Usp_PatientRegistration";
+
 
         #endregion
 
@@ -867,25 +911,19 @@ namespace LISCareUtility
         public readonly static string AddSampleSuccess = "Sample Place has been save sucessfully ,Sample Collected Place";
         public readonly static string DelTestSuccess = "Test data Deleted Successfully ,Test Master";
         public readonly static string AddTestSuccess = "Test has been created Successfully ,Test Master";
-        // Add these constants to the ConstantResource class to fix CS0117 errors
-        public const string ParamOpType = "@OpType";
-        public const string ParamReferralId = "@ReferralId";
-        public const string ParamRefTestCode = "@RefTestCode";
-        public const string ParamLowRange = "@LowRange";
-        public const string ParamHighRange = "@HighRange";
-        public const string ParamNormalRange = "@NormalRange";
-        public const string ParamAgeFrom = "@AgeFrom";
-        public const string ParamAgeTo = "@AgeTo";
-        public const string ParamGender = "@Gender";
-        public const string ParamIsPregnant = "@IsPregnant";
-        public const string ParamLowCriticalValue = "@LowCriticalValue";
-        public const string ParamHighCriticalValue = "@HighCriticalValue";
         public const string GreaterThanZero = "Referral Id must be greater than zero.";
         public const string ProfileCodeEmpty = "Profile code should not be empty or blank.";
         public const string MappingIdEmpty = "Mapping Id should not be empty or blank.";
         public readonly static string InvaidMappingRequest = "Invaid Mapping Request";
         public readonly static string InvalidUsernamePassword = "Invalid username or password";
         public const string CenterCodeEmpty = "Center code should not be empty or blank.";
+
+
+        #endregion
+
+        #region Operation Types
+        public const string AddNewPatient = "AddNewPatient";
+        public const string UpdatePatientRecord = "UpdatePatientRecord";
 
 
         #endregion

@@ -20,6 +20,12 @@ namespace LISCareRepository.Interface
         /// <param name="TestApplicable"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<TestSampleResponse>>> GetAllSamples(string partnerId, string? centerCode, int projectCode = 0, string? testCode = null, string? testApplicable = null);
+        /// <summary>
+        /// used to add or update patients
+        /// </summary>
+        /// <param name="patientRequests"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> AddUpdatePatients(PatientRequest patientRequest);
 
     }
 }
