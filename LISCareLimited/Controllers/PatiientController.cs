@@ -36,6 +36,21 @@ namespace LISCareLimited.Controllers
             return BadRequest("Invalid patient request");
         }
 
+        [HttpPost]
+        [Route(ConstantResource.AddTestRequested)]
+        public async Task<IActionResult> AddTestRequested(PatientTestRequest testRequest)
+        {
+            logger.LogInformation($"AddTestRequested, API execution started at:{DateTime.Now}");
+            if (!string.IsNullOrEmpty(testRequest.PartnerId) || testRequest.PatientId != Guid.Empty)
+            {
+                var result = await patient.AddTestsRequested(testRequest);
+                logger.LogInformation($"AddTestRequested, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            logger.LogInformation($"AddTestRequested, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid test request");
+        }
+
         [HttpGet]
         [Route(ConstantResource.GetAllTestSamples)]
         public async Task<IActionResult> GetAllTestSampleDetails([FromQuery] string partnerId, string? centerCode, int projectCode = 0, string? testCode = null, string? testApplicable = null)
@@ -56,6 +71,30 @@ namespace LISCareLimited.Controllers
                 response.StatusCode = StatusCodes.Status500InternalServerError;
                 response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
                 logger.LogInformation($"GetAllTestSamples, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        [HttpGet]
+        [Route(ConstantResource.GetselectedSamples)]
+        public async Task<IActionResult> GetPatientsRequestedTestDetails([FromQuery] Guid patientId, string partnerId)
+        {
+            logger.LogInformation($"GetselectedSamples, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<List<TestSampleResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await patient.GetPatientsRequestedTestDetails(patientId, partnerId);
+                logger.LogInformation($"GetselectedSamples, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                logger.LogInformation($"GetselectedSamples, API execution failed at:{DateTime.Now} with response {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
         }

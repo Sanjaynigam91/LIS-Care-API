@@ -11,13 +11,26 @@ using System.Threading.Tasks;
 
 namespace LISCareBussiness.Implementation
 {
-    public class PatientBAL:IPatient
+    public class PatientBAL : IPatient
     {
         private readonly IPatientRepository patientRepository;
         public PatientBAL(IPatientRepository patientRepository)
         {
             this.patientRepository = patientRepository;
         }
+
+        public async Task<APIResponseModel<string>> AddTestsRequested(PatientTestRequest testRequest)
+        {
+            try
+            {
+                return await patientRepository.AddTestsRequested(testRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to add or update patients
         /// </summary>
@@ -48,7 +61,25 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await patientRepository.GetAllSamples(partnerId, centerCode, projectCode,testCode,testApplicable);
+                return await patientRepository.GetAllSamples(partnerId, centerCode, projectCode, testCode, testApplicable);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// used to get patient requested test details 
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<TestSampleResponse>>> GetPatientsRequestedTestDetails(Guid patientId, string partnerId)
+        {
+            try
+            {
+                return await patientRepository.GetPatientsRequestedTestDetails(patientId, partnerId);
             }
             catch
             {
