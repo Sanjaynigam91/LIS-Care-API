@@ -26,6 +26,11 @@ namespace LISCareDTO.FrontDesk
         public string? IsProject { get; set; }
         public string? IsCustomRate { get; set; }
         public bool IsLMP { get; set; }=false;
+        public Guid RequestId { get; set; } = Guid.Empty;
+        public int PatientSpecimenId { get; set; } = 0;
+        public string RateType { get; set; } = string.Empty;
+        public bool ImportStatus { get; set; } = false;
+        public bool IsRejected { get; set; } = false;
 
     }
 }

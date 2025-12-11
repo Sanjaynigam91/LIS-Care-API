@@ -26,6 +26,19 @@ namespace LISCareBussiness.Interface
         /// <param name="patientRequests"></param>
         /// <returns></returns>
         Task<APIResponseModel<string>> AddUpdatePatients(PatientRequest patientRequest);
+        /// <summary>
+        /// used to add tests requested by patient
+        /// </summary>
+        /// <param name="patientRequest"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> AddTestsRequested(PatientTestRequest testRequest);
+        /// <summary>
+        /// used to get patient requested test details 
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<TestSampleResponse>>> GetPatientsRequestedTestDetails(Guid patientId, string partnerId);
 
     }
 }

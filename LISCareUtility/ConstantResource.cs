@@ -101,6 +101,10 @@ namespace LISCareUtility
         public const string UpdateProjectSpecialRates = "UpdateProjectSpecialRates";
         public const string GetAllTestSamples = "GetAllTestSamples";
         public const string PatientRegistration = "PatientRegistration";
+        public const string AddTestRequested = "AddTestRequested";
+        public const string GetselectedSamples = "GetselectedSamples";
+
+
 
 
         #endregion
@@ -411,6 +415,11 @@ namespace LISCareUtility
         public const string ParamIsPercentage = "@IsPercentage";
         public const string ParamInvoiceReceiptNo = "@InvoiceReceiptNo";
         public const string ParamIsReportUploaded = "@IsReportUploaded";
+        public const string ParamIsProfile = "@IsProfile";
+        public const string ParamOriginalPrice = "@OriginalPrice";
+        public const string ParamPrice = "@Price";
+        public const string ParamProfitRate = "@ProfitRate";
+
 
         #endregion
 
@@ -652,9 +661,11 @@ namespace LISCareUtility
         public const string ProjectCode = "ProjectCode";
         public const string IsProject = "IsProject";
         public const string IsCustomRate = "IsCustomRate";
-
-
-
+        public const string RequestId = "RequestId";
+        public const string PatientSpecimenId = "PatientSpecimenId";
+        public const string Price = "Price";
+        public const string ImportStatus = "ImportStatus";
+        public const string IsRejected = "IsRejected";
 
 
 
@@ -882,6 +893,10 @@ namespace LISCareUtility
         #region Front Desk Module
         public const string UspGetAllApprovedTests = "Usp_GetAll_ApprovedTests";
         public const string UspPatientRegistration = "Usp_PatientRegistration";
+        public const string UspPatientRegistrationCreateTests = "Usp_PatientRegistration_CreateTests";
+        public const string UspRetrieveMasterTests = "Usp_RetrieveMasterTests";
+
+
 
 
         #endregion
