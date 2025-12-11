@@ -18,6 +18,22 @@ namespace LISCareBussiness.Implementation
         {
             this.patientRepository = patientRepository;
         }
+        /// <summary>
+        /// used to add or update patients
+        /// </summary>
+        /// <param name="patientRequests"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> AddUpdatePatients(PatientRequest patientRequest)
+        {
+            try
+            {
+                return await patientRepository.AddUpdatePatients(patientRequest);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// used to get all samples 

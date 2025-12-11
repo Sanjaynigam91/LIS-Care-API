@@ -1,5 +1,6 @@
 ﻿using LISCareDataAccess.LISCareDbContext;
 using LISCareDTO;
+using LISCareDTO.ClientMaster;
 using LISCareDTO.FrontDesk;
 using LISCareDTO.Projects;
 using LISCareRepository.Interface;
@@ -26,6 +27,144 @@ namespace LISCareRepository.Implementation
         {
             this.dbContext = dbContext;
             this.logger = logger;
+        }
+        /// <summary>
+        /// used to add or update patients
+        /// </summary>
+        /// <param name="patientRequests"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> AddUpdatePatients(PatientRequest patientRequest)
+        {
+            logger.LogInformation($"AddUpdatePatients method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(patientRequest.PartnerId))
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        dbContext.Database.OpenConnection();
+                    var command = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspPatientRegistration execution started at :{DateTime.Now}");
+                    command.CommandText = ConstantResource.UspPatientRegistration;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if(patientRequest.IsAddPatient == true)
+                    {
+                        command.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType, ConstantResource.AddNewPatient));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(new SqlParameter(ConstantResource.ParamOpType, ConstantResource.UpdatePatientRecord));
+                    }
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientRequest.PatientId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientCode, patientRequest.PatientCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTittle, patientRequest.Title));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamGender, patientRequest.Gender));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientName, patientRequest.PatientName));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAge, patientRequest.Age));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAgeType, patientRequest.AgeType));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamEmailId, patientRequest.EmailId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamMobileNumber, patientRequest.MobileNumber));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, patientRequest.CenterCode));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferredDoctor, patientRequest.ReferredDoctor));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferredLab, patientRequest.ReferredLab));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsProject, patientRequest.IsProject));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamProjectId, patientRequest.ProjectId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamLabInstruction, patientRequest.LabInstruction));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReferalNumber, patientRequest.ReferalNumber));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSampleCollectedAt, patientRequest.SampleCollectedAt));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsPregnant, patientRequest.IsPregnant));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPregnancyWeek, patientRequest.PregnancyWeeks));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPaymentType, patientRequest.PaymentType));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTotalOriginalAmount, patientRequest.TotalOriginalAmount));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBillAmount, patientRequest.BillAmount));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamReceivedAmount, patientRequest.ReceivedAmount));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBalanceAmount, patientRequest.BalanceAmount));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDiscountAmount, patientRequest.DiscountAmount));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamAgreedRatesBilling, patientRequest.AgreedRatesBilling));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDiscountStatus, patientRequest.DiscountStatus));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamDiscountRemarks, patientRequest.DiscountRemarks));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientType, patientRequest.PatientType));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamEnteredBy, patientRequest.EnteredBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamNationality, patientRequest.Nationality));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamClinicalHistory, patientRequest.ClinicalHistory));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamClinicalRemarks, patientRequest.ClinicalRemarks));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsPercentage, patientRequest.IsPercentage));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamInvoiceReceiptNo, patientRequest.InvoiceReceiptNo));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamIsReportUploaded, patientRequest.IsReportUploaded));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCreatedBy, patientRequest.CreatedBy));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamUpdatedBy, patientRequest.UpdatedBy));
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, patientRequest.PartnerId));
+                    logger.LogInformation($"UspPatientRegistration execution completed at :{DateTime.Now}");
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        logger.LogInformation($"UspPatientRegistration execution successfully completed with response: {response} at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        logger.LogInformation($"UspPatientRegistration execution failed with response: {response} at :{DateTime.Now}");
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                    logger.LogInformation($"UspPatientRegistration execution failed with response: {response} at :{DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"UspPatientRegistration execution failed with response {ex.Message} at :{DateTime.Now}");
+            }
+            finally
+            {
+                dbContext.Database.GetDbConnection().Close();
+            }
+            response.Data = string.Empty;
+            logger.LogInformation($"AddUpdatePatients method execution completed at :{DateTime.Now}");
+            return response;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using LISCareBussiness.Interface;
 using LISCareDTO;
+using LISCareDTO.ClientMaster;
 using LISCareDTO.FrontDesk;
 using LISCareDTO.Projects;
 using LISCareUtility;
@@ -14,10 +15,25 @@ namespace LISCareLimited.Controllers
     {
         private readonly IPatient patient;
         private readonly ILogger<PatiientController> logger;
-        public PatiientController(IPatient patient, ILogger<PatiientController> logger) 
+        public PatiientController(IPatient patient, ILogger<PatiientController> logger)
         {
             this.patient = patient;
             this.logger = logger;
+        }
+
+        [HttpPost]
+        [Route(ConstantResource.PatientRegistration)]
+        public async Task<IActionResult> PatientRegistration(PatientRequest patientRequest)
+        {
+            logger.LogInformation($"PatientRegistration, API execution started at:{DateTime.Now}");
+            if (!string.IsNullOrEmpty(patientRequest.PartnerId))
+            {
+                var result = await patient.AddUpdatePatients(patientRequest);
+                logger.LogInformation($"PatientRegistration, API execution comleted at:{DateTime.Now} with response:{result}");
+                return StatusCode(result.StatusCode, result);
+            }
+            logger.LogInformation($"PatientRegistration, API execution failed at:{DateTime.Now}");
+            return BadRequest("Invalid patient request");
         }
 
         [HttpGet]
