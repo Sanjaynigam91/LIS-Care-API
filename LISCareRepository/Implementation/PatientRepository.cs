@@ -76,16 +76,23 @@ namespace LISCareRepository.Implementation
                     {
                         Direction = ParameterDirection.Output
                     };
+                    SqlParameter outputProfileRate = new SqlParameter(ConstantResource.ParamProfitRate, SqlDbType.Decimal)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
                     command.Parameters.Add(outputBitParm);
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
-
+                    command.Parameters.Add(outputProfileRate);
+  
                     await command.ExecuteScalarAsync();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
                         ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
+                        ProfitRate= outputProfileRate.Value as decimal? ?? default
                     };
 
                     if (parameterModel.IsSuccess)
@@ -93,6 +100,7 @@ namespace LISCareRepository.Implementation
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Status = parameterModel.IsSuccess;
                         response.ResponseMessage = parameterModel.ErrorMessage;
+                        response.Data = $"ProfitRate: {parameterModel.ProfitRate}";
                         logger.LogInformation($"UspPatientRegistrationCreateTests execution successfully completed with response: {response} at :{DateTime.Now}");
                     }
                     else
@@ -122,7 +130,6 @@ namespace LISCareRepository.Implementation
             {
                 dbContext.Database.GetDbConnection().Close();
             }
-            response.Data = string.Empty;
             logger.LogInformation($"AddTestsRequested method execution completed at :{DateTime.Now}");
             return response;
         }
@@ -215,9 +222,30 @@ namespace LISCareRepository.Implementation
                     {
                         Direction = ParameterDirection.Output
                     };
+                    SqlParameter outputPatientId = new SqlParameter(ConstantResource.ParamRegistrationPatientId, SqlDbType.NVarChar, 50)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputPatientCode = new SqlParameter(ConstantResource.ParamRegistrationPatientCode, SqlDbType.NVarChar, 50)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputVisitId = new SqlParameter(ConstantResource.ParamRegistrationVisitId, SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputRegistrationStatus = new SqlParameter(ConstantResource.ParamRegistrationStatus, SqlDbType.NVarChar, 50)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
                     command.Parameters.Add(outputBitParm);
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
+                    command.Parameters.Add(outputPatientId);
+                    command.Parameters.Add(outputPatientCode);
+                    command.Parameters.Add(outputVisitId);
+                    command.Parameters.Add(outputRegistrationStatus);
 
                     await command.ExecuteScalarAsync();
                     OutputParameterModel parameterModel = new OutputParameterModel
@@ -225,6 +253,10 @@ namespace LISCareRepository.Implementation
                         ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
+                        PatientId = Guid.TryParse(Convert.ToString(outputPatientId.Value), out var guidValue) ? guidValue : Guid.Empty,
+                        PatientCode = Convert.ToString(outputPatientCode.Value) ?? string.Empty,
+                        VisitId = outputVisitId.Value as int? ?? default,
+                        RegistrationStatus = Convert.ToString(outputRegistrationStatus.Value) ?? string.Empty
                     };
 
                     if (parameterModel.IsSuccess)
@@ -232,6 +264,7 @@ namespace LISCareRepository.Implementation
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Status = parameterModel.IsSuccess;
                         response.ResponseMessage = parameterModel.ErrorMessage;
+                        response.Data = $"PatientId: {parameterModel.PatientId}, PatientCode: {parameterModel.PatientCode}, VisitId: {parameterModel.VisitId}, RegistrationStatus: {parameterModel.RegistrationStatus}";
                         logger.LogInformation($"UspPatientRegistration execution successfully completed with response: {response} at :{DateTime.Now}");
                     }
                     else
@@ -261,7 +294,6 @@ namespace LISCareRepository.Implementation
             {
                 dbContext.Database.GetDbConnection().Close();
             }
-            response.Data = string.Empty;
             logger.LogInformation($"AddUpdatePatients method execution completed at :{DateTime.Now}");
             return response;
         }
