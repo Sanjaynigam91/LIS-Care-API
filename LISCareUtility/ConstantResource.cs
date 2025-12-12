@@ -419,6 +419,11 @@ namespace LISCareUtility
         public const string ParamOriginalPrice = "@OriginalPrice";
         public const string ParamPrice = "@Price";
         public const string ParamProfitRate = "@ProfitRate";
+        public const string ParamRegistrationPatientId = "@RegistrationPatientId";
+        public const string ParamRegistrationPatientCode = "@RegistrationPatientCode";
+        public const string ParamRegistrationVisitId = "@RegistrationVisitId";
+        public const string ParamRegistrationStatus = "@PatientStatus";
+
 
 
         #endregion
