@@ -102,9 +102,8 @@ namespace LISCareUtility
         public const string GetAllTestSamples = "GetAllTestSamples";
         public const string PatientRegistration = "PatientRegistration";
         public const string AddTestRequested = "AddTestRequested";
-        public const string GetselectedSamples = "GetselectedSamples";
-
-
+        public const string GetSelectedSamples = "GetSelectedSamples";
+        public const string GetPatientSummary = "GetPatientSummary";
 
 
         #endregion
@@ -423,8 +422,11 @@ namespace LISCareUtility
         public const string ParamRegistrationPatientCode = "@RegistrationPatientCode";
         public const string ParamRegistrationVisitId = "@RegistrationVisitId";
         public const string ParamRegistrationStatus = "@PatientStatus";
-
-
+        public const string ParamBarcode = "@Barcode";
+        public const string ParamStartdate = "@Startdate";
+        public const string ParamEnddate = "@Enddate";
+        public const string ParamVisitId = "@VisitId";
+ 
 
         #endregion
 
@@ -671,7 +673,28 @@ namespace LISCareUtility
         public const string Price = "Price";
         public const string ImportStatus = "ImportStatus";
         public const string IsRejected = "IsRejected";
-
+        public const string PatientName = "PatientName";
+        public const string PatientCode = "PatientCode";
+        public const string PatientId = "PatientId";
+        public const string WoeDate = "WoeDate";
+        public const string Barcode = "Barcode";
+        public const string TotalOriginalAmount = "TotalOriginalAmount";
+        public const string BillAmount = "BillAmount";
+        public const string ReceivedAmount = "ReceivedAmount";
+        public const string BalanceAmount = "BalanceAmount";
+        public const string VisitId = "VisitId";
+        public const string RegistrationStatus = "RegistrationStatus";
+        public const string ReferredDoctor = "ReferredDoctor";
+        public const string DiscountStatus = "DiscountStatus";
+        public const string TestRequested = "TestRequested";
+        public const string PatientTestType = "PatientTestType";
+        public const string InvoiceReceiptNo = "InvoiceReceiptNo";
+        public const string RegisteredOn = "RegisteredOn";
+        public const string ReferredLab = "ReferredLab";
+        public const string CenterrName = "CenterrName";
+        public const string SpecimenTypes = "SpecimenType";
+        public const string PartnerType = "PartnerType";
+        public const string ReferredBy = "Referred_By";
 
 
         #endregion
@@ -900,9 +923,7 @@ namespace LISCareUtility
         public const string UspPatientRegistration = "Usp_PatientRegistration";
         public const string UspPatientRegistrationCreateTests = "Usp_PatientRegistration_CreateTests";
         public const string UspRetrieveMasterTests = "Usp_RetrieveMasterTests";
-
-
-
+        public const string UspGetPatientsummary = "Usp_GetPatientsummary";
 
         #endregion
 
