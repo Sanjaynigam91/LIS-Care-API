@@ -68,7 +68,7 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
-        
+
         /// <summary>
         /// used to get patient requested test details 
         /// </summary>
@@ -80,6 +80,18 @@ namespace LISCareBussiness.Implementation
             try
             {
                 return await patientRepository.GetPatientsRequestedTestDetails(patientId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<List<PatientResponse>>> GetPatientSummary(string? barcode, DateTime? startDate, DateTime? endDate, string? patientName, string? patientCode, string? centerCode, string? status, string partnerId)
+        {
+            try
+            {
+                return await patientRepository.GetPatientSummary(barcode, startDate, endDate, patientName, patientCode, centerCode, status, partnerId);
             }
             catch
             {

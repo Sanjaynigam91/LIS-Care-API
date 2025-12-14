@@ -85,14 +85,14 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
                     command.Parameters.Add(outputProfileRate);
-  
+
                     await command.ExecuteScalarAsync();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
                         ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
                         IsError = outputErrorParm.Value as bool? ?? default,
                         IsSuccess = outputBitParm.Value as bool? ?? default,
-                        ProfitRate= outputProfileRate.Value as decimal? ?? default
+                        ProfitRate = outputProfileRate.Value as decimal? ?? default
                     };
 
                     if (parameterModel.IsSuccess)
@@ -477,6 +477,132 @@ namespace LISCareRepository.Implementation
                 await dbContext.Database.CloseConnectionAsync();
             }
             logger.LogInformation($"GetPatientsRequestedTestDetails, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
+        /// <summary>
+        /// used to get patient summary
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="patientName"></param>
+        /// <param name="patientId"></param>
+        /// <param name="visitId"></param>
+        /// <param name="centerCode"></param>
+        /// <param name="status"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<PatientResponse>>> GetPatientSummary(string? barcode, DateTime? startDate, DateTime? endDate, string? patientName, string? patientCode, string? centerCode, string? status, string partnerId)
+        {
+            logger.LogInformation($"GetPatientSummary, method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<List<PatientResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGetPatientsummary, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetPatientsummary;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, barcode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamStartdate, startDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamEnddate, endDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientName, patientName));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientCode, patientCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, centerCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamStatus, status));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGetPatientsummary, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new PatientResponse
+                        {
+                            PatientId = reader[ConstantResource.PatientId] == DBNull.Value ? Guid.Empty
+                            : (Guid)reader[ConstantResource.PatientId],
+                            PatientCode = reader[ConstantResource.PatientCode] as string ?? string.Empty,
+                            PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty,
+                            WoeDate = reader[ConstantResource.WoeDate] as string ?? string.Empty,
+                            CenterCode = reader[ConstantResource.CenterCode] as string ?? string.Empty,
+                            CreatedOn = reader[ConstantResource.CreatedOn] == DBNull.Value ? DateTime.Now
+                            : Convert.ToDateTime(reader[ConstantResource.CreatedOn]),
+                            Barcode = reader[ConstantResource.Barcode] as string ?? string.Empty,
+                            TotalOriginalAmount = reader[ConstantResource.TotalOriginalAmount] == DBNull.Value ? 0
+                            : Convert.ToDecimal(reader[ConstantResource.TotalOriginalAmount]),
+                            BillAmount = reader[ConstantResource.BillAmount] == DBNull.Value ? 0
+                            : Convert.ToDecimal(reader[ConstantResource.BillAmount]),
+                            ReceivedAmount = reader[ConstantResource.ReceivedAmount] == DBNull.Value ? 0
+                            : Convert.ToDecimal(reader[ConstantResource.ReceivedAmount]),
+                            BalanceAmount = reader[ConstantResource.BalanceAmount] == DBNull.Value ? 0
+                            : Convert.ToDecimal(reader[ConstantResource.BalanceAmount]),
+                            VisitId = reader[ConstantResource.VisitId] == DBNull.Value ? 0
+                            : Convert.ToInt32(reader[ConstantResource.VisitId]),
+                            RegistrationStatus = reader[ConstantResource.RegistrationStatus] as string ?? string.Empty,
+                            ReferredDoctor = reader[ConstantResource.ReferredDoctor] as string ?? string.Empty,
+                            PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
+                            DiscountStatus = reader[ConstantResource.DiscountStatus] as string ?? string.Empty,
+                            TestRequested = reader[ConstantResource.TestRequested] as string ?? string.Empty,
+                            PatientTestType = reader[ConstantResource.PatientTestType] as string ?? string.Empty,
+                            IsProject = reader[ConstantResource.IsProject] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsProject]),
+                            InvoiceReceiptNo = reader[ConstantResource.InvoiceReceiptNo] as string ?? string.Empty,
+                            RegisteredOn = reader[ConstantResource.RegisteredOn] == DBNull.Value ? DateTime.Now
+                            : Convert.ToDateTime(reader[ConstantResource.RegisteredOn]),
+                            ReferredLab = reader[ConstantResource.ReferredLab] as string ?? string.Empty,
+                            CenterrName = reader[ConstantResource.CenterrName] as string ?? string.Empty,
+                            SpecimenType = reader[ConstantResource.SpecimenTypes] as string ?? string.Empty,
+                            PartnerType = reader[ConstantResource.PartnerType] as string ?? string.Empty,
+                            ReferredBy = reader[ConstantResource.ReferredBy] as string ?? string.Empty,
+
+                        });
+                      
+                        
+                    }
+                }
+                if (response.Data.Count > 0)
+                {
+                    response.Status = true;
+                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.ResponseMessage = "All patient details retrieved successfully.";
+                    logger.LogInformation($"All patient details retrieved successfully at :{DateTime.Now}");
+                }
+                else
+                {
+                    response.Status = false;
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.ResponseMessage = "No Patient details found.";
+                    logger.LogInformation($"No Patient details found at :{DateTime.Now}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetPatientSummary, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetPatientSummary, method execution completed at :{DateTime.Now}");
             return response;
         }
     }

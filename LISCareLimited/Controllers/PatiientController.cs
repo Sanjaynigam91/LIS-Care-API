@@ -76,7 +76,7 @@ namespace LISCareLimited.Controllers
         }
 
         [HttpGet]
-        [Route(ConstantResource.GetselectedSamples)]
+        [Route(ConstantResource.GetSelectedSamples)]
         public async Task<IActionResult> GetPatientsRequestedTestDetails([FromQuery] Guid patientId, string partnerId)
         {
             logger.LogInformation($"GetselectedSamples, API execution started at:{DateTime.Now}");
@@ -99,6 +99,29 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetPatientSummary)]
+        public async Task<IActionResult> GetPatientRegistrationSummary([FromQuery] string? barcode, DateTime? startDate, DateTime? endDate, string? patientName,string? patientCode, string? centerCode, string? status, string partnerId)
+        {
+            logger.LogInformation($"GetPatientSummary, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<List<PatientResponse>>
+            {
+                Data = []
+            };
+            try
+            {
+                response = await patient.GetPatientSummary(barcode, startDate, endDate, patientName, patientCode, centerCode, status, partnerId);
+                logger.LogInformation($"GetPatientSummary, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                logger.LogInformation($"GetPatientSummary, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
 
 
     }
