@@ -54,5 +54,11 @@ namespace LISCareBussiness.Interface
         /// <returns></returns>
         Task<APIResponseModel<List<PatientResponse>>> GetPatientSummary(string? barcode, DateTime? startDate, DateTime? endDate, string? patientName, string? patientCode,
             string? centerCode, string? status, string partnerId);
+        /// <summary>
+        /// used to get patient details
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<PatientDetailResponse>> GetPatientDetails(Guid? patientId);
     }
 }
