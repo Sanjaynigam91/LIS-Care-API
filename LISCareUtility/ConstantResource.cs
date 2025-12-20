@@ -104,6 +104,8 @@ namespace LISCareUtility
         public const string AddTestRequested = "AddTestRequested";
         public const string GetSelectedSamples = "GetSelectedSamples";
         public const string GetPatientSummary = "GetPatientSummary";
+        public const string GetPatientDetailsByPatientId = "GetPatientDetailsByPatientId";
+
 
 
         #endregion
@@ -695,6 +697,24 @@ namespace LISCareUtility
         public const string SpecimenTypes = "SpecimenType";
         public const string PartnerType = "PartnerType";
         public const string ReferredBy = "Referred_By";
+        public const string Tittle = "Tittle";
+        public const string Age = "Age";
+        public const string AgeType = "AgeType";
+        public const string RegistrationDate = "RegistrationDate";
+        public const string PatientType = "PatientType";
+        public const string LabInstruction = "LabInstruction";
+        public const string DiscountAmount = "DiscountAmount";
+        public const string IsPercentage = "IsPercentage";
+        public const string DiscountRemarks = "DiscountRemarks";
+        public const string CollectionTime = "CollectionTime";
+        public const string WOEStatus = "WOEStatus";
+        public const string PaymentType = "PaymentType";
+
+
+
+
+ 
+
 
 
         #endregion
@@ -924,6 +944,8 @@ namespace LISCareUtility
         public const string UspPatientRegistrationCreateTests = "Usp_PatientRegistration_CreateTests";
         public const string UspRetrieveMasterTests = "Usp_RetrieveMasterTests";
         public const string UspGetPatientsummary = "Usp_GetPatientsummary";
+        public const string UspGetPatientDetailsByPatientId = "Usp_GetPatientDetailsByPatientId";
+
 
         #endregion
 

@@ -101,7 +101,7 @@ namespace LISCareLimited.Controllers
 
         [HttpGet]
         [Route(ConstantResource.GetPatientSummary)]
-        public async Task<IActionResult> GetPatientRegistrationSummary([FromQuery] string? barcode, DateTime? startDate, DateTime? endDate, string? patientName,string? patientCode, string? centerCode, string? status, string partnerId)
+        public async Task<IActionResult> GetPatientRegistrationSummary([FromQuery] string? barcode, DateTime? startDate, DateTime? endDate, string? patientName, string? patientCode, string? centerCode, string? status, string partnerId)
         {
             logger.LogInformation($"GetPatientSummary, API execution started at:{DateTime.Now}");
             var response = new APIResponseModel<List<PatientResponse>>
@@ -123,6 +123,29 @@ namespace LISCareLimited.Controllers
             }
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetPatientDetailsByPatientId)]
+        public async Task<IActionResult> GetPatientDetails([FromQuery] Guid? patientId)
+        {
+            logger.LogInformation($"GetPatientDetailsByPatientId, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<PatientDetailResponse>
+            {
+                Data = new PatientDetailResponse()
+            };
+            try
+            {
+                response = await patient.GetPatientDetails(patientId);
+                logger.LogInformation($"GetPatientDetailsByPatientId, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                logger.LogInformation($"GetPatientDetailsByPatientId, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
 
     }
 }

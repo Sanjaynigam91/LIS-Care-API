@@ -69,6 +69,18 @@ namespace LISCareBussiness.Implementation
             }
         }
 
+        public async Task<APIResponseModel<PatientDetailResponse>> GetPatientDetails(Guid? patientId)
+        {
+            try
+            {
+                return await patientRepository.GetPatientDetails(patientId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to get patient requested test details 
         /// </summary>

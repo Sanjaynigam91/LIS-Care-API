@@ -395,6 +395,131 @@ namespace LISCareRepository.Implementation
             return response;
         }
 
+        public async Task<APIResponseModel<PatientDetailResponse>> GetPatientDetails(Guid? patientId)
+        {
+            logger.LogInformation($"GetPatientDetails, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<PatientDetailResponse>
+            {
+                Status = false,
+                ResponseMessage = "Error",
+                Data = new PatientDetailResponse()
+            };
+
+
+            try
+            {
+                if (!patientId.HasValue || patientId.Value == Guid.Empty)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PatientId cannot be null or empty.";
+                    response.Data = null;
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGetPatientDetailsByPatientId, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetPatientDetailsByPatientId;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGetPatientDetailsByPatientId, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+                        PatientDetailResponse patientDetail = new PatientDetailResponse();
+
+                        patientDetail.Title = reader[ConstantResource.Tittle] as string ?? string.Empty;
+                        patientDetail.Gender = reader[ConstantResource.Gender] as string ?? string.Empty;
+                        patientDetail.PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty;
+                        patientDetail.Age = reader[ConstantResource.Age] == DBNull.Value ? 0
+                            : Convert.ToInt32(reader[ConstantResource.Age]);
+                        patientDetail.AgeType = reader[ConstantResource.AgeType] as string ?? string.Empty;
+                        patientDetail.EmailId = reader[ConstantResource.EmailId] as string ?? string.Empty;
+                        patientDetail.MobileNumber = reader[ConstantResource.PhoneNumber] as string ?? string.Empty;
+                        patientDetail.CenterCode = reader[ConstantResource.CenterCode] as string ?? string.Empty;
+                        patientDetail.ReferredDoctor = reader[ConstantResource.ReferredDoctor] as string ?? string.Empty;
+                        patientDetail.PatientType = reader[ConstantResource.PatientType] as string ?? string.Empty;
+                        patientDetail.IsProject = reader[ConstantResource.IsProject] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsProject]);
+                        patientDetail.ProjectId = reader[ConstantResource.ProjectId] == DBNull.Value ? 0
+                        : Convert.ToInt32(reader[ConstantResource.ProjectId]);
+                        patientDetail.LabInstruction = reader[ConstantResource.LabInstruction] as string ?? string.Empty;
+                        patientDetail.ReferralNumber = reader[ConstantResource.ReferredLab] as string ?? string.Empty;
+                        patientDetail.SampleCollectedAt = reader[ConstantResource.SampleCollectedAt] as string ?? string.Empty;
+                        patientDetail.TotalOriginalAmount = reader[ConstantResource.TotalOriginalAmount] == DBNull.Value ? 0
+                           : Convert.ToDecimal(reader[ConstantResource.TotalOriginalAmount]);
+                        patientDetail.BillAmount = reader[ConstantResource.BillAmount] == DBNull.Value ? 0
+                        : Convert.ToDecimal(reader[ConstantResource.BillAmount]);
+                        patientDetail.ReceivedAmount = reader[ConstantResource.ReceivedAmount] == DBNull.Value ? 0
+                            : Convert.ToDecimal(reader[ConstantResource.ReceivedAmount]);
+                        patientDetail.BalanceAmount = reader[ConstantResource.BalanceAmount] == DBNull.Value ? 0
+                        : Convert.ToDecimal(reader[ConstantResource.BalanceAmount]);
+                        patientDetail.DiscountAmount = reader[ConstantResource.DiscountAmount] == DBNull.Value ? 0
+                        : Convert.ToDecimal(reader[ConstantResource.DiscountAmount]);
+                        patientDetail.IsPercentage = reader[ConstantResource.IsPercentage] != DBNull.Value
+                            && Convert.ToBoolean(reader[ConstantResource.IsPercentage]);
+                        patientDetail.DiscountRemarks = reader[ConstantResource.DiscountRemarks] as string ?? string.Empty;
+                        patientDetail.PatientSpecimenId = reader[ConstantResource.PatientSpecimenId] == DBNull.Value ? 0
+                        : Convert.ToInt32(reader[ConstantResource.PatientSpecimenId]);
+                        patientDetail.Barcode = reader[ConstantResource.Barcode] as string ?? string.Empty;
+                        patientDetail.CollectionTime = reader[ConstantResource.CollectionTime] == DBNull.Value ? DateTime.Now
+                       : Convert.ToDateTime(reader[ConstantResource.CollectionTime]);
+                        patientDetail.WOEStatus = reader[ConstantResource.WOEStatus] as string ?? string.Empty;
+                        patientDetail.SpecimenType = reader[ConstantResource.SpecimenTypes] as string ?? string.Empty;
+                        patientDetail.PaymentType = reader[ConstantResource.PaymentType] as string ?? string.Empty;
+                        patientDetail.VisitId = reader[ConstantResource.VisitId] == DBNull.Value ? 0
+                      : Convert.ToInt32(reader[ConstantResource.VisitId]);
+                        patientDetail.DiscountStatus = reader[ConstantResource.DiscountStatus] as string ?? string.Empty;
+                        patientDetail.PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty;
+                        patientDetail.PatientId = reader[ConstantResource.PatientId] == DBNull.Value ? Guid.Empty
+                            : (Guid)reader[ConstantResource.PatientId];
+                        patientDetail.PatientCode = reader[ConstantResource.PatientCode] as string ?? string.Empty;
+                        patientDetail.RegistrationDate = reader[ConstantResource.RegistrationDate] == DBNull.Value ? DateTime.Now
+                      : Convert.ToDateTime(reader[ConstantResource.RegistrationDate]);
+
+                        response.Data = patientDetail;
+
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All patient details retrieved successfully.";
+                        logger.LogInformation($"All patient details retrieved successfully at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No Patient details found.";
+                        logger.LogInformation($"No Patient details found at :{DateTime.Now}");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetPatientSummary, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetPatientDetails, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
         /// <summary>
         /// used to get patient requested test details 
         /// </summary>
@@ -571,8 +696,8 @@ namespace LISCareRepository.Implementation
                             ReferredBy = reader[ConstantResource.ReferredBy] as string ?? string.Empty,
 
                         });
-                      
-                        
+
+
                     }
                 }
                 if (response.Data.Count > 0)
