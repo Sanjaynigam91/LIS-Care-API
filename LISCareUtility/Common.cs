@@ -15,13 +15,13 @@ namespace LISCareUtility
     public class Common
     {
         private static readonly string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        
+
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
         public Common(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            _configuration=configuration;
-            _environment=environment;
+            _configuration = configuration;
+            _environment = environment;
 
         }
         public static string Base64Encode(string plainText)
@@ -42,7 +42,7 @@ namespace LISCareUtility
             return Convert.FromBase64String(base64Data);
         }
 
-        public static string PrefixOfBase64 (string base64String)
+        public static string PrefixOfBase64(string base64String)
         {
             // Remove the "data:image/*;base64," part if it's included
             string dataUrlPrefix = base64String.Split(',')[0];
@@ -167,6 +167,62 @@ namespace LISCareUtility
             // Save your file here...
             return filePath;
         }
+
+        public static class NumberToWordsConverter
+        {
+            private static readonly string[] Units =
+            {
+                "Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine",
+                "Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen",
+                "Seventeen","Eighteen","Nineteen"
+             };
+
+            private static readonly string[] Tens =
+            {
+                "Zero","Ten","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"
+            };
+
+            public static string Convert(decimal amount)
+            {
+                if (amount == 0)
+                    return "Zero Only";
+
+                long rupees = (long)amount;
+                int paise = (int)((amount - rupees) * 100);
+
+                string words = $"{ConvertToWords(rupees)} Rupees";
+
+                if (paise > 0)
+                    words += $" and {ConvertToWords(paise)} Paise";
+
+                return words + " Only";
+            }
+
+            private static string ConvertToWords(long number)
+            {
+                if (number < 20)
+                    return Units[number];
+
+                if (number < 100)
+                    return Tens[number / 10] + (number % 10 > 0 ? " " + Units[number % 10] : "");
+
+                if (number < 1000)
+                    return Units[number / 100] + " Hundred" +
+                           (number % 100 > 0 ? " " + ConvertToWords(number % 100) : "");
+
+                if (number < 100000)
+                    return ConvertToWords(number / 1000) + " Thousand" +
+                           (number % 1000 > 0 ? " " + ConvertToWords(number % 1000) : "");
+
+                if (number < 10000000)
+                    return ConvertToWords(number / 100000) + " Lakh" +
+                           (number % 100000 > 0 ? " " + ConvertToWords(number % 100000) : "");
+
+                return ConvertToWords(number / 10000000) + " Crore" +
+                       (number % 10000000 > 0 ? " " + ConvertToWords(number % 10000000) : "");
+            }
+        }
+
 
     }
 }

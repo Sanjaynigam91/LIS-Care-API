@@ -9,13 +9,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static LISCareUtility.Common;
 
 namespace LISCareRepository.Implementation
 {
@@ -23,10 +26,13 @@ namespace LISCareRepository.Implementation
     {
         private readonly LISCareDbContext dbContext;
         private readonly ILogger<PatientRepository> logger;
-        public PatientRepository(LISCareDbContext dbContext, ILogger<PatientRepository> logger)
+        private readonly UploadImagePath uploadImagePath;
+
+        public PatientRepository(LISCareDbContext dbContext, ILogger<PatientRepository> logger, IOptions<UploadImagePath> uploadImagePath)
         {
             this.dbContext = dbContext;
             this.logger = logger;
+            this.uploadImagePath = uploadImagePath.Value;
         }
         /// <summary>
         /// used to add tests requested by patient
@@ -295,6 +301,265 @@ namespace LISCareRepository.Implementation
                 dbContext.Database.GetDbConnection().Close();
             }
             logger.LogInformation($"AddUpdatePatients method execution completed at :{DateTime.Now}");
+            return response;
+        }
+        /// <summary>
+        /// used to delete test from patient test registartion while updating the patient record
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> DeleteTestFromPatientRegistration(Guid patientId, string testCode)
+        {
+            logger.LogInformation($"DeleteTestFromPatientRegistration method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(testCode))
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        dbContext.Database.OpenConnection();
+                    var command = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspDeleteRequestedTest execution started at :{DateTime.Now}");
+                    command.CommandText = ConstantResource.UspDeleteRequestedTest;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamTestCode, testCode));
+
+                    logger.LogInformation($"UspDeleteRequestedTest execution completed at :{DateTime.Now}");
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        logger.LogInformation($"UspDeleteRequestedTest execution successfully completed with response: {response} at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        logger.LogInformation($"UspDeleteRequestedTest execution failed with response: {response} at :{DateTime.Now}");
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                    logger.LogInformation($"UspDeleteRequestedTest execution failed with response: {response} at :{DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"UspDeleteRequestedTest execution failed with response {ex.Message} at :{DateTime.Now}");
+            }
+            finally
+            {
+                dbContext.Database.GetDbConnection().Close();
+            }
+            logger.LogInformation($"DeleteTestFromPatientRegistration method execution completed at :{DateTime.Now}");
+            return response;
+        }
+        /// <summary>
+        /// Used to generate patient invoice
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<PatientReceipt>> GeneratePatientInvoice(Guid patientId, string partnerId)
+        {
+            logger.LogInformation($"GeneratePatientInvoice, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<PatientReceipt>
+            {
+                Status = false,
+                ResponseMessage = "Error",
+                Data = new PatientReceipt()
+            };
+
+
+            try
+            {
+                if (string.IsNullOrEmpty(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PatientId cannot be null or empty.";
+                    response.Data = null;
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGeneratePatientReceipt, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGeneratePatientReceipt;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGeneratePatientReceipt, execution completed at :{DateTime.Now}");
+                    PatientReceipt patientReceipt = null;
+
+                    while (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+
+                        // ================= Create receipt only once =================
+                        if (patientReceipt == null)
+                        {
+                            patientReceipt = new PatientReceipt
+                            {
+                                Items = new List<ReceiptItem>(),
+
+                                PatientId = reader[ConstantResource.PatientCode] as string ?? string.Empty,
+                                PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty,
+                                AgeGender = reader[ConstantResource.AgeGender] as string ?? string.Empty,             
+                                ReceiptDate = reader[ConstantResource.ReceiptDate] == DBNull.Value
+                                            ? DateTime.Now
+                                            : Convert.ToDateTime(reader[ConstantResource.ReceiptDate]),
+                                CentreName = reader[ConstantResource.CentreName] as string ?? string.Empty,
+                                DoctorName = reader[ConstantResource.ReferDoctorName] as string ?? string.Empty,
+                                PreparedBy = reader[ConstantResource.PreparedBy] as string ?? string.Empty,
+                                MainLabName = reader[ConstantResource.MainLabName] as string ?? string.Empty,
+                                PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
+
+
+                                BillNo = reader[ConstantResource.VisitId] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToInt32(reader[ConstantResource.VisitId]),
+
+                                TotalAmount = reader[ConstantResource.TotalOriginalAmount] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToDecimal(reader[ConstantResource.TotalOriginalAmount]),
+
+                                NetAmount = reader[ConstantResource.BillAmount] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToDecimal(reader[ConstantResource.BillAmount]),
+
+                                PaidAmount = reader[ConstantResource.ReceivedAmount] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToDecimal(reader[ConstantResource.ReceivedAmount]),
+
+                                BalanceAmount = reader[ConstantResource.BalanceAmount] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToDecimal(reader[ConstantResource.BalanceAmount]),
+
+                                Discount = reader[ConstantResource.DiscountAmount] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToDecimal(reader[ConstantResource.DiscountAmount]),
+                                AmountInWords = Common.NumberToWordsConverter.Convert(reader[ConstantResource.BillAmount] == DBNull.Value
+                                            ? 0
+                                            : Convert.ToDecimal(reader[ConstantResource.BillAmount]))
+
+                            };
+                        }
+
+                        // ================= USER LOGO LOGIC (ADDED HERE) =================
+                        if (!string.IsNullOrEmpty(Convert.ToString(reader[ConstantResource.UserLogoPrefix])))
+                        {
+                            var userLogoValue = Convert.ToString(reader[ConstantResource.UserLogo]);
+                            if (!string.IsNullOrEmpty(userLogoValue))
+                            {
+                                var imgPath = Path.Combine(uploadImagePath.FolderPath, userLogoValue);
+                                var base64Image = Common.ConvertImageToBase64(imgPath);
+
+                                patientReceipt.ReceiptLogo =
+                                    Convert.ToString(reader[ConstantResource.UserLogoPrefix]) + base64Image;
+                            }
+                        }
+
+                        // ================= Add receipt items (per row) =================
+                        var receiptItem = new ReceiptItem
+                        {
+                            ServiceName = reader[ConstantResource.PatientTestName] as string ?? string.Empty,
+
+                            Qty = reader[ConstantResource.Quantity] == DBNull.Value
+                                    ? 0
+                                    : Convert.ToInt32(reader[ConstantResource.Quantity]),
+
+                            Rate = reader[ConstantResource.Price] == DBNull.Value
+                                    ? 0
+                                    : Convert.ToDecimal(reader[ConstantResource.Price])
+                        };
+
+                        patientReceipt.Items.Add(receiptItem);
+                    }
+
+                    // ================= Assign response once =================
+                    response.Data = patientReceipt;
+
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All patient details retrieved successfully.";
+                        logger.LogInformation($"All patient details retrieved successfully at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No Patient details found.";
+                        logger.LogInformation($"No Patient details found at :{DateTime.Now}");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"UspGeneratePatientReceipt, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GeneratePatientInvoice, method execution completed at :{DateTime.Now}");
             return response;
         }
 

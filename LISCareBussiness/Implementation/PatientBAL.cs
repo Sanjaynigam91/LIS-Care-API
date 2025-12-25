@@ -47,6 +47,35 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+        /// <summary>
+        /// used to delete test from patient test registartion while updating the patient record
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="testCode"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> DeleteTestFromPatientRegistration(Guid patientId, string testCode)
+        {
+            try
+            {
+                return await patientRepository.DeleteTestFromPatientRegistration(patientId,testCode);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<APIResponseModel<PatientReceipt>> GeneratePatientInvoice(Guid patientId, string partnerId)
+        {
+            try
+            {
+                return await patientRepository.GeneratePatientInvoice(patientId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// used to get all samples 
