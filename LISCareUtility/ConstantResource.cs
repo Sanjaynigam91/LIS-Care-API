@@ -105,6 +105,10 @@ namespace LISCareUtility
         public const string GetSelectedSamples = "GetSelectedSamples";
         public const string GetPatientSummary = "GetPatientSummary";
         public const string GetPatientDetailsByPatientId = "GetPatientDetailsByPatientId";
+        public const string DeletePatientSampleTest = "DeletePatientSampleTest";
+        public const string GeneratePatientReceipt = "GeneratePatientReceipt";
+
+
 
 
 
@@ -709,11 +713,16 @@ namespace LISCareUtility
         public const string CollectionTime = "CollectionTime";
         public const string WOEStatus = "WOEStatus";
         public const string PaymentType = "PaymentType";
+        public const string AgeGender = "AgeGender";
+        public const string ReceiptDate = "ReceiptDate";
+        public const string ReferDoctorName = "ReferDoctorName";
+        public const string PreparedBy = "PreparedBy";
+        public const string MainLabName = "MainLabName";
+        public const string PatientTestName = "TestName";
+        public const string Quantity = "Quantity";
 
 
 
-
- 
 
 
 
@@ -945,6 +954,11 @@ namespace LISCareUtility
         public const string UspRetrieveMasterTests = "Usp_RetrieveMasterTests";
         public const string UspGetPatientsummary = "Usp_GetPatientsummary";
         public const string UspGetPatientDetailsByPatientId = "Usp_GetPatientDetailsByPatientId";
+        public const string UspDeleteRequestedTest = "Usp_DeleteRequestedTest";
+        public const string UspGeneratePatientReceipt = "Usp_GeneratePatientReceipt";
+
+
+
 
 
         #endregion

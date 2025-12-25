@@ -1,4 +1,5 @@
-﻿using LISCareBussiness.Interface;
+﻿using Barcoder;
+using LISCareBussiness.Interface;
 using LISCareDTO;
 using LISCareDTO.ClientMaster;
 using LISCareDTO.FrontDesk;
@@ -6,6 +7,8 @@ using LISCareDTO.Projects;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 
 namespace LISCareLimited.Controllers
 {
@@ -144,6 +147,59 @@ namespace LISCareLimited.Controllers
                 response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
                 logger.LogInformation($"GetPatientDetailsByPatientId, API execution failed at:{DateTime.Now} with response {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        [HttpDelete]
+        [Route(ConstantResource.DeletePatientSampleTest)]
+        public async Task<IActionResult> DeletePatientRequestedTest([FromQuery] Guid patientId,string testCode)
+        {
+            logger.LogInformation($"DeletePatientSampleTest, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<string>();
+            try
+            {
+                response = await patient.DeleteTestFromPatientRegistration(patientId,testCode);
+                logger.LogInformation($"DeletePatientSampleTest, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                logger.LogInformation($"DeletePatientSampleTest, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        [HttpGet(ConstantResource.GeneratePatientReceipt)]
+        public async Task<IActionResult> GeneratePatientReceipt([FromQuery] Guid patientId, string partnerId)
+        {
+            try
+            {
+                var receipt = new APIResponseModel<PatientReceipt>();
+
+                receipt = await patient.GeneratePatientInvoice(patientId,partnerId);
+
+                var document = new PatientReceiptPdf(receipt.Data);
+
+                // Generate PDF in memory
+                byte[] pdfBytes = document.GeneratePdf();
+
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    $"PatientReceipt_{receipt.Data.BillNo}.pdf"
+                );
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "PDF generation failed");
+
+                return Problem(
+                    title: "PDF Generation Error",
+                    detail: ex.Message,
+                    statusCode: 500
+                );
             }
         }
 
