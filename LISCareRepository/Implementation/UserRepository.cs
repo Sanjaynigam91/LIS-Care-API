@@ -1121,7 +1121,8 @@ namespace LISCareReposotiory.Implementation
                             RoleName = Convert.ToString(reader[ConstantResource.RoleName]) ?? string.Empty,
                             MobileNumber = Convert.ToString(reader[ConstantResource.PhoneNumber]) ?? string.Empty,
                             UserStatus = Convert.ToString(reader[ConstantResource.UserStatus]) ?? string.Empty,
-                            PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty
+                            PartnerId = Convert.ToString(reader[ConstantResource.PartnerId]) ?? string.Empty,
+                            CenterCode = Convert.ToString(reader[ConstantResource.CenterCode]) ?? string.Empty,
                         };
 
                         // Generate Token
