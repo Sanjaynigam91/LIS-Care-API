@@ -107,6 +107,8 @@ namespace LISCareUtility
         public const string GetPatientDetailsByPatientId = "GetPatientDetailsByPatientId";
         public const string DeletePatientSampleTest = "DeletePatientSampleTest";
         public const string GeneratePatientReceipt = "GeneratePatientReceipt";
+        public const string DeleteRegisteredPatient = "DeleteRegisteredPatient";
+
 
 
 
@@ -956,10 +958,7 @@ namespace LISCareUtility
         public const string UspGetPatientDetailsByPatientId = "Usp_GetPatientDetailsByPatientId";
         public const string UspDeleteRequestedTest = "Usp_DeleteRequestedTest";
         public const string UspGeneratePatientReceipt = "Usp_GeneratePatientReceipt";
-
-
-
-
+        public const string UspDeletePatientRegistration = "Usp_DeletePatientRegistration";
 
         #endregion
 

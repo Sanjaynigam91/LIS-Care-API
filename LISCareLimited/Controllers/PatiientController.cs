@@ -202,6 +202,26 @@ namespace LISCareLimited.Controllers
                 );
             }
         }
+        [HttpDelete]
+        [Route(ConstantResource.DeleteRegisteredPatient)]
+        public async Task<IActionResult> DeleteRegisteredPatientDetails([FromQuery] Guid patientId, string enteredBy)
+        {
+            logger.LogInformation($"DeleteRegisteredPatient, API execution started at:{DateTime.Now}");
+            var response = new APIResponseModel<string>();
+            try
+            {
+                response = await patient.DeleteRegisteredPatient(patientId, enteredBy);
+                logger.LogInformation($"DeleteRegisteredPatient, API execution completed at:{DateTime.Now}");
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = StatusCodes.Status500InternalServerError;
+                response.ResponseMessage = $"An error occurred while processing your request: {ex.Message}";
+                logger.LogInformation($"DeleteRegisteredPatient, API execution failed at:{DateTime.Now} with response {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
 
     }
 }

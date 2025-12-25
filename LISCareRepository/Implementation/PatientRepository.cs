@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static LISCareUtility.Common;
 
@@ -304,6 +305,101 @@ namespace LISCareRepository.Implementation
             return response;
         }
         /// <summary>
+        /// used to delete registered patient
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="enteredBy"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> DeleteRegisteredPatient(Guid patientId, string enteredBy)
+        {
+            logger.LogInformation($"DeleteRegisteredPatient method execution started at :{DateTime.Now}");
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = string.Empty
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(enteredBy))
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        dbContext.Database.OpenConnection();
+                    var command = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspDeletePatientRegistration execution started at :{DateTime.Now}");
+                    command.CommandText = ConstantResource.UspDeletePatientRegistration;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamEnteredBy, enteredBy));
+
+                    logger.LogInformation($"UspDeletePatientRegistration execution completed at :{DateTime.Now}");
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default
+                    };
+
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.Status = parameterModel.IsSuccess;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        logger.LogInformation($"UspDeletePatientRegistration execution successfully completed with response: {response} at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                        logger.LogInformation($"UspDeletePatientRegistration execution failed with response: {response} at :{DateTime.Now}");
+                    }
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Status = false;
+                    response.ResponseMessage = ConstantResource.CenterCodeEmpty;
+                    logger.LogInformation($"UspDeletePatientRegistration execution failed with response: {response} at :{DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"UspDeletePatientRegistration execution failed with response {ex.Message} at :{DateTime.Now}");
+            }
+            finally
+            {
+                dbContext.Database.GetDbConnection().Close();
+            }
+            logger.LogInformation($"DeleteRegisteredPatient method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
+        /// <summary>
         /// used to delete test from patient test registartion while updating the patient record
         /// </summary>
         /// <param name="patientId"></param>
@@ -460,7 +556,12 @@ namespace LISCareRepository.Implementation
                                             ? DateTime.Now
                                             : Convert.ToDateTime(reader[ConstantResource.ReceiptDate]),
                                 CentreName = reader[ConstantResource.CentreName] as string ?? string.Empty,
-                                DoctorName = reader[ConstantResource.ReferDoctorName] as string ?? string.Empty,
+                                DoctorName = Regex.Replace(
+                                    (reader[ConstantResource.ReferDoctorName] as string ?? string.Empty).Trim(),
+                                    @"\s+",
+                                    " "
+                                ),
+
                                 PreparedBy = reader[ConstantResource.PreparedBy] as string ?? string.Empty,
                                 MainLabName = reader[ConstantResource.MainLabName] as string ?? string.Empty,
                                 PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty,
