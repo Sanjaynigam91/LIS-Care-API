@@ -75,6 +75,13 @@ namespace LISCareRepository.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<PatientReceipt>> GeneratePatientInvoice(Guid patientId, string partnerId);
+        /// <summary>
+        /// used to delete registered patient
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="enteredBy"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> DeleteRegisteredPatient(Guid patientId, string enteredBy);
 
     }
 }

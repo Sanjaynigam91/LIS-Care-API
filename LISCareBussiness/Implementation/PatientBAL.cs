@@ -47,6 +47,19 @@ namespace LISCareBussiness.Implementation
                 throw;
             }
         }
+
+        public async Task<APIResponseModel<string>> DeleteRegisteredPatient(Guid patientId, string enteredBy)
+        {
+            try
+            {
+                return await patientRepository.DeleteRegisteredPatient(patientId, enteredBy);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// used to delete test from patient test registartion while updating the patient record
         /// </summary>
@@ -57,7 +70,7 @@ namespace LISCareBussiness.Implementation
         {
             try
             {
-                return await patientRepository.DeleteTestFromPatientRegistration(patientId,testCode);
+                return await patientRepository.DeleteTestFromPatientRegistration(patientId, testCode);
             }
             catch
             {
