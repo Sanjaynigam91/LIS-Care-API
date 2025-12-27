@@ -1815,6 +1815,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCare.Controllers.SampleCollectionController",
+    "Method": "GetRequestedSampleForCollection",
+    "RelativePath": "api/GetRequestedSampleForCollection",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "barcode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.GlobalRoleAccessController",
     "Method": "GetRoleByRoleType",
     "RelativePath": "api/GetRoleByRoleType",
@@ -1857,6 +1878,22 @@
       {
         "Name": "partnerId",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCare.Controllers.SampleCollectionController",
+    "Method": "GetSamplesForCollection",
+    "RelativePath": "api/GetSamplesForCollection",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
         "IsRequired": false
       }
     ],

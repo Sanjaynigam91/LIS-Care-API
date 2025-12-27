@@ -121,5 +121,48 @@ namespace LISCare.Controllers
 
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetSamplesForCollection)]
+        public async Task<IActionResult> GetSamplesForCollection([FromQuery] Guid patientId)
+        {
+            var response = new APIResponseModel<List<SamplePendingCollectionResponse>>
+            {
+                Data = []
+            };
+
+            response = await _sample.GetSamplesForCollection(patientId);
+
+            if (response.Data.Count > 0)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
+
+        [HttpGet]
+        [Route(ConstantResource.GetRequestedSampleForCollection)]
+        public async Task<IActionResult> GetRequestedSampleForCollection([FromQuery] Guid patientId, string? barcode)
+        {
+            var response = new APIResponseModel<List<RequestedTest>>
+            {
+                Data = []
+            };
+
+            response = await _sample.GetRequestedSampleForCollection(patientId, barcode);
+
+            if (response.Data.Count > 0)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
     }
 }

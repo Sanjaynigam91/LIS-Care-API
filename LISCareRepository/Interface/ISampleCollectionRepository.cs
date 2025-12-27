@@ -20,6 +20,18 @@ namespace LISCareRepository.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<SampleCollectionResponse>>> GetPatientsForCollection(DateTime startDate, DateTime endDate, string? patientCode, string? centerCode, string? patientName, string partnerId);
+        /// <summary>
+        /// used to get samples for collection by patientId
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<SamplePendingCollectionResponse>>> GetSamplesForCollection(Guid patientId);
+        /// <summary>
+        /// used to get requested Sample for Collection
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<RequestedTest>>> GetRequestedSampleForCollection(Guid patientId, string? barcode);
 
     }
 }
