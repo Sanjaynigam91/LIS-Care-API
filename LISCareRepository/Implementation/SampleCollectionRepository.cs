@@ -288,6 +288,182 @@ namespace LISCareRepository.Implementation
             logger.LogInformation($"GetPatientsForCollection, method execution completed at :{DateTime.Now}");
             return response;
         }
+        /// <summary>
+        /// used to get samples for collection by patientId
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SamplePendingCollectionResponse>>> GetSamplesForCollection(Guid patientId)
+        {
+            logger.LogInformation($"GetSamplesForCollection, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<List<SamplePendingCollectionResponse>>
+            {
+                Data = []
+            };
 
+            try
+            {
+                if (patientId == Guid.Empty)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PatientId cannot be null or empty.";
+                    response.Data = [];
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGetSamplePendingForCollection, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetSamplePendingForCollection;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGetSampleForCollection, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+                        SamplePendingCollectionResponse samplePendingCollection = new SamplePendingCollectionResponse();
+                        RequestedTest requestedTest = new RequestedTest();
+
+                        samplePendingCollection.RegisteredDate = reader[ConstantResource.CreatedOn] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.CreatedOn]);
+                        samplePendingCollection.ReferedDoctor = reader[ConstantResource.ReferredDoctor] as string ?? string.Empty;
+                        samplePendingCollection.TotalTubes = reader[ConstantResource.TotalTubes] == DBNull.Value ? 0 : Convert.ToInt32(reader[ConstantResource.TotalTubes]);
+                        samplePendingCollection.SampleType = reader[ConstantResource.SpecimenTypes] as string ?? string.Empty;
+                        samplePendingCollection.Barcode = reader[ConstantResource.Barcode] as string ?? string.Empty;
+                        samplePendingCollection.NewBarcode = reader[ConstantResource.NewBarcode] as string ?? string.Empty;
+                        samplePendingCollection.SampleCollectionTime = reader[ConstantResource.SampleCollectionTime] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.SampleCollectionTime]);
+                        samplePendingCollection.WorkOrderStatus = reader[ConstantResource.WOEStatus] as string ?? string.Empty;
+                        samplePendingCollection.PartnerId = reader[ConstantResource.PartnerId] as string ?? string.Empty;
+                        samplePendingCollection.PatientCode = reader[ConstantResource.PatientCode] as string ?? string.Empty;
+                        samplePendingCollection.PatientId = reader[ConstantResource.PatientId] != DBNull.Value ? (Guid)reader[ConstantResource.PatientId] : Guid.Empty;
+                        samplePendingCollection.Lab = reader[ConstantResource.LAB] as string ?? string.Empty;
+                        samplePendingCollection.SampleId = reader[ConstantResource.PatientSpecimenId] == DBNull.Value ? 0 : Convert.ToInt32(reader[ConstantResource.PatientSpecimenId]);
+                        samplePendingCollection.IsSpecimenCollected = reader[ConstantResource.IsSpecimenCollected] == DBNull.Value ? false : Convert.ToBoolean(reader[ConstantResource.IsSpecimenCollected]);
+                        samplePendingCollection.ActualBarcode = reader[ConstantResource.ActualBarcode] as string ?? string.Empty;
+
+                        response.Data.Add(samplePendingCollection);
+
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All samples retrieved successfully for sample collection.";
+                        logger.LogInformation($"All samples retrieved successfully for sample collection at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No samples found for sample collection.";
+                        logger.LogInformation($"No samples found for sample collection at :{DateTime.Now}");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetPatientsForCollection, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetPatientsForCollection, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+        /// <summary>
+        /// used to get requested Sample for Collection
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<RequestedTest>>> GetRequestedSampleForCollection(Guid patientId, string? barcode)
+        {
+            logger.LogInformation($"GetRequestedSampleForCollection, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<List<RequestedTest>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (patientId == Guid.Empty)
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PatientId cannot be null or empty.";
+                    response.Data = [];
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGetRequsetedSampleCollection, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetRequsetedSampleCollection;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, barcode));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGetRequsetedSampleCollection, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+
+                        RequestedTest requestedTest = new RequestedTest();
+
+                        requestedTest.TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty;
+                        requestedTest.TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty;
+                        requestedTest.SpecimenType = reader[ConstantResource.SpecimenTypes] as string ?? string.Empty;
+
+                        response.Data.Add(requestedTest);
+
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All samples retrieved successfully for sample collection.";
+                        logger.LogInformation($"All samples retrieved successfully for sample collection at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No samples found for sample collection.";
+                        logger.LogInformation($"No samples found for sample collection at :{DateTime.Now}");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetRequestedSampleForCollection, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetRequestedSampleForCollection, method execution completed at :{DateTime.Now}");
+            return response;
+        }
     }
 }

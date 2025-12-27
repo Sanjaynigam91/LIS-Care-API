@@ -79,5 +79,33 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
+
+        public async Task<APIResponseModel<List<SamplePendingCollectionResponse>>> GetSamplesForCollection(Guid patientId)
+        {
+            APIResponseModel<List<SamplePendingCollectionResponse>> response;
+            try
+            {
+                response = await _sampleCollectionRepository.GetSamplesForCollection(patientId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        public async Task<APIResponseModel<List<RequestedTest>>> GetRequestedSampleForCollection(Guid patientId, string barcode)
+        {
+            APIResponseModel<List<RequestedTest>> response;
+            try
+            {
+                response = await _sampleCollectionRepository.GetRequestedSampleForCollection(patientId,barcode);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
     }
 }

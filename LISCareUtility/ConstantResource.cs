@@ -188,6 +188,12 @@ namespace LISCareUtility
         public const string SaveMappingTest = "SaveMappingTest";
         public const string UpdateAllMappings = "UpdateAllMappings";
         public const string SearchPatientForCollection = "SearchPatientForCollection";
+        public const string GetSamplesForCollection = "GetSamplesForCollection";
+        public const string GetRequestedSampleForCollection = "GetRequestedSampleForCollection";
+
+
+     
+
 
         #endregion
 
@@ -724,11 +730,12 @@ namespace LISCareUtility
         public const string PatientTestName = "TestName";
         public const string Quantity = "Quantity";
         public const string EnteredBy = "EnteredBy";
-
-
-
-
-
+        public const string TotalTubes = "TotalTubes";
+        public const string NewBarcode = "NewBarcode";
+        public const string SampleCollectionTime = "SampleCollectionTime";
+        public const string LAB = "LAB";
+        public const string IsSpecimenCollected = "IsSpecimenCollected";
+        public const string ActualBarcode = "ActualBarcode";
 
 
         #endregion
@@ -966,6 +973,10 @@ namespace LISCareUtility
 
         #region Sample management
         public const string UspGetSampleForCollection = "Usp_GetSampleForCollection";
+        public const string UspGetSamplePendingForCollection = "Usp_GetSamplePendingForCollection";
+        public const string UspGetRequsetedSampleCollection = "Usp_GetRequsetedSampleCollection";
+
+
 
         #endregion
 
