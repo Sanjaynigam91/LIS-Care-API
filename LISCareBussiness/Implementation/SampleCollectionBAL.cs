@@ -1,6 +1,7 @@
 ﻿using LISCareBussiness.Interface;
 using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
+using LISCareDTO.SampleManagement;
 using LISCareRepository.Interface;
 using Microsoft.Extensions.Configuration;
 
@@ -53,6 +54,29 @@ namespace LISCareBussiness.Implementation
                 response = _sampleCollectionRepository.RemoveSamplePlace(recordId, partnerId);
             }
             catch { throw; }
+            return response;
+        }
+        /// <summary>
+        /// used to get pending samples for collection
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="patientCode"></param>
+        /// <param name="centerCode"></param>
+        /// <param name="patientName"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SampleCollectionResponse>>> GetPatientsForCollection(DateTime startDate, DateTime endDate, string? patientCode, string? centerCode, string? patientName, string partnerId)
+        {
+            APIResponseModel<List<SampleCollectionResponse>> response;
+            try
+            {
+                response = await _sampleCollectionRepository.GetPatientsForCollection(startDate, endDate, patientCode, centerCode, patientName, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
             return response;
         }
     }

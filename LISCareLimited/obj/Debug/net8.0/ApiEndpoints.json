@@ -160,6 +160,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "AddTestRequested",
+    "RelativePath": "api/AddTestRequested",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testRequest",
+        "Type": "LISCareDTO.FrontDesk.PatientTestRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCare.Controllers.SignUpController",
     "Method": "AddUsers",
     "RelativePath": "api/AddUsers",
@@ -419,6 +435,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "DeletePatientRequestedTest",
+    "RelativePath": "api/DeletePatientSampleTest",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "testCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.ProfileController",
     "Method": "DeleteProfileByProfileCode",
     "RelativePath": "api/DeleteProfileByProfileCode",
@@ -471,6 +508,27 @@
       {
         "Name": "referralId",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "DeleteRegisteredPatientDetails",
+    "RelativePath": "api/DeleteRegisteredPatient",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "enteredBy",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -613,6 +671,27 @@
       {
         "Name": "sequenceEnd",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "GeneratePatientReceipt",
+    "RelativePath": "api/GeneratePatientReceipt",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -1038,6 +1117,42 @@
     "Parameters": [
       {
         "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "GetAllTestSampleDetails",
+    "RelativePath": "api/GetAllTestSamples",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "centerCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "testCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "testApplicable",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -1507,6 +1622,73 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "GetPatientDetails",
+    "RelativePath": "api/GetPatientDetailsByPatientId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "GetPatientRegistrationSummary",
+    "RelativePath": "api/GetPatientSummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "barcode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "patientName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "patientCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "centerCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.ProfileController",
     "Method": "GetProfileByProfileCode",
     "RelativePath": "api/GetProfileByProfileCode",
@@ -1543,6 +1725,37 @@
       {
         "Name": "projectId",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "GetAllProjectSpecialRates",
+    "RelativePath": "api/GetProjectSpecialRates",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "optype",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "testCode",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -1641,6 +1854,27 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "GetPatientsRequestedTestDetails",
+    "RelativePath": "api/GetSelectedSamples",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
       {
         "Name": "partnerId",
         "Type": "System.String",
@@ -1894,6 +2128,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.PatiientController",
+    "Method": "PatientRegistration",
+    "RelativePath": "api/PatientRegistration",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientRequest",
+        "Type": "LISCareDTO.FrontDesk.PatientRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.GlobalRoleAccessController",
     "Method": "SaveAccessPermission",
     "RelativePath": "api/SaveAccessPermission",
@@ -2033,6 +2283,47 @@
         "Name": "userRequest",
         "Type": "LISCareDTO.MetaData.UserRequestModel",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCare.Controllers.SampleCollectionController",
+    "Method": "GetPatientsForSampleCollection",
+    "RelativePath": "api/SearchPatientForCollection",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "patientCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "centerCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "patientName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -2303,6 +2594,22 @@
       {
         "Name": "projectRequest",
         "Type": "LISCareDTO.Projects.ProjectRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.ProjectController",
+    "Method": "UpdateProjectTestRates",
+    "RelativePath": "api/UpdateProjectSpecialRates",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectTestMapping",
+        "Type": "LISCareDTO.Projects.ProjectTestMappingRequest",
         "IsRequired": true
       }
     ],

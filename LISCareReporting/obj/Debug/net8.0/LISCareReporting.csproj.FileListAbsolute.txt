@@ -20,12 +20,15 @@ D:\LISCare\LIS-Care-API\LISCareReporting\bin\Debug\net8.0\LatoFont\OFL.txt
 D:\LISCare\LIS-Care-API\LISCareReporting\bin\Debug\net8.0\LISCareReporting.deps.json
 D:\LISCare\LIS-Care-API\LISCareReporting\bin\Debug\net8.0\LISCareReporting.dll
 D:\LISCare\LIS-Care-API\LISCareReporting\bin\Debug\net8.0\LISCareReporting.pdb
+D:\LISCare\LIS-Care-API\LISCareReporting\bin\Debug\net8.0\LISCareDTO.dll
+D:\LISCare\LIS-Care-API\LISCareReporting\bin\Debug\net8.0\LISCareDTO.pdb
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.csproj.AssemblyReference.cache
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.GeneratedMSBuildEditorConfig.editorconfig
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.AssemblyInfoInputs.cache
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.AssemblyInfo.cs
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.csproj.CoreCompileInputs.cache
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.sourcelink.json
+D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareR.549DF65D.Up2Date
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.dll
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\refint\LISCareReporting.dll
 D:\LISCare\LIS-Care-API\LISCareReporting\obj\Debug\net8.0\LISCareReporting.pdb

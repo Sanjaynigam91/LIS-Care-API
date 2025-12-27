@@ -1,11 +1,14 @@
 ﻿using LISCareDataAccess.LISCareDbContext;
 using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
+using LISCareDTO.SampleManagement;
 using LISCareRepository.Interface;
 using LISCareUtility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Data.Common;
 using System.Net;
@@ -15,22 +18,22 @@ namespace LISCareRepository.Implementation
 {
     public class SampleCollectionRepository : ISampleCollectionRepository
     {
-        private IConfiguration _configuration;
-        private LISCareDbContext _dbContext;
+        private LISCareDbContext dbContext;
+        private readonly ILogger<SampleCollectionRepository> logger;
 
-        public SampleCollectionRepository(IConfiguration configuration, LISCareDbContext _DbContext)
+        public SampleCollectionRepository(LISCareDbContext dbContext, ILogger<SampleCollectionRepository> logger)
         {
-            _configuration = configuration;
-            _dbContext = _DbContext;
+            this.dbContext = dbContext;
+            this.logger = logger;
         }
         public List<SampleCollectedAtResponse> GetSampleCollectedPlace(string partnerId)
         {
             List<SampleCollectedAtResponse> response = new List<SampleCollectedAtResponse>();
             try
             {
-                if (_dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
-                    _dbContext.Database.OpenConnection();
-                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                    dbContext.Database.OpenConnection();
+                var cmd = dbContext.Database.GetDbConnection().CreateCommand();
                 cmd.CommandText = ConstantResource.UspGetAllSampleCollectedPlaces;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
@@ -51,7 +54,7 @@ namespace LISCareRepository.Implementation
             }
             finally
             {
-                _dbContext.Database.GetDbConnection().Close();
+                dbContext.Database.GetDbConnection().Close();
             }
             return response;
         }
@@ -68,7 +71,7 @@ namespace LISCareRepository.Implementation
             {
                 if (!string.IsNullOrEmpty(sampleCollected.ToString()))
                 {
-                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    var command = dbContext.Database.GetDbConnection().CreateCommand();
                     command.CommandText = ConstantResource.UspAddSampleCollectedPlaces;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, sampleCollected.PartnerId.Trim()));
@@ -91,7 +94,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(outputBitParm);
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
-                    _dbContext.Database.GetDbConnection().Open();
+                    dbContext.Database.GetDbConnection().Open();
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
@@ -119,7 +122,7 @@ namespace LISCareRepository.Implementation
             }
             finally
             {
-                _dbContext.Database.GetDbConnection().Close();
+                dbContext.Database.GetDbConnection().Close();
             }
             return response;
         }
@@ -136,7 +139,7 @@ namespace LISCareRepository.Implementation
             {
                 if (recordId > 0)
                 {
-                    var command = _dbContext.Database.GetDbConnection().CreateCommand();
+                    var command = dbContext.Database.GetDbConnection().CreateCommand();
                     command.CommandText = ConstantResource.UspRemoveSamplePlace;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter(ConstantResource.RecordId, recordId));
@@ -157,7 +160,7 @@ namespace LISCareRepository.Implementation
                     command.Parameters.Add(outputBitParm);
                     command.Parameters.Add(outputErrorParm);
                     command.Parameters.Add(outputErrorMessageParm);
-                    _dbContext.Database.GetDbConnection().Open();
+                    dbContext.Database.GetDbConnection().Open();
                     command.ExecuteScalar();
                     OutputParameterModel parameterModel = new OutputParameterModel
                     {
@@ -185,9 +188,106 @@ namespace LISCareRepository.Implementation
             }
             finally
             {
-                _dbContext.Database.GetDbConnection().Close();
+                dbContext.Database.GetDbConnection().Close();
             }
             return response;
         }
+        /// <summary>
+        /// used to get pending samples for collection
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="patientCode"></param>
+        /// <param name="centerCode"></param>
+        /// <param name="patientName"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SampleCollectionResponse>>> GetPatientsForCollection(DateTime startDate, DateTime endDate, string? patientCode, string? centerCode, string? patientName, string partnerId)
+        {
+            logger.LogInformation($"GetPatientsForCollection, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<List<SampleCollectionResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrEmpty(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                    response.Data = [];
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGetSampleForCollection, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetSampleForCollection;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamStartdate, startDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamEnddate, endDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientCode, patientCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, centerCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGetSampleForCollection, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+                        SampleCollectionResponse sampleCollection = new SampleCollectionResponse();
+                        sampleCollection.PatientId = reader[ConstantResource.PatientId] != DBNull.Value ? (Guid)reader[ConstantResource.PatientId] : Guid.Empty;
+                        sampleCollection.PatientCode = reader[ConstantResource.PatientCode] as string ?? string.Empty;
+                        sampleCollection.PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty;
+                        sampleCollection.MobileNumber = reader[ConstantResource.PhoneNumber] as string ?? string.Empty;
+                        sampleCollection.CenterCode = reader[ConstantResource.CenterCode] as string ?? string.Empty;
+                        sampleCollection.VisitId = reader[ConstantResource.VisitId] == DBNull.Value ? 0 : Convert.ToInt32(reader[ConstantResource.VisitId]);
+                        sampleCollection.WorkOrderDate = reader[ConstantResource.CreatedOn] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.CreatedOn]);
+                        sampleCollection.ReferDoctor = reader[ConstantResource.ReferredDoctor] as string ?? string.Empty;
+                        sampleCollection.EnteredBy = reader[ConstantResource.EnteredBy] as string ?? string.Empty;
+
+                        response.Data.Add(sampleCollection);
+
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "All patient details retrieved successfully for sample collection.";
+                        logger.LogInformation($"All patient details retrieved successfully for sample collection at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No Patient details found for sample collection.";
+                        logger.LogInformation($"No Patient details found for sample collection at :{DateTime.Now}");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetPatientsForCollection, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetPatientsForCollection, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
     }
 }

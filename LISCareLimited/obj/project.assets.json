@@ -1383,6 +1383,7 @@
           "Autofac": "8.4.0",
           "Barcoder": "3.0.0",
           "Barcoder.Renderer.Image": "3.0.0",
+          "LISCareDTO": "1.0.0",
           "QuestPDF": "2025.7.3"
         },
         "compile": {

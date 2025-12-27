@@ -2377,6 +2377,329 @@
         }
       }
     },
+    "/api/PatientRegistration": {
+      "post": {
+        "tags": [
+          "Patiient"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AddTestRequested": {
+      "post": {
+        "tags": [
+          "Patiient"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientTestRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientTestRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientTestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetAllTestSamples": {
+      "get": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "centerCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectCode",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "testCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "testApplicable",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetSelectedSamples": {
+      "get": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetPatientSummary": {
+      "get": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "patientName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "centerCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetPatientDetailsByPatientId": {
+      "get": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeletePatientSampleTest": {
+      "delete": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "testCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GeneratePatientReceipt": {
+      "get": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeleteRegisteredPatient": {
+      "delete": {
+        "tags": [
+          "Patiient"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "enteredBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetAllProfileDetails": {
       "get": {
         "tags": [
@@ -2798,6 +3121,80 @@
         }
       }
     },
+    "/api/GetProjectSpecialRates": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "parameters": [
+          {
+            "name": "optype",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "testCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UpdateProjectSpecialRates": {
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectTestMappingRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectTestMappingRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectTestMappingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetSampleCollectedPlaces": {
       "get": {
         "tags": [
@@ -2862,6 +3259,64 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SearchPatientForCollection": {
+      "get": {
+        "tags": [
+          "SampleCollection"
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "patientCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "centerCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientName",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -4530,6 +4985,201 @@
         },
         "additionalProperties": false
       },
+      "PatientRequest": {
+        "type": "object",
+        "properties": {
+          "isAddPatient": {
+            "type": "boolean"
+          },
+          "patientId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "patientCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "patientName": {
+            "type": "string",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ageType": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "centerCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "referredDoctor": {
+            "type": "string",
+            "nullable": true
+          },
+          "referredLab": {
+            "type": "string",
+            "nullable": true
+          },
+          "isProject": {
+            "type": "boolean"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "labInstruction": {
+            "type": "string",
+            "nullable": true
+          },
+          "referalNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "sampleCollectedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "isPregnant": {
+            "type": "boolean"
+          },
+          "pregnancyWeeks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalOriginalAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "billAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "receivedAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "balanceAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "discountAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "agreedRatesBilling": {
+            "type": "number",
+            "format": "double"
+          },
+          "discountStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "discountRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "patientType": {
+            "type": "string",
+            "nullable": true
+          },
+          "enteredBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationality": {
+            "type": "string",
+            "nullable": true
+          },
+          "clinicalHistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "clinicalRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "isPercentage": {
+            "type": "boolean"
+          },
+          "invoiceReceiptNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "isReportUploaded": {
+            "type": "boolean"
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PatientTestRequest": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "testCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "isProfile": {
+            "type": "boolean"
+          },
+          "specimenType": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "originalPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProfileRequest": {
         "type": "object",
         "properties": {
@@ -4660,6 +5310,32 @@
           "receiptPrefix": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProjectTestMappingRequest": {
+        "type": "object",
+        "properties": {
+          "mappingId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "testCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "billRate": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
