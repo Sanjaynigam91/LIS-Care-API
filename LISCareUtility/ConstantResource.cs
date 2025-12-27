@@ -187,6 +187,7 @@ namespace LISCareUtility
         public const string DeleteMappedTest = "DeleteMappedTest";
         public const string SaveMappingTest = "SaveMappingTest";
         public const string UpdateAllMappings = "UpdateAllMappings";
+        public const string SearchPatientForCollection = "SearchPatientForCollection";
 
         #endregion
 
@@ -722,6 +723,8 @@ namespace LISCareUtility
         public const string MainLabName = "MainLabName";
         public const string PatientTestName = "TestName";
         public const string Quantity = "Quantity";
+        public const string EnteredBy = "EnteredBy";
+
 
 
 
@@ -959,6 +962,10 @@ namespace LISCareUtility
         public const string UspDeleteRequestedTest = "Usp_DeleteRequestedTest";
         public const string UspGeneratePatientReceipt = "Usp_GeneratePatientReceipt";
         public const string UspDeletePatientRegistration = "Usp_DeletePatientRegistration";
+        #endregion
+
+        #region Sample management
+        public const string UspGetSampleForCollection = "Usp_GetSampleForCollection";
 
         #endregion
 

@@ -1,5 +1,6 @@
 ﻿using LISCareDTO;
 ﻿using LISCareDTO.SampleCollectionPlace;
+using LISCareDTO.SampleManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,17 @@ namespace LISCareBussiness.Interface
         List<SampleCollectedAtResponse> GetSampleCollectedPlace(string partnerId);
         APIResponseModel<object> AddSampleCollectedPlaces(SampleCollectedRequest sampleCollected);
         APIResponseModel<object> RemoveSamplePlace(int recordId, string partnerId);
+        /// <summary>
+        /// used to get pending samples for collection
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="patientCode"></param>
+        /// <param name="centerCode"></param>
+        /// <param name="patientName"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<SampleCollectionResponse>>> GetPatientsForCollection(DateTime startDate, DateTime endDate, string? patientCode, string? centerCode, string? patientName, string partnerId);
+
     }
 }

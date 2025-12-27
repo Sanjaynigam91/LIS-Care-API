@@ -1,6 +1,7 @@
 ﻿using LISCareBussiness.Interface;
 using LISCareDTO;
 using LISCareDTO.SampleCollectionPlace;
+using LISCareDTO.SampleManagement;
 using LISCareUtility;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -20,6 +21,7 @@ namespace LISCare.Controllers
             Configuration = configuration;
             _sample = sample;
         }
+
         [HttpGet]
         [Route(ConstantResource.GetSampleCollectedPlaces)]
         public IActionResult GetSampleCollectedPlaces(string partnerId)
@@ -91,6 +93,33 @@ namespace LISCare.Controllers
             }
         }
 
+        [HttpGet]
+        [Route(ConstantResource.SearchPatientForCollection)]
+        public async Task<IActionResult> GetPatientsForSampleCollection([FromQuery] DateTime startDate, DateTime endDate, string? patientCode, string? centerCode, string? patientName, string partnerId)
+        {
+            var response = new APIResponseModel<List<SampleCollectionResponse>>
+            {
+                Data = []
+            };
+            response = await _sample.GetPatientsForCollection(startDate, endDate, patientCode, centerCode, patientName, partnerId);
+
+            if (patientName != null)
+            {
+                var result = response.Data.Where(x => x.PatientName == patientName);
+                response.Data = result.ToList();
+                return StatusCode(response.StatusCode, response);
+            }
+
+            if (response.Data.Count > 0)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
 
     }
 }

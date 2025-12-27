@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LISCareDataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+561e77f8dac4a19c0d2dd365bb6eef3dbdbc863e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8e199505a2aa0dae834f2b108e4386844d55c13")]
 [assembly: System.Reflection.AssemblyProductAttribute("LISCareDataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LISCareDataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

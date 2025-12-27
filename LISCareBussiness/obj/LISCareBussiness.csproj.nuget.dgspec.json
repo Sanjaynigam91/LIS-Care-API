@@ -307,7 +307,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\LISCare\\LIS-Care-API\\LISCareDTO\\LISCareDTO.csproj": {
+                "projectPath": "D:\\LISCare\\LIS-Care-API\\LISCareDTO\\LISCareDTO.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
