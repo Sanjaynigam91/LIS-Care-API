@@ -164,5 +164,24 @@ namespace LISCare.Controllers
             }
 
         }
+        [HttpPut]
+        [Route(ConstantResource.UpdateSampleCollectionStatus)]
+        public async Task<IActionResult> UpdateSampleStatusAsCollectionDone(SampleRequest sampleRequest)
+        {
+            APIResponseModel<string> responseModel =
+                await _sample.UpdateSampleStatusAsCollectionDone(sampleRequest);
+
+            if (responseModel.Status && responseModel.StatusCode == (int)HttpStatusCode.OK)
+            {
+                return Ok(responseModel);
+            }
+            else
+            {
+                return BadRequest(responseModel);
+            }
+        }
+
+
     }
 }
+

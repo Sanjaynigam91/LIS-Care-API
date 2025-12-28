@@ -3385,6 +3385,37 @@
         }
       }
     },
+    "/api/UpdateSampleCollectionStatus": {
+      "put": {
+        "tags": [
+          "SampleCollection"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/UserSignUp": {
       "post": {
         "tags": [
@@ -5499,6 +5530,32 @@
           "updatedBy": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SampleRequest": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "collectionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "collectedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "specimenType": {
+            "type": "string",
+            "nullable": true
+          },
+          "patientId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
