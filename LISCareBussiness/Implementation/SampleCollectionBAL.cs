@@ -107,5 +107,19 @@ namespace LISCareBussiness.Implementation
             }
             return response;
         }
+
+        public async Task<APIResponseModel<string>> UpdateSampleStatusAsCollectionDone(SampleRequest sampleRequest)
+        {
+            APIResponseModel<string> response;
+            try
+            {
+                response = await _sampleCollectionRepository.UpdateSampleStatusAsCollectionDone(sampleRequest);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
     }
 }

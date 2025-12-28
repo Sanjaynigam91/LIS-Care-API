@@ -108,6 +108,8 @@ namespace LISCareUtility
         public const string DeletePatientSampleTest = "DeletePatientSampleTest";
         public const string GeneratePatientReceipt = "GeneratePatientReceipt";
         public const string DeleteRegisteredPatient = "DeleteRegisteredPatient";
+        public const string UpdateSampleCollectionStatus = "UpdateSampleCollectionStatus";
+
 
 
 
@@ -441,6 +443,9 @@ namespace LISCareUtility
         public const string ParamStartdate = "@Startdate";
         public const string ParamEnddate = "@Enddate";
         public const string ParamVisitId = "@VisitId";
+        public const string ParamCollectionTime = "@CollectionTime";
+        public const string ParamCollectedBy = "@CollectedBy";
+
  
 
         #endregion
@@ -975,7 +980,7 @@ namespace LISCareUtility
         public const string UspGetSampleForCollection = "Usp_GetSampleForCollection";
         public const string UspGetSamplePendingForCollection = "Usp_GetSamplePendingForCollection";
         public const string UspGetRequsetedSampleCollection = "Usp_GetRequsetedSampleCollection";
-
+        public const string UspUpdateStatusAsSamleCollected = "Usp_UpdateStatusAsSamleCollected";
 
 
         #endregion

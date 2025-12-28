@@ -5,6 +5,7 @@ using LISCareDTO.SampleManagement;
 using LISCareRepository.Interface;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -463,6 +464,82 @@ namespace LISCareRepository.Implementation
                 await dbContext.Database.CloseConnectionAsync();
             }
             logger.LogInformation($"GetRequestedSampleForCollection, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+        /// <summary>
+        /// used to update sample status as collection done
+        /// </summary>
+        /// <param name="sampleCollected"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<string>> UpdateSampleStatusAsCollectionDone(SampleRequest sampleRequest)
+        {
+            var response = new APIResponseModel<string>
+            {
+                StatusCode = (int)(HttpStatusCode.BadRequest),
+                Status = false,
+                ResponseMessage = ConstantResource.Failed
+            };
+            try
+            {
+                if (!string.IsNullOrEmpty(sampleRequest.PatientId.ToString()))
+                {
+                    var command = dbContext.Database.GetDbConnection().CreateCommand();
+                    command.CommandText = ConstantResource.UspUpdateStatusAsSamleCollected;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, sampleRequest.Barcode.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCollectionTime, sampleRequest.CollectionTime));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamCollectedBy, sampleRequest.CollectedBy.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, sampleRequest.SpecimenType.Trim()));
+                    command.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, sampleRequest.PatientId));
+
+                    // output parameters
+                    SqlParameter outputBitParm = new SqlParameter(ConstantResource.IsSuccess, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorParm = new SqlParameter(ConstantResource.IsError, SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter outputErrorMessageParm = new SqlParameter(ConstantResource.ErrorMsg, SqlDbType.NVarChar, 404)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputBitParm);
+                    command.Parameters.Add(outputErrorParm);
+                    command.Parameters.Add(outputErrorMessageParm);
+                    dbContext.Database.GetDbConnection().Open();
+                    await command.ExecuteScalarAsync();
+                    OutputParameterModel parameterModel = new OutputParameterModel
+                    {
+                        ErrorMessage = Convert.ToString(outputErrorMessageParm.Value) ?? string.Empty,
+                        IsError = outputErrorParm.Value as bool? ?? default,
+                        IsSuccess = outputBitParm.Value as bool? ?? default,
+                    };
+                    if (parameterModel.IsSuccess)
+                    {
+                        response.Status = parameterModel.IsSuccess;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.Status = parameterModel.IsError;
+                        response.ResponseMessage = parameterModel.ErrorMessage;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ResponseMessage = ex.Message;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Status = false;
+            }
+            finally
+            {
+                dbContext.Database.GetDbConnection().Close();
+            }
             return response;
         }
     }

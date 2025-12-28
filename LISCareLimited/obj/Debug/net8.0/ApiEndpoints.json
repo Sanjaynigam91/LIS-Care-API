@@ -2653,6 +2653,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCare.Controllers.SampleCollectionController",
+    "Method": "UpdateSampleStatusAsCollectionDone",
+    "RelativePath": "api/UpdateSampleCollectionStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sampleRequest",
+        "Type": "LISCareDTO.SampleManagement.SampleRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.TestMgmtController",
     "Method": "UpdateTestInfo",
     "RelativePath": "api/UpdateTest",

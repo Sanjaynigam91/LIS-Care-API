@@ -38,5 +38,12 @@ namespace LISCareBussiness.Interface
         /// <param name="patientId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<RequestedTest>>> GetRequestedSampleForCollection(Guid patientId, string? barcode);
+        /// <summary>
+        /// used to update sample status as collection done
+        /// </summary>
+        /// <param name="sampleCollected"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<string>> UpdateSampleStatusAsCollectionDone(SampleRequest sampleRequest);
+
     }
 }
