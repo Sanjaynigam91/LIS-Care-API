@@ -192,9 +192,7 @@ namespace LISCareUtility
         public const string SearchPatientForCollection = "SearchPatientForCollection";
         public const string GetSamplesForCollection = "GetSamplesForCollection";
         public const string GetRequestedSampleForCollection = "GetRequestedSampleForCollection";
-
-
-     
+        public const string GetAllSamplesForAccession = "GetAllSamplesForAccession";
 
 
         #endregion
@@ -741,6 +739,12 @@ namespace LISCareUtility
         public const string LAB = "LAB";
         public const string IsSpecimenCollected = "IsSpecimenCollected";
         public const string ActualBarcode = "ActualBarcode";
+        public const string WOEDate = "WOEDate";
+        public const string ReferBy = "ReferredBy";
+        public const string SampleStatus = "SampleStatus";
+        public const string RejectedDetails = "RejectedDetails";
+
+
 
 
         #endregion
@@ -981,9 +985,11 @@ namespace LISCareUtility
         public const string UspGetSamplePendingForCollection = "Usp_GetSamplePendingForCollection";
         public const string UspGetRequsetedSampleCollection = "Usp_GetRequsetedSampleCollection";
         public const string UspUpdateStatusAsSamleCollected = "Usp_UpdateStatusAsSamleCollected";
-
+        public const string UspAccessionPendingSamples = "Usp_AccessionPendingSamples";
 
         #endregion
+
+
 
         #endregion
 

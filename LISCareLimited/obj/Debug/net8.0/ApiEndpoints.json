@@ -1092,6 +1092,47 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.SampleAccessionController",
+    "Method": "GetAllPendingSampleForAccession",
+    "RelativePath": "api/GetAllSamplesForAccession",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "barcode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "centerCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "patientName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.AnalyzerController",
     "Method": "GetAllSupplierData",
     "RelativePath": "api/GetAllSuppliers",

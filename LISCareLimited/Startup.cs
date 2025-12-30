@@ -68,6 +68,8 @@ namespace LISCareLimited
             services.AddScoped<IProject, ProjectBAL>();
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatient, PatientBAL>();
+            services.AddScoped<IAccessionRepository, AccessionRepository>();
+            services.AddScoped<IAccession, AccessionBAL>();
 
 
             services.AddCors(options =>

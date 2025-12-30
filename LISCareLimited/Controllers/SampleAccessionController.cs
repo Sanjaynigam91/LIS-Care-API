@@ -1,0 +1,56 @@
+﻿using LISCareBussiness.Interface;
+using LISCareDTO;
+using LISCareDTO.SampleAccession;
+using LISCareDTO.SampleManagement;
+using LISCareRepository.Implementation;
+using LISCareUtility;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LISCareLimited.Controllers
+{
+    [Route(ConstantResource.APIRoute)]
+    [ApiController]
+    public class SampleAccessionController : ControllerBase
+    {
+        private readonly IAccession accession;
+        private readonly ILogger<SampleAccessionController> logger;
+
+        public SampleAccessionController(IAccession accession, ILogger<SampleAccessionController> logger)
+        {
+            this.accession = accession;
+            this.logger = logger;
+        }
+
+        [HttpGet]
+        [Route(ConstantResource.GetAllSamplesForAccession)]
+        public async Task<IActionResult> GetAllPendingSampleForAccession([FromQuery] DateTime startDate, DateTime endDate, string? barcode, string? centerCode,
+            string? patientName, string partnerId)
+        {
+            var response = new APIResponseModel<List<PendingAccessionResponse>>
+            {
+                Data = []
+            };
+            response = await accession.GetPendingSampleForAccession(startDate, endDate, barcode, centerCode, patientName, partnerId);
+
+            if (patientName != null)
+            {
+                var result = response.Data.Where(x => x.PatientName == patientName);
+                response.Data = result.ToList();
+                return StatusCode(response.StatusCode, response);
+            }
+
+            if (response.Data.Count > 0)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
+
+
+    }
+}
