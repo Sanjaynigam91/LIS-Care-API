@@ -5,6 +5,7 @@ using LISCareDTO.SampleManagement;
 using LISCareRepository.Implementation;
 using LISCareRepository.Interface;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,26 @@ namespace LISCareBussiness.Implementation
         }
 
         /// <summary>
+        /// Used to get last imported
+        /// </summary>
+        /// <param name="woeDate"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<int>> GetLastImported(DateTime woeDate, string partnerId)
+        {
+            APIResponseModel<int> response;
+            try
+            {
+                response = await accessionRepository.GetLastImported(woeDate, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        /// <summary>
         /// used to get pending sample for accession
         /// </summary>
         /// <param name="startDate"></param>
@@ -38,6 +59,26 @@ namespace LISCareBussiness.Implementation
             try
             {
                 response = await accessionRepository.GetPendingSampleForAccession(startDate, endDate, barcode, centerCode, patientName, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// used to get sample types by visitId
+        /// </summary>
+        /// <param name="visitId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SampleTypeResponse>>> GetSampleTypesByVisitid(int visitId, string partnerId)
+        {
+            APIResponseModel<List<SampleTypeResponse>> response;
+            try
+            {
+                response = await accessionRepository.GetSampleTypesByVisitid(visitId, partnerId);
             }
             catch
             {

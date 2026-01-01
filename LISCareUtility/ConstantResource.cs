@@ -193,6 +193,12 @@ namespace LISCareUtility
         public const string GetSamplesForCollection = "GetSamplesForCollection";
         public const string GetRequestedSampleForCollection = "GetRequestedSampleForCollection";
         public const string GetAllSamplesForAccession = "GetAllSamplesForAccession";
+        public const string GetLastImported = "GetLastImported";
+        public const string GetSampleTypeByVisitId = "GetSampleTypeByVisitId";
+
+        
+
+
 
 
         #endregion
@@ -443,6 +449,8 @@ namespace LISCareUtility
         public const string ParamVisitId = "@VisitId";
         public const string ParamCollectionTime = "@CollectionTime";
         public const string ParamCollectedBy = "@CollectedBy";
+        public const string ParamWoeDate = "@WoeDate";
+
 
  
 
@@ -743,6 +751,8 @@ namespace LISCareUtility
         public const string ReferBy = "ReferredBy";
         public const string SampleStatus = "SampleStatus";
         public const string RejectedDetails = "RejectedDetails";
+        public const string LastImported = "LastImported";
+
 
 
 
@@ -986,6 +996,8 @@ namespace LISCareUtility
         public const string UspGetRequsetedSampleCollection = "Usp_GetRequsetedSampleCollection";
         public const string UspUpdateStatusAsSamleCollected = "Usp_UpdateStatusAsSamleCollected";
         public const string UspAccessionPendingSamples = "Usp_AccessionPendingSamples";
+        public const string UspGetLastImported = "Usp_GetLastImported";
+        public const string UspGetSampleType = "Usp_GetSampleType";
 
         #endregion
 

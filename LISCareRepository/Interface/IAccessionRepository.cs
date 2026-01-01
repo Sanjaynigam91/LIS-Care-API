@@ -1,5 +1,6 @@
 ﻿using LISCareDTO;
 using LISCareDTO.SampleAccession;
+using LISCareDTO.SampleManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,24 @@ namespace LISCareRepository.Interface
         /// <param name="patientName"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<PendingAccessionResponse>>>GetPendingSampleForAccession(DateTime startDate, DateTime endDate,string?barcode,string?centerCode,
-            string?patientName,string partnerId);
+        Task<APIResponseModel<List<PendingAccessionResponse>>> GetPendingSampleForAccession(DateTime startDate, DateTime endDate, string? barcode, string? centerCode,
+            string? patientName, string partnerId);
+       
+        /// <summary>
+        /// Used to get last imported
+        /// </summary>
+        /// <param name="woeDate"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<int>> GetLastImported(DateTime woeDate, string partnerId);
+       
+        /// <summary>
+        /// used to get sample types by visitId
+        /// </summary>
+        /// <param name="visitId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<SampleTypeResponse>>> GetSampleTypesByVisitid(int visitId, string partnerId);
 
     }
 }

@@ -6,6 +6,7 @@ using LISCareRepository.Implementation;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LISCareLimited.Controllers
 {
@@ -51,6 +52,54 @@ namespace LISCareLimited.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route(ConstantResource.GetLastImported)]
+        public async Task<IActionResult> GetLastImported([FromQuery] DateTime woeDate, string partnerId)
+        {
+            var response = new APIResponseModel<int>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = 0
+            };
+            response = await accession.GetLastImported(woeDate, partnerId);
+
+            if (response.Status)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
+
+        [HttpGet]
+        [Route(ConstantResource.GetSampleTypeByVisitId)]
+        public async Task<IActionResult> GetSampleTypeByVisitId([FromQuery] int visitId, string partnerId)
+        {
+            var response = new APIResponseModel<List<SampleTypeResponse>>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = []
+            };
+            response = await accession.GetSampleTypesByVisitid(visitId, partnerId);
+
+            if (response.Status)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
 
     }
 }
