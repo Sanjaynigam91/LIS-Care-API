@@ -1505,6 +1505,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.SampleAccessionController",
+    "Method": "GetLastImported",
+    "RelativePath": "api/GetLastImported",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "woeDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.BarcodeController",
     "Method": "GetLastProintedBarcode",
     "RelativePath": "api/GetLastPrintedBarcode",
@@ -1935,6 +1956,27 @@
       {
         "Name": "patientId",
         "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.SampleAccessionController",
+    "Method": "GetSampleTypeByVisitId",
+    "RelativePath": "api/GetSampleTypeByVisitId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "visitId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

@@ -3253,6 +3253,64 @@
         }
       }
     },
+    "/api/GetLastImported": {
+      "get": {
+        "tags": [
+          "SampleAccession"
+        ],
+        "parameters": [
+          {
+            "name": "woeDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetSampleTypeByVisitId": {
+      "get": {
+        "tags": [
+          "SampleAccession"
+        ],
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetSampleCollectedPlaces": {
       "get": {
         "tags": [
