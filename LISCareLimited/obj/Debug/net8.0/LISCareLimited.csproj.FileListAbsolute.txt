@@ -145,3 +145,4 @@ D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\refint\LISCareLimited.dl
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.pdb
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.genruntimeconfig.cache
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\ref\LISCareLimited.dll
+D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\swae.build.ex.cache

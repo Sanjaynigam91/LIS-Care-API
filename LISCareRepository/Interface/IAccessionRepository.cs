@@ -40,5 +40,14 @@ namespace LISCareRepository.Interface
         /// <returns></returns>
         Task<APIResponseModel<List<SampleTypeResponse>>> GetSampleTypesByVisitid(int visitId, string partnerId);
 
+        /// <summary>
+        /// used to get patient info by barcode
+        /// </summary>
+        /// <param name="sampleId"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(Guid patientId,string partnerId);
+
+
     }
 }

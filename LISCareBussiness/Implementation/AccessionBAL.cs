@@ -43,6 +43,20 @@ namespace LISCareBussiness.Implementation
             return response;
         }
 
+        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(Guid patientId, string partnerId)
+        {
+            APIResponseModel<PatientInfoResponse> response;
+            try
+            {
+                response = await accessionRepository.GetPatientInfoByBarcode(patientId, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
         /// <summary>
         /// used to get pending sample for accession
         /// </summary>

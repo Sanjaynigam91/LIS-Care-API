@@ -3311,6 +3311,35 @@
         }
       }
     },
+    "/api/GetPatientInfoByBarcode": {
+      "get": {
+        "tags": [
+          "SampleAccession"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetSampleCollectedPlaces": {
       "get": {
         "tags": [
