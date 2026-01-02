@@ -1700,6 +1700,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.SampleAccessionController",
+    "Method": "GetPatientInfoByBarcode",
+    "RelativePath": "api/GetPatientInfoByBarcode",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.PatiientController",
     "Method": "GetPatientRegistrationSummary",
     "RelativePath": "api/GetPatientSummary",

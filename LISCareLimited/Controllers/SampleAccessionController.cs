@@ -101,5 +101,28 @@ namespace LISCareLimited.Controllers
 
         }
 
+        [HttpGet]
+        [Route(ConstantResource.GetPatientInfoByBarcode)]
+        public async Task<IActionResult> GetPatientInfoByBarcode([FromQuery] Guid patientId, string partnerId)
+        {
+            var response = new APIResponseModel<PatientInfoResponse>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = null
+            };
+            response = await accession.GetPatientInfoByBarcode(patientId, partnerId);
+
+            if (response.Status)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+
+        }
     }
 }

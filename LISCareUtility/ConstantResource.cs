@@ -195,9 +195,7 @@ namespace LISCareUtility
         public const string GetAllSamplesForAccession = "GetAllSamplesForAccession";
         public const string GetLastImported = "GetLastImported";
         public const string GetSampleTypeByVisitId = "GetSampleTypeByVisitId";
-
-        
-
+        public const string GetPatientInfoByBarcode = "GetPatientInfoByBarcode";
 
 
 
@@ -752,9 +750,7 @@ namespace LISCareUtility
         public const string SampleStatus = "SampleStatus";
         public const string RejectedDetails = "RejectedDetails";
         public const string LastImported = "LastImported";
-
-
-
+        public const string AllowAccession = "AllowAccession";
 
 
         #endregion
@@ -998,6 +994,8 @@ namespace LISCareUtility
         public const string UspAccessionPendingSamples = "Usp_AccessionPendingSamples";
         public const string UspGetLastImported = "Usp_GetLastImported";
         public const string UspGetSampleType = "Usp_GetSampleType";
+        public const string UspGetPatientInfoByBarcode = "Usp_GetPatientInfoByBarcode";
+
 
         #endregion
 
