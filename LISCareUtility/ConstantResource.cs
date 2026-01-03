@@ -196,8 +196,9 @@ namespace LISCareUtility
         public const string GetLastImported = "GetLastImported";
         public const string GetSampleTypeByVisitId = "GetSampleTypeByVisitId";
         public const string GetPatientInfoByBarcode = "GetPatientInfoByBarcode";
+        public const string GetTestsByBarcode = "GetTestsByBarcode";
 
-
+        
 
         #endregion
 
@@ -751,8 +752,13 @@ namespace LISCareUtility
         public const string RejectedDetails = "RejectedDetails";
         public const string LastImported = "LastImported";
         public const string AllowAccession = "AllowAccession";
+        public const string RejectionRemarks = "RejectionRemarks";
+        public const string RejectedBy = "RejectedBy";
+        public const string RejectedOn = "RejectedOn";
+        public const string CancelRejectionRemark = "CancelRejectionRemark";
 
 
+       
         #endregion
 
         #region Meta Data Module
@@ -995,6 +1001,7 @@ namespace LISCareUtility
         public const string UspGetLastImported = "Usp_GetLastImported";
         public const string UspGetSampleType = "Usp_GetSampleType";
         public const string UspGetPatientInfoByBarcode = "Usp_GetPatientInfoByBarcode";
+        public const string UspGetTestDetailsByBracode = "Usp_GetTestDetailsByBracode";
 
 
         #endregion

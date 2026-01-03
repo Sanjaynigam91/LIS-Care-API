@@ -23,6 +23,7 @@ namespace LISCareBussiness.Interface
         /// <returns></returns>
         Task<APIResponseModel<List<PendingAccessionResponse>>> GetPendingSampleForAccession(DateTime startDate, DateTime endDate, string? barcode, string? centerCode,
             string? patientName, string partnerId);
+       
         /// <summary>
         /// Used to get last imported
         /// </summary>
@@ -30,6 +31,7 @@ namespace LISCareBussiness.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<int>> GetLastImported(DateTime woeDate, string partnerId);
+       
         /// <summary>
         /// used to get sample types by visitId
         /// </summary>
@@ -37,12 +39,22 @@ namespace LISCareBussiness.Interface
         /// <param name="partnerId"></param>
         /// <returns></returns>
         Task<APIResponseModel<List<SampleTypeResponse>>> GetSampleTypesByVisitid(int visitId, string partnerId);
+      
         /// <summary>
         /// used to get patient info by barcode
         /// </summary>
         /// <param name="patientId"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(Guid patientId, string partnerId);
+        Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string partnerId);
+
+        /// <summary>
+        /// used to get test details by barcode
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <param name="sampleType"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(int visitId, string? sampleType, string partnerId);
     }
 }
