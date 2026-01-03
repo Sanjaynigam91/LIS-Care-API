@@ -301,7 +301,7 @@ namespace LISCareRepository.Implementation
         /// <param name="patientId"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(Guid patientId, string partnerId)
+        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string partnerId)
         {
             logger.LogInformation($"GetPatientInfoByPatientId, method execution started at :{DateTime.Now}");
             bool isDataFound = false;
@@ -329,7 +329,7 @@ namespace LISCareRepository.Implementation
                     cmd.CommandText = ConstantResource.UspGetPatientInfoByBarcode;
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientId, patientId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, visitId));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
 
                     using var reader = await cmd.ExecuteReaderAsync();
@@ -385,6 +385,102 @@ namespace LISCareRepository.Implementation
                 await dbContext.Database.CloseConnectionAsync();
             }
             logger.LogInformation($"GetPatientInfoByPatientId, method execution completed at :{DateTime.Now}");
+            return response;
+        }
+
+        /// <summary>
+        /// used to get test details by barcode
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <param name="sampleType"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(int visitId, string? sampleType, string partnerId)
+        {
+            logger.LogInformation($"GetTestDetailsByBarcode, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<List<SampleAccessionTestResponse>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrEmpty(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                    response.Data = [];
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspGetTestDetailsByBracode, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspGetTestDetailsByBracode;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, visitId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, sampleType));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspGetTestDetailsByBracode, execution completed at :{DateTime.Now}");
+                    while (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+                        var testResponse = new SampleAccessionTestResponse
+                        {
+                            TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty,
+                            SampleType = reader[ConstantResource.SpecimenTypes] as string ?? string.Empty,
+                            CollectionTime = reader[ConstantResource.CollectionTime] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.CollectionTime]),
+                            SampleId = reader[ConstantResource.PatientSpecimenId] == DBNull.Value ? 0 : Convert.ToInt32(reader[ConstantResource.PatientSpecimenId]),
+                            WorkOrderStatus = reader[ConstantResource.WOEStatus] as string ?? string.Empty,
+                            RejectionRemarks = reader[ConstantResource.RejectionRemarks] as string ?? string.Empty,
+                            RejectedBy = reader[ConstantResource.RejectedBy] as string ?? string.Empty,
+                            RejectedDate = reader[ConstantResource.RejectedOn] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.RejectedOn]),
+                            IsRejected = reader[ConstantResource.IsRejected] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsRejected]),
+                            PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty,
+                            CreatedOn = reader[ConstantResource.CreatedOn] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.CreatedOn]),
+                            Barcode = reader[ConstantResource.Barcode] as string ?? string.Empty,
+                            CancelRejectionRemark = reader[ConstantResource.CancelRejectionRemark] as string ?? string.Empty,
+                            IsApprovalMandatory= reader[ConstantResource.IsApprovalMandatory] != DBNull.Value && Convert.ToBoolean(reader[ConstantResource.IsApprovalMandatory]),
+                        };
+
+                        response.Data.Add(testResponse);
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "test details retrieved successfully.";
+                        logger.LogInformation($"Test details retrieved successfully at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No test details found for the given barcode.";
+                        logger.LogInformation($"No test details found for the given barcode at :{DateTime.Now}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetTestDetailsByBarcode, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetTestDetailsByBarcode, method execution completed at :{DateTime.Now}");
             return response;
         }
     }

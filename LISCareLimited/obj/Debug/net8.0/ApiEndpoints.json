@@ -1708,8 +1708,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "patientId",
-        "Type": "System.Guid",
+        "Name": "visitId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
@@ -2106,6 +2106,32 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LISCareLimited.Controllers.SampleAccessionController",
+    "Method": "GetTestDetailsByBarcode",
+    "RelativePath": "api/GetTestsByBarcode",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "visitId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sampleType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
       {
         "Name": "partnerId",
         "Type": "System.String",

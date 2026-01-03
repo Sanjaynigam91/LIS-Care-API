@@ -3318,11 +3318,47 @@
         ],
         "parameters": [
           {
-            "name": "patientId",
+            "name": "visitId",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetTestsByBarcode": {
+      "get": {
+        "tags": [
+          "SampleAccession"
+        ],
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sampleType",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           },
           {
