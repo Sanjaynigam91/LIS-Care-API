@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LISCareLimited")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad187321fa85aac18ccc131bee2da7bfe48d960a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49194ab4d310e2e51f537b50fb75a5e97587fbd2")]
 [assembly: System.Reflection.AssemblyProductAttribute("LISCareLimited")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LISCareLimited")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

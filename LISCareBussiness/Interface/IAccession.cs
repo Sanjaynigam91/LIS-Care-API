@@ -46,7 +46,7 @@ namespace LISCareBussiness.Interface
         /// <param name="patientId"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string partnerId);
+        Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string? sampleType, string partnerId);
 
         /// <summary>
         /// used to get test details by barcode
@@ -55,6 +55,6 @@ namespace LISCareBussiness.Interface
         /// <param name="sampleType"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(int visitId, string? sampleType, string partnerId);
+        Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(string barcode, string? sampleType, string partnerId);
     }
 }
