@@ -197,6 +197,8 @@ namespace LISCareUtility
         public const string GetSampleTypeByVisitId = "GetSampleTypeByVisitId";
         public const string GetPatientInfoByBarcode = "GetPatientInfoByBarcode";
         public const string GetTestsByBarcode = "GetTestsByBarcode";
+        public const string PrintBarcode = "PrintBarcode";
+
 
         
 
@@ -1002,6 +1004,8 @@ namespace LISCareUtility
         public const string UspGetSampleType = "Usp_GetSampleType";
         public const string UspGetPatientInfoByBarcode = "Usp_GetPatientInfoByBarcode";
         public const string UspGetTestDetailsByBracode = "Usp_GetTestDetailsByBracode";
+        public const string UspCreateBarcode = "Usp_CreateBarcode";
+
 
 
         #endregion

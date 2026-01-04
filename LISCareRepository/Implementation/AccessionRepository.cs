@@ -484,5 +484,92 @@ namespace LISCareRepository.Implementation
             logger.LogInformation($"GetTestDetailsByBarcode, method execution completed at :{DateTime.Now}");
             return response;
         }
+
+        /// <summary>
+        /// used to create barcode
+        /// </summary>
+        /// <param name="visitId"></param>
+        /// <param name="sampleType"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<BarcodeResponse>> CreateBarcode(int visitId, string? sampleType, string partnerId)
+        {
+            logger.LogInformation($"CreateBarcode, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<BarcodeResponse>
+            {
+                Data = null
+            };
+
+            try
+            {
+                if (string.IsNullOrEmpty(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                    response.Data = null;
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspCreateBarcode, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspCreateBarcode;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, visitId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, sampleType));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspCreateBarcode, execution completed at :{DateTime.Now}");
+                    if (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+                        var barcodeResponse = new BarcodeResponse
+                        {
+                            Barcode = reader[ConstantResource.Barcode] as string ?? string.Empty,
+                            PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty,
+                            RegisteredDate = reader[ConstantResource.RegisteredOn] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader[ConstantResource.RegisteredOn]),
+                            Age = reader[ConstantResource.Age] as string ?? string.Empty,
+                            SampleType = reader[ConstantResource.SpecimenTypes] as string ?? string.Empty,
+                            TestShortName = reader[ConstantResource.TestShortName] as string ?? string.Empty
+                        };
+
+                        response.Data = barcodeResponse;
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Barcode details retrieved successfully.";
+                        logger.LogInformation($"Barcode details retrieved successfully at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "No barcode details found for the given barcode.";
+                        logger.LogInformation($"No barcode details found for the given barcode at :{DateTime.Now}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"GetPatientInfoByPatientId, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"GetPatientInfoByPatientId, method execution completed at :{DateTime.Now}");
+            return response;
+        }
     }
 }
