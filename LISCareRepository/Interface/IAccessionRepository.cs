@@ -57,5 +57,14 @@ namespace LISCareRepository.Interface
         /// <returns></returns>
         Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(string barcode, string? sampleType, string partnerId);
 
+        /// <summary>
+        /// used to create barcode
+        /// </summary>
+        /// <param name="visitId"></param>
+        /// <param name="sampleType"></param>
+        /// <param name="partnerId"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<BarcodeResponse>> CreateBarcode(int visitId, string? sampleType, string partnerId);
+
     }
 }

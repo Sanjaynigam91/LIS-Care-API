@@ -23,6 +23,20 @@ namespace LISCareBussiness.Implementation
             this.accessionRepository = accessionRepository;
         }
 
+        public async Task<APIResponseModel<BarcodeResponse>> CreateBarcode(int visitId, string? sampleType, string partnerId)
+        {
+            APIResponseModel<BarcodeResponse> response;
+            try
+            {
+                response = await accessionRepository.CreateBarcode(visitId, sampleType, partnerId);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
         /// <summary>
         /// Used to get last imported
         /// </summary>

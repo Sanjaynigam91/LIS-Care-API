@@ -2,6 +2,7 @@
 using LISCareDTO;
 using LISCareDTO.SampleAccession;
 using LISCareDTO.SampleManagement;
+using LISCareReporting.LISBarcode;
 using LISCareRepository.Implementation;
 using LISCareUtility;
 using Microsoft.AspNetCore.Http;
@@ -147,6 +148,31 @@ namespace LISCareLimited.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
 
+        }
+
+        [HttpGet]
+        [Route(ConstantResource.PrintBarcode)]
+        public async Task<IActionResult> PrintBarcode([FromQuery] int visitId, string? sampleType, string partnerId)
+        {
+            var response = new APIResponseModel<BarcodeResponse>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = null
+            };
+            response = await accession.CreateBarcode(visitId, sampleType, partnerId);
+
+            if (response.Status && response.Data != null)
+            {
+                var pdfBytes = SampleBarcode.GenerateBarcodeLabel(response.Data);
+                // Return the PDF file as a FileResult instead of writing to disk
+                return File(pdfBytes, "application/pdf", "SampleBarcode.pdf");
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
         }
     }
 }
