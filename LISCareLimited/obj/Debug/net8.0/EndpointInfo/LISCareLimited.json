@@ -3326,6 +3326,13 @@
             }
           },
           {
+            "name": "sampleType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "partnerId",
             "in": "query",
             "schema": {
@@ -3347,11 +3354,10 @@
         ],
         "parameters": [
           {
-            "name": "visitId",
+            "name": "barcode",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           },
           {

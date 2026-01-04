@@ -301,7 +301,7 @@ namespace LISCareRepository.Implementation
         /// <param name="patientId"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string partnerId)
+        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string? sampleType, string partnerId)
         {
             logger.LogInformation($"GetPatientInfoByPatientId, method execution started at :{DateTime.Now}");
             bool isDataFound = false;
@@ -330,6 +330,7 @@ namespace LISCareRepository.Implementation
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, visitId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, sampleType));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
 
                     using var reader = await cmd.ExecuteReaderAsync();
@@ -395,7 +396,7 @@ namespace LISCareRepository.Implementation
         /// <param name="sampleType"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        public async Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(int visitId, string? sampleType, string partnerId)
+        public async Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(string barcode, string? sampleType, string partnerId)
         {
             logger.LogInformation($"GetTestDetailsByBarcode, method execution started at :{DateTime.Now}");
             bool isDataFound = false;
@@ -423,7 +424,7 @@ namespace LISCareRepository.Implementation
                     cmd.CommandText = ConstantResource.UspGetTestDetailsByBracode;
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, visitId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, barcode));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, sampleType));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId));
 

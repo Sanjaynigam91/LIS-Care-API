@@ -1713,6 +1713,11 @@
         "IsRequired": false
       },
       {
+        "Name": "sampleType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "partnerId",
         "Type": "System.String",
         "IsRequired": false
@@ -2123,8 +2128,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "visitId",
-        "Type": "System.Int32",
+        "Name": "barcode",
+        "Type": "System.String",
         "IsRequired": false
       },
       {

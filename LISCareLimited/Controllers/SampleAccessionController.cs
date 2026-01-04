@@ -103,7 +103,7 @@ namespace LISCareLimited.Controllers
 
         [HttpGet]
         [Route(ConstantResource.GetPatientInfoByBarcode)]
-        public async Task<IActionResult> GetPatientInfoByBarcode([FromQuery] int visitId, string partnerId)
+        public async Task<IActionResult> GetPatientInfoByBarcode([FromQuery] int visitId, string? sampleType, string partnerId)
         {
             var response = new APIResponseModel<PatientInfoResponse>
             {
@@ -112,7 +112,7 @@ namespace LISCareLimited.Controllers
                 ResponseMessage = ConstantResource.Failed,
                 Data = null
             };
-            response = await accession.GetPatientInfoByBarcode(visitId, partnerId);
+            response = await accession.GetPatientInfoByBarcode(visitId, sampleType, partnerId);
 
             if (response.Status)
             {
@@ -127,7 +127,7 @@ namespace LISCareLimited.Controllers
 
         [HttpGet]
         [Route(ConstantResource.GetTestsByBarcode)]
-        public async Task<IActionResult> GetTestDetailsByBarcode([FromQuery] int visitId, string? sampleType, string partnerId)
+        public async Task<IActionResult> GetTestDetailsByBarcode([FromQuery] string barcode, string? sampleType, string partnerId)
         {
             var response = new APIResponseModel<List<SampleAccessionTestResponse>>
             {
@@ -136,7 +136,7 @@ namespace LISCareLimited.Controllers
                 ResponseMessage = ConstantResource.Failed,
                 Data = []
             };
-            response = await accession.GetTestDetailsByBarcode(visitId, sampleType, partnerId);
+            response = await accession.GetTestDetailsByBarcode(barcode, sampleType, partnerId);
 
             if (response.Status)
             {

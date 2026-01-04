@@ -43,12 +43,12 @@ namespace LISCareBussiness.Implementation
             return response;
         }
 
-        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string partnerId)
+        public async Task<APIResponseModel<PatientInfoResponse>> GetPatientInfoByBarcode(int visitId, string? sampleType, string partnerId)
         {
             APIResponseModel<PatientInfoResponse> response;
             try
             {
-                response = await accessionRepository.GetPatientInfoByBarcode(visitId, partnerId);
+                response = await accessionRepository.GetPatientInfoByBarcode(visitId, sampleType, partnerId);
             }
             catch
             {
@@ -108,12 +108,12 @@ namespace LISCareBussiness.Implementation
         /// <param name="sampleType"></param>
         /// <param name="partnerId"></param>
         /// <returns></returns>
-        public async Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(int visitId, string? sampleType, string partnerId)
+        public async Task<APIResponseModel<List<SampleAccessionTestResponse>>> GetTestDetailsByBarcode(string barcode, string? sampleType, string partnerId)
         {
             APIResponseModel<List<SampleAccessionTestResponse>> response;
             try
             {
-                response = await accessionRepository.GetTestDetailsByBarcode(visitId, sampleType, partnerId);
+                response = await accessionRepository.GetTestDetailsByBarcode(barcode, sampleType, partnerId);
             }
             catch
             {
