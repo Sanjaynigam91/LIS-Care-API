@@ -23,6 +23,25 @@ namespace LISCareBussiness.Implementation
             this.accessionRepository = accessionRepository;
         }
 
+        /// <summary>
+        /// used to accept the selected sample
+        /// </summary>
+        /// <param name="acceptSample"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<AcceptSampleResponse>> AcceptSelectedSample(AcceptSampleRequest acceptSample)
+        {
+            APIResponseModel<AcceptSampleResponse> response;
+            try
+            {
+                response = await accessionRepository.AcceptSelectedSample(acceptSample);
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
+
         public async Task<APIResponseModel<BarcodeResponse>> CreateBarcode(int visitId, string? sampleType, string partnerId)
         {
             APIResponseModel<BarcodeResponse> response;

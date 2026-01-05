@@ -174,5 +174,28 @@ namespace LISCareLimited.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
         }
+
+        [HttpPut]
+        [Route(ConstantResource.AcceptSampleByBarcode)]
+        public async Task<IActionResult> AcceptSelectedSample(AcceptSampleRequest acceptSample)
+        {
+            var response = new APIResponseModel<AcceptSampleResponse>
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Status = false,
+                ResponseMessage = ConstantResource.Failed,
+                Data = null
+            };
+            response = await accession.AcceptSelectedSample(acceptSample);
+
+            if (response.Status && response.Data != null)
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
     }
 }
