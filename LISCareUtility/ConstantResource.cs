@@ -198,6 +198,8 @@ namespace LISCareUtility
         public const string GetPatientInfoByBarcode = "GetPatientInfoByBarcode";
         public const string GetTestsByBarcode = "GetTestsByBarcode";
         public const string PrintBarcode = "PrintBarcode";
+        public const string AcceptSampleByBarcode = "AcceptSampleByBarcode";
+
 
 
         
@@ -451,6 +453,8 @@ namespace LISCareUtility
         public const string ParamCollectionTime = "@CollectionTime";
         public const string ParamCollectedBy = "@CollectedBy";
         public const string ParamWoeDate = "@WoeDate";
+        public const string ParamPatientSpecimenId = "@PatientSpecimenId";
+
 
 
  
@@ -758,6 +762,10 @@ namespace LISCareUtility
         public const string RejectedBy = "RejectedBy";
         public const string RejectedOn = "RejectedOn";
         public const string CancelRejectionRemark = "CancelRejectionRemark";
+        public const string WOEVialNo = "WOEVialNo";
+        public const string Message = "Message";
+
+
 
 
        
@@ -1005,8 +1013,7 @@ namespace LISCareUtility
         public const string UspGetPatientInfoByBarcode = "Usp_GetPatientInfoByBarcode";
         public const string UspGetTestDetailsByBracode = "Usp_GetTestDetailsByBracode";
         public const string UspCreateBarcode = "Usp_CreateBarcode";
-
-
+        public const string UspAcceptSelectedSampleByBarcode = "Usp_AcceptSelectedSampleByBarcode";
 
         #endregion
 

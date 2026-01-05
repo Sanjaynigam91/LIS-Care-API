@@ -571,5 +571,93 @@ namespace LISCareRepository.Implementation
             logger.LogInformation($"GetPatientInfoByPatientId, method execution completed at :{DateTime.Now}");
             return response;
         }
+
+        /// <summary>
+        /// used to accept the selected sample
+        /// </summary>
+        /// <param name="acceptSample"></param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<AcceptSampleResponse>> AcceptSelectedSample(AcceptSampleRequest acceptSample)
+        {
+            logger.LogInformation($"AcceptSelectedSample, method execution started at :{DateTime.Now}");
+            bool isDataFound = false;
+            var response = new APIResponseModel<AcceptSampleResponse>
+            {
+                Data = null
+            };
+
+            try
+            {
+                if (string.IsNullOrEmpty(acceptSample.Barcode))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = $"Invalid Barcode:{acceptSample.Barcode},Please verify the barcode.";
+                    response.Data = null;
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    logger.LogInformation($"UspAcceptSelectedSampleByBarcode, execution started at :{DateTime.Now}");
+                    cmd.CommandText = ConstantResource.UspAcceptSelectedSampleByBarcode;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamWoeDate, acceptSample.WoeDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, acceptSample.Barcode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientSpecimenId, acceptSample.PatientSpecimenId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientCode, acceptSample.PatientCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, acceptSample.SpecimenType));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCreateBy, acceptSample.CreatedBy));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, acceptSample.PartnerId));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, acceptSample.VisitId));
+
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    logger.LogInformation($"UspAcceptSelectedSampleByBarcode, execution completed at :{DateTime.Now}");
+                    if (await reader.ReadAsync())
+                    {
+                        isDataFound = true;
+                        var acceptSampleResponse = new AcceptSampleResponse
+                        {
+                            VisitId = reader[ConstantResource.VisitId] == DBNull.Value ? 0 : Convert.ToInt32(reader[ConstantResource.VisitId]),
+                            WOEVialNo = reader[ConstantResource.WOEVialNo] == DBNull.Value ? 0 : Convert.ToInt32(reader[ConstantResource.WOEVialNo]),
+                            Message = reader[ConstantResource.Message] as string ?? string.Empty,
+                        };
+
+                        response.Data = acceptSampleResponse;
+                    }
+                    if (isDataFound)
+                    {
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = response.Data.Message;
+                        logger.LogInformation($"{response.Data.Message} at :{DateTime.Now}");
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response.ResponseMessage = "Accept sample operation didn't complete successfully....";
+                        logger.LogInformation($"Accept sample operation didn't complete successfully at :{DateTime.Now}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                logger.LogInformation($"AcceptSelectedSample, method execution failed at :{DateTime.Now} due to {ex.Message}");
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+            logger.LogInformation($"AcceptSelectedSample, method execution completed at :{DateTime.Now}");
+            return response;
+        }
     }
 }

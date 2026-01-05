@@ -66,5 +66,11 @@ namespace LISCareRepository.Interface
         /// <returns></returns>
         Task<APIResponseModel<BarcodeResponse>> CreateBarcode(int visitId, string? sampleType, string partnerId);
 
+        /// <summary>
+        /// used to accept the selected sample
+        /// </summary>
+        /// <param name="acceptSample"></param>
+        /// <returns></returns>
+        Task<APIResponseModel<AcceptSampleResponse>> AcceptSelectedSample(AcceptSampleRequest acceptSample);
     }
 }
