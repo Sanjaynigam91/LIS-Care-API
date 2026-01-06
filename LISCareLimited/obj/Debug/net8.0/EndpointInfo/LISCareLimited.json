@@ -3418,6 +3418,37 @@
         }
       }
     },
+    "/api/AcceptSampleByBarcode": {
+      "put": {
+        "tags": [
+          "SampleAccession"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptSampleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptSampleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptSampleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetSampleCollectedPlaces": {
       "get": {
         "tags": [
@@ -4454,6 +4485,44 @@
   },
   "components": {
     "schemas": {
+      "AcceptSampleRequest": {
+        "type": "object",
+        "properties": {
+          "woeDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "patientSpecimenId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patientCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "specimenType": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "AnalyzerMappingRequest": {
         "type": "object",
         "properties": {

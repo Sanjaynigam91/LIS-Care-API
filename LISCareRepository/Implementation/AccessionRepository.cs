@@ -610,7 +610,7 @@ namespace LISCareRepository.Implementation
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientSpecimenId, acceptSample.PatientSpecimenId));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientCode, acceptSample.PatientCode));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamSpecimenType, acceptSample.SpecimenType));
-                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCreateBy, acceptSample.CreatedBy));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCreatedById, acceptSample.CreatedBy));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, acceptSample.PartnerId));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamVisitId, acceptSample.VisitId));
 

@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "LISCareLimited.Controllers.SampleAccessionController",
+    "Method": "AcceptSelectedSample",
+    "RelativePath": "api/AcceptSampleByBarcode",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "acceptSample",
+        "Type": "LISCareDTO.SampleAccession.AcceptSampleRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.LISRoleController",
     "Method": "AddNewLISRole",
     "RelativePath": "api/AddLISRole",
