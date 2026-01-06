@@ -454,6 +454,8 @@ namespace LISCareUtility
         public const string ParamCollectedBy = "@CollectedBy";
         public const string ParamWoeDate = "@WoeDate";
         public const string ParamPatientSpecimenId = "@PatientSpecimenId";
+        public const string ParamCreatedById = "@CreatedBy";
+
 
 
 
