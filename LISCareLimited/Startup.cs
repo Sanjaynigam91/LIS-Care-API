@@ -1,4 +1,4 @@
-using LISCare.Implementation;
+﻿using LISCare.Implementation;
 using LISCare.Interface;
 using LISCareBussiness.Implementation;
 using LISCareBussiness.Interface;
@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 
@@ -30,11 +31,13 @@ namespace LISCareLimited
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // =========================
+            // Dependency Injection
+            // =========================
             services.AddScoped<IUser, UserBAL>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMetaData, MetaDataBAL>();
@@ -70,59 +73,109 @@ namespace LISCareLimited
             services.AddScoped<IPatient, PatientBAL>();
             services.AddScoped<IAccessionRepository, AccessionRepository>();
             services.AddScoped<IAccession, AccessionBAL>();
+            services.AddScoped<IReporting, ReportingBAL>();
+            services.AddScoped<IReportingRepository, ReportingRepository>();
 
-
+            // =========================
+            // CORS
+            // =========================
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder
-                        .WithOrigins(
+                options.AddPolicy("AllowSpecificOrigin", builder =>
+                {
+                    builder.WithOrigins(
                             "http://localhost:4200",
-                            "https://dev-lis-care-web-crb9euhzd7d0ezb8.centralindia-01.azurewebsites.net"
-                        )
+                            "https://dev-lis-care-web-crb9euhzd7d0ezb8.centralindia-01.azurewebsites.net")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowCredentials()
-                );
+                        .AllowCredentials();
+                });
             });
 
-            // Configure database connection strings.
+            // =========================
+            // Database
+            // =========================
             services.AddDbContext<LISCareDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(ConstantResource.LISCareDbConnection)));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString(ConstantResource.LISCareDbConnection)));
 
-            services.Configure<UploadImagePath>(Configuration.GetSection("UploadImagePath"));
+            // =========================
+            // App Settings
+            // =========================
+            services.Configure<UploadImagePath>(
+                Configuration.GetSection("UploadImagePath"));
 
-            // Configure strongly typed setting objects
-            var appSettingsSection = Configuration.GetSection(ConstantResource.TokenModel);
-            services.Configure<TokenModel>(appSettingsSection);
-          
-            services.AddSwaggerGen();
-            // Configure jwt authentication
-            var appSettings = appSettingsSection.Get<TokenModel>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-          
-     
-            services.AddAuthentication(x =>
+            var tokenSection = Configuration.GetSection(ConstantResource.TokenModel);
+            services.Configure<TokenModel>(tokenSection);
+
+            var tokenSettings = tokenSection.Get<TokenModel>();
+           // var key = Encoding.ASCII.GetBytes(tokenSettings.Secret);
+
+            var key = Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
+
+                        ValidateIssuer = false,     // OK for now
+                        ValidateAudience = false,   // OK for now
+
+                        ClockSkew = TimeSpan.Zero
+                    };
+
+                    // Optional but VERY useful for debugging
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            Console.WriteLine("JWT ERROR: " + context.Exception.Message);
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
+            services.AddAuthorization();
 
 
+            // 🔥 REQUIRED FOR [Authorize]
+            services.AddAuthorization();
 
+            // =========================
+            // Swagger + JWT
+            // =========================
+            services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Enter: Bearer {your JWT token}",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,14 +185,18 @@ namespace LISCareLimited
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
             app.UseSwaggerUI(op => op.SwaggerEndpoint("/swagger/v1/swagger.json", "LIS Care API"));
-            app.UseHttpsRedirection();          
-            app.UseAuthentication();
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
+
             app.UseCors("AllowSpecificOrigin"); // This must be placed between UseRouting and UseEndpoints
 
+            app.UseAuthentication();    // 🔑 Identify user
+            app.UseAuthorization();     // ✅ REQUIRED for [Authorize]
 
             app.UseEndpoints(endpoints =>
             {

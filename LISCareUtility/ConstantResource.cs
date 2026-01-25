@@ -199,10 +199,7 @@ namespace LISCareUtility
         public const string GetTestsByBarcode = "GetTestsByBarcode";
         public const string PrintBarcode = "PrintBarcode";
         public const string AcceptSampleByBarcode = "AcceptSampleByBarcode";
-
-
-
-        
+        public const string RetrievePendingPatients = "RetrievePendingPatients";
 
         #endregion
 
@@ -455,11 +452,8 @@ namespace LISCareUtility
         public const string ParamWoeDate = "@WoeDate";
         public const string ParamPatientSpecimenId = "@PatientSpecimenId";
         public const string ParamCreatedById = "@CreatedBy";
+        public const string ParamReportStatus = "@ReportStatus";
 
-
-
-
- 
 
         #endregion
 
@@ -766,11 +760,14 @@ namespace LISCareUtility
         public const string CancelRejectionRemark = "CancelRejectionRemark";
         public const string WOEVialNo = "WOEVialNo";
         public const string Message = "Message";
+        public const string Departments = "Departments";
+        public const string BarcodeIds = "BarcodeIds";
+        public const string TestProfiles = "TestProfiles";
+        public const string NewWorkOrderDate = "Woe_date_New";
+        public const string ReferredByDr = "ReferredBy";
+        public const string ClinicFileNumber = "ClinicFileNumber";
+        public const string WorkOrderDate = "Woe_Date";
 
-
-
-
-       
         #endregion
 
         #region Meta Data Module
@@ -1016,6 +1013,13 @@ namespace LISCareUtility
         public const string UspGetTestDetailsByBracode = "Usp_GetTestDetailsByBracode";
         public const string UspCreateBarcode = "Usp_CreateBarcode";
         public const string UspAcceptSelectedSampleByBarcode = "Usp_AcceptSelectedSampleByBarcode";
+
+        #endregion
+
+        #region Reporting Module
+        public const string UspResultsMasterRetrieveDetails = "Usp_ResultsMaster_RetrieveDetails";
+
+
 
         #endregion
 
