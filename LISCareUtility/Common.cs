@@ -103,24 +103,34 @@ namespace LISCareUtility
         }
 
         // To generate token
-        public static string GenerateToken(string? email, string? role, IConfiguration _configuration)
+        public static string GenerateToken(string? email, string? role, IConfiguration configuration)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier,email),
-                new Claim(ClaimTypes.Role,role)
-            };
-            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(15),
-                signingCredentials: credentials);
+            // 🔑 MUST match Startup JWT validation key
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(configuration["Jwt:Key"])
+            );
 
+            var credentials = new SigningCredentials(
+                key, SecurityAlgorithms.HmacSha256
+            );
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, email ?? string.Empty),
+                new Claim(ClaimTypes.Role, role ?? string.Empty)
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: configuration["Jwt:Issuer"],
+                audience: configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(15), // ✅ use UTC
+                signingCredentials: credentials
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
         public static string GeneratePartnerId()
         {
