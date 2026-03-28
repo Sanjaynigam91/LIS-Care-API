@@ -109,6 +109,8 @@ namespace LISCareUtility
         public const string GeneratePatientReceipt = "GeneratePatientReceipt";
         public const string DeleteRegisteredPatient = "DeleteRegisteredPatient";
         public const string UpdateSampleCollectionStatus = "UpdateSampleCollectionStatus";
+        public const string RejectTestBeforeAccession = "RejectTestBeforeAccession";
+
 
 
 
@@ -453,6 +455,10 @@ namespace LISCareUtility
         public const string ParamPatientSpecimenId = "@PatientSpecimenId";
         public const string ParamCreatedById = "@CreatedBy";
         public const string ParamReportStatus = "@ReportStatus";
+        public const string ParamRejectionReason = "@RejectionReason";
+        public const string ParamRejectedBy = "@RejectedBy";
+
+
 
 
         #endregion
@@ -1019,6 +1025,12 @@ namespace LISCareUtility
         #region Reporting Module
         public const string UspResultsMasterRetrieveDetails = "Usp_ResultsMaster_RetrieveDetails";
 
+
+
+        #endregion
+
+        #region Rejection Management
+        public const string UspAccessionRejectTests = "Usp_Accession_RejectTests";
 
 
         #endregion

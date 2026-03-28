@@ -2358,6 +2358,42 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.RejectionController",
+    "Method": "RejectTestsBeforeAccession",
+    "RelativePath": "api/RejectTestBeforeAccession",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientSpecimenId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "testCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "rejectionReason",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "rejectedBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.ReportingController",
     "Method": "RetrievePendingPatients",
     "RelativePath": "api/RetrievePendingPatients",
