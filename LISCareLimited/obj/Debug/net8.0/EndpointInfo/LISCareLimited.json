@@ -3195,6 +3195,56 @@
         }
       }
     },
+    "/api/RejectTestBeforeAccession": {
+      "put": {
+        "tags": [
+          "Rejection"
+        ],
+        "parameters": [
+          {
+            "name": "patientSpecimenId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "testCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rejectionReason",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rejectedBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "partnerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/RetrievePendingPatients": {
       "get": {
         "tags": [

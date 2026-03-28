@@ -75,6 +75,8 @@ namespace LISCareLimited
             services.AddScoped<IAccession, AccessionBAL>();
             services.AddScoped<IReporting, ReportingBAL>();
             services.AddScoped<IReportingRepository, ReportingRepository>();
+            services.AddScoped<IRejection, RejectionBAL>();
+            services.AddScoped<IRejectionRepository, RejectionRepository>();
 
             // =========================
             // CORS
