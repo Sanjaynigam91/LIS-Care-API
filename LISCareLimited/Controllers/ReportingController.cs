@@ -25,29 +25,28 @@ namespace LISCareLimited.Controllers
         [HttpGet]
         [Route(ConstantResource.RetrievePendingPatients)]
         [Authorize]
-        public async Task<IActionResult> RetrievePendingPatients([FromQuery] string partnerId, DateTime startDate, DateTime endDate, string? barcode,
-           string? department, string? patientName, string? centerCode, string reportStatus)
+        public async Task<IActionResult> RetrievePendingPatients([FromQuery] string partnerId,DateTime startDate,DateTime endDate,string? barcode,string? department,string? patientName,string? centerCode,
+              string reportStatus)
         {
-            var response = new APIResponseModel<List<PendingPatientResponse>>
+            try
             {
-                StatusCode = (int)HttpStatusCode.BadRequest,
-                Status = false,
-                ResponseMessage = ConstantResource.Failed,
-                Data = []
-            };
-            response = await reporting.RetrievePendingPatients(partnerId, startDate, endDate, barcode, department, patientName, centerCode, reportStatus);
+                var response = await reporting.RetrievePendingPatients(
+                    partnerId,
+                    startDate,
+                    endDate,
+                    barcode,
+                    department,
+                    patientName,
+                    centerCode,
+                    reportStatus);
 
-            if (response.Status)
-            {
                 return StatusCode(response.StatusCode, response);
             }
-            else
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, response);
+                return StatusCode(500, ex.ToString());
             }
-
         }
-
 
     }
 }
