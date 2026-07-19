@@ -1887,6 +1887,47 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LISCareLimited.Controllers.RejectionController",
+    "Method": "GetRejectedSamples",
+    "RelativePath": "api/GetRejectedSamples",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partnerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "barcode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "patientCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "clientCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LISCareLimited.Controllers.MetaDataController",
     "Method": "GetReportingStyle",
     "RelativePath": "api/GetReportingStyle",
