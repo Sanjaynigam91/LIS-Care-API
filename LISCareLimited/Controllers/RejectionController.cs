@@ -27,5 +27,23 @@ namespace LISCareLimited.Controllers
 
             return BadRequest("Invalid Rejection request");
         }
+
+        [HttpGet]
+        [Route(ConstantResource.GetRejectedSamples)]
+        [Authorize]
+        public async Task<IActionResult> GetRejectedSamples([FromQuery] string partnerId, DateTime startDate, DateTime endDate, string? barcode, string? patientCode, string? clientCode)
+        {
+            try
+            {
+                var response = await _rejection.GetRejectedSamples(partnerId, startDate, endDate, barcode, patientCode, clientCode);
+
+                return StatusCode(response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
     }
 }

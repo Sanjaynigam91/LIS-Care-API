@@ -138,6 +138,7 @@ D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\staticwebassets.build.js
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\staticwebassets.development.json
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\swae.build.ex.cache
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareL.725D1ED9.Up2Date
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.dll
@@ -145,4 +146,3 @@ D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\refint\LISCareLimited.dl
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.pdb
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\LISCareLimited.genruntimeconfig.cache
 D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\ref\LISCareLimited.dll
-D:\LISCare\LIS-Care-API\LISCareLimited\obj\Debug\net8.0\swae.build.ex.cache

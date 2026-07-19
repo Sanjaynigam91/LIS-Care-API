@@ -202,6 +202,7 @@ namespace LISCareUtility
         public const string PrintBarcode = "PrintBarcode";
         public const string AcceptSampleByBarcode = "AcceptSampleByBarcode";
         public const string RetrievePendingPatients = "RetrievePendingPatients";
+        public const string GetRejectedSamples = "GetRejectedSamples";
 
         #endregion
 
@@ -773,6 +774,9 @@ namespace LISCareUtility
         public const string ReferredByDr = "ReferredBy";
         public const string ClinicFileNumber = "ClinicFileNumber";
         public const string WorkOrderDate = "Woe_Date";
+        public const string RejectionReasons = "RejectionReasons";
+        public const string RejectedDate = "RejectedDate";
+
 
         #endregion
 
@@ -1031,6 +1035,8 @@ namespace LISCareUtility
 
         #region Rejection Management
         public const string UspAccessionRejectTests = "Usp_Accession_RejectTests";
+        public const string UspGetRejectedSampleSummary = "Usp_GetRejectedSampleSummary";
+
 
 
         #endregion

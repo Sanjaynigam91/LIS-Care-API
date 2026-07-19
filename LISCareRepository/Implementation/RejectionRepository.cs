@@ -1,7 +1,10 @@
 ﻿using LISCareDataAccess.LISCareDbContext;
 using LISCareDTO;
+using LISCareDTO.AnalyzerMaster;
+using LISCareDTO.RejectedSample;
 using LISCareRepository.Interface;
 using LISCareUtility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -109,5 +112,77 @@ namespace LISCareRepository.Implementation
             response.Data = string.Empty;
             return response;
         }
+
+        public async Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId, DateTime startDate, DateTime endDate, string barcode, string patientName, string clientCode)
+        {
+            var response = new APIResponseModel<List<RejectedSample>>
+            {
+                Data = []
+            };
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(partnerId))
+                {
+                    response.Status = false;
+                    response.StatusCode = StatusCodes.Status400BadRequest;
+                    response.ResponseMessage = "PartnerId cannot be null or empty.";
+                }
+                else
+                {
+                    if (dbContext.Database.GetDbConnection().State == ConnectionState.Closed)
+                        await dbContext.Database.OpenConnectionAsync();
+
+                    using var cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                    cmd.CommandText = ConstantResource.UspGetRejectedSampleSummary;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParmPartnerId, partnerId.Trim()));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamStartdate, startDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamEnddate, endDate));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, barcode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientName, patientName));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamClientCode, clientCode));
+
+                    using var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new RejectedSample
+                        {
+                            RejectedDate = reader[ConstantResource.RejectedDate] != DBNull.Value
+                            ? Convert.ToDateTime(reader[ConstantResource.RejectedDate]).ToString("yyyyMMdd")
+                            : DateTime.Now.ToString("yyyyMMdd"),
+                            PatientName = reader[ConstantResource.PatientName] as string ?? string.Empty,
+                            ReferredDoctor = reader[ConstantResource.ReferredDoctor] as string ?? string.Empty,
+                            VisitId = reader[ConstantResource.VisitId] != DBNull.Value ? Convert.ToInt32(reader[ConstantResource.VisitId]) : 0,
+                            CenterCode = reader[ConstantResource.CenterCode] as string ?? string.Empty,
+                            TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty,
+                            PatientCode = reader[ConstantResource.PatientCode] as string ?? string.Empty,
+                            RejectionReasons = reader[ConstantResource.RejectionReasons] as string ?? string.Empty,
+                            ReferredLab = reader[ConstantResource.ReferredLab] as string ?? string.Empty,
+                            TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
+                            CenterName = reader[ConstantResource.CenterrName] as string ?? string.Empty
+                        });
+                        response.Status = true;
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        response.ResponseMessage = "Rejected samples retrieved successfully.";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ResponseMessage = ex.Message;
+                // Optionally log the exception here
+            }
+            finally
+            {
+                await dbContext.Database.CloseConnectionAsync();
+            }
+
+            return response;
+        }
+
     }
 }
