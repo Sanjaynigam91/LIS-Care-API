@@ -124,7 +124,7 @@ namespace LISCareUtility
                 issuer: configuration["Jwt:Issuer"],
                 audience: configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15), // ✅ use UTC
+                expires: DateTime.UtcNow.AddMinutes(30), // ✅ use UTC
                 signingCredentials: credentials
             );
 
