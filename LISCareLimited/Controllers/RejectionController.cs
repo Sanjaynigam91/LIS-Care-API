@@ -31,11 +31,11 @@ namespace LISCareLimited.Controllers
         [HttpGet]
         [Route(ConstantResource.GetRejectedSamples)]
         [Authorize]
-        public async Task<IActionResult> GetRejectedSamples([FromQuery] string partnerId, DateTime startDate, DateTime endDate, string? barcode, string? patientCode, string? clientCode)
-        {
+        public async Task<IActionResult> GetRejectedSamples([FromQuery] string partnerId, DateTime startDate, DateTime endDate, string? barcode, string? patientNameOrCode, string? centerCode)
+      {
             try
             {
-                var response = await _rejection.GetRejectedSamples(partnerId, startDate, endDate, barcode, patientCode, clientCode);
+                var response = await _rejection.GetRejectedSamples(partnerId, startDate, endDate, barcode, patientNameOrCode, centerCode);
 
                 return StatusCode(response.StatusCode, response);
             }

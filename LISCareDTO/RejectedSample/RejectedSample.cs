@@ -19,6 +19,7 @@ namespace LISCareDTO.RejectedSample
         public string RejectionReasons { get; set; } = string.Empty;
         public string ReferredLab { get; set; } = string.Empty;
         public string TestCode { get; set; } = string.Empty;
+        public string Barcode { get; set; } = string.Empty;
 
     }
 

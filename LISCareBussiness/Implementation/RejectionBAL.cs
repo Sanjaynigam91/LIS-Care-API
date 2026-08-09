@@ -29,12 +29,12 @@ namespace LISCareBussiness.Implementation
             return response;
         }
 
-        public async Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId, DateTime startDate, DateTime endDate, string barcode, string patientName, string clientCode)
+        public async Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId, DateTime startDate, DateTime endDate, string barcode, string patientNameOrCode, string centerCode)
         {
             APIResponseModel<List<RejectedSample>> response;
             try
             {
-                response = await rejectionRepository.GetRejectedSamples(partnerId, startDate, endDate, barcode, patientName, clientCode);
+                response = await rejectionRepository.GetRejectedSamples(partnerId, startDate, endDate, barcode, patientNameOrCode, centerCode);
             }
             catch
             {

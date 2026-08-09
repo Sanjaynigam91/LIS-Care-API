@@ -113,7 +113,7 @@ namespace LISCareRepository.Implementation
             return response;
         }
 
-        public async Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId, DateTime startDate, DateTime endDate, string barcode, string patientName, string clientCode)
+        public async Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId, DateTime startDate, DateTime endDate, string barcode, string patientNameOrCode, string centerCode)
         {
             var response = new APIResponseModel<List<RejectedSample>>
             {
@@ -140,8 +140,9 @@ namespace LISCareRepository.Implementation
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamStartdate, startDate));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamEnddate, endDate));
                     cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamBarcode, barcode));
-                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientName, patientName));
-                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamClientCode, clientCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamPatientName, patientNameOrCode));
+                    cmd.Parameters.Add(new SqlParameter(ConstantResource.ParamCenterCode, centerCode));
+
 
                     using var reader = await cmd.ExecuteReaderAsync();
                     while (await reader.ReadAsync())
@@ -157,6 +158,7 @@ namespace LISCareRepository.Implementation
                             CenterCode = reader[ConstantResource.CenterCode] as string ?? string.Empty,
                             TestName = reader[ConstantResource.MappedTestName] as string ?? string.Empty,
                             PatientCode = reader[ConstantResource.PatientCode] as string ?? string.Empty,
+                            Barcode = reader[ConstantResource.Barcode] as string ?? string.Empty,
                             RejectionReasons = reader[ConstantResource.RejectionReasons] as string ?? string.Empty,
                             ReferredLab = reader[ConstantResource.ReferredLab] as string ?? string.Empty,
                             TestCode = reader[ConstantResource.TestCode] as string ?? string.Empty,
