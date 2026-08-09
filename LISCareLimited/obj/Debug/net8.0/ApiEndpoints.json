@@ -1915,12 +1915,12 @@
         "IsRequired": false
       },
       {
-        "Name": "patientCode",
+        "Name": "patientNameOrCode",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "clientCode",
+        "Name": "centerCode",
         "Type": "System.String",
         "IsRequired": false
       }

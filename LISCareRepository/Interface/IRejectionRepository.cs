@@ -21,6 +21,6 @@ namespace LISCareRepository.Interface
         /// <param name="patientCode"></param>
         /// <param name="clientCode"></param>
         /// <returns></returns>
-        Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId,DateTime startDate,DateTime endDate,string barcode,string patientName, string clientCode);
+        Task<APIResponseModel<List<RejectedSample>>> GetRejectedSamples(string partnerId,DateTime startDate,DateTime endDate,string barcode,string patientNameOrCode, string centerCode);
     }
 }

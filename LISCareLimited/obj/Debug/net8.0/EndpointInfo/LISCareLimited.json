@@ -3282,14 +3282,14 @@
             }
           },
           {
-            "name": "patientCode",
+            "name": "patientNameOrCode",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "clientCode",
+            "name": "centerCode",
             "in": "query",
             "schema": {
               "type": "string"
